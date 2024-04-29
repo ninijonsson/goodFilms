@@ -1,0 +1,9 @@
+#header {
+    height: var(--top_menu_height);
+    background-color: var(--top_menu_background);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
