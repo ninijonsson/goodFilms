@@ -30,4 +30,6 @@ function renderLandingPage (parentID) {
     // searchMoreBttn.addEventListener("click", () => {
     //     //....
     // })
+
+
 }
