@@ -1,0 +1,30 @@
+:root {
+    --background_color: linear-gradient(180deg, #2D2D2D 0%, #101010 100%);
+
+    --top_menu_background: #111111;
+    --top_menu_height: 50px;
+    /* Ändra height */
+
+    --border_radius: 3px;
+
+    --font_color: #EDEDED;
+
+    --box_input_background: rgba(102, 119, 136, 0.50);
+    --box_input_innershadow: -2px -2px 0px 0px #656667 inset;
+
+    --line_color: #CDCEE5;
+
+    --add_profile_picture_background: #4B4B4B;
+}
+
+/* BRÖDTEXT */
+@font-face {
+    font-family: "Alte Haas Grotesk";
+    src: url("media/fonts/alte_haas_grotesk/AlteHaasGroteskRegular.ttf");
+}
+
+/* SERIF */
+@font-face {
+    font-family: "Crimson";
+    src: url("media/fonts/crimson/CrimsonText-Regular.ttf");
+}
