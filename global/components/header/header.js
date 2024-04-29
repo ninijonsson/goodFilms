@@ -6,7 +6,7 @@ function renderHeader(parentID) {
     // #header finns i CSS
 
     header.innerHTML = `
-        <div id="hamburgerMenu">${renderHamburgerMenu()}</div>
+        <div id="hamburgerMenu">${renderHamburgerMenu(header)}</div>
         <a href="feed/index.html">
             <img src="goodFilmsLogo">
         </a>
