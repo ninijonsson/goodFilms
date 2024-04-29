@@ -1,4 +1,6 @@
-function renderHeader() {
+function renderHeader(parentID) {
+    const parent = document.getElementById(parentID);
+
     const header = document.createElement("div");
     header.id = "header";
     // #header finns i CSS
@@ -9,4 +11,6 @@ function renderHeader() {
             <img src="goodFilmsLogo">
         </a>
     `;
+
+    parent.append(header);
 }
