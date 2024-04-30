@@ -1,3 +1,3 @@
-function redirectPage () {
-    
+function redirectPage (path) {
+    //....
 }
