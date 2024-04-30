@@ -27,3 +27,11 @@ function renderFeed(parentID) {
         </div>
     `;
 }
+
+function getActivityFromFriends(parentID) {
+
+}
+
+function getNewLists(parentID) {
+
+}
