@@ -1,3 +1,13 @@
+import { PubSub } from "../../logic/PubSub.js"
+
+// // Rendera hamburgarmenyn i headern
+// PubSub.subscribe({
+//     event: "hamburgerMenu",
+//     listener: (detail) => {
+//         renderHamburgerMenu(detail);
+//     }
+// });
+
 function renderHamburgerMenu(parentID) {
     const parent = document.getElementById(parentID);
 
