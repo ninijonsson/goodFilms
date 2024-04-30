@@ -20,15 +20,15 @@ if ($requestMethod == "POST") // Login (name + password)
         abort(400, "Bad Request (empty request)");
     }
 
-    $loginKeys = ["name", "password"];
+    $loginKeys = ["username", "name", "password"];
 
     if (requestContainsAllKeys($requestData, $loginKeys) == false) {
         abort(400, "Bad Request (missing keys)");
     }
 
-    $name = $requestData["name"];
+    $username = $requestData["username"];
     $password = $requestData["password"];
-    $user = findItemByKey("users", "name", $name);
+    $user = findItemByKey("users.json", "username", $username);
 
     if ($user == false) {
         abort(404, "User Not Found");
