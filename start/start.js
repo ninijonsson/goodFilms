@@ -1,4 +1,4 @@
-function renderLandingPage (parentID) {
+function renderLandingPage(parentID) {
     const DOM = document.getElementById(parentID);
     DOM.innerHTML = `
     <div id="top">
@@ -20,6 +20,11 @@ function renderLandingPage (parentID) {
     joinBttn.addEventListener("click", () => {
         window.location = "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a";
     });
+
+    PubSub.publish({
+        event: "renderStart",
+        detail: "wrapper"
+    })
 
     // const logInBttn = document.getElementById("logInLink");
     // logInBttn.addEventListener("click", () => {
