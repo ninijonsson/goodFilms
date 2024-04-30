@@ -1,4 +1,6 @@
-function renderLandingPage (parentID) {
+import { PubSub } from "../global/logic/PubSub.js"
+
+export function renderLandingPage(parentID) {
     const DOM = document.getElementById(parentID);
     DOM.innerHTML = `
     <div id="top">

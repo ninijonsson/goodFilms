@@ -28,3 +28,8 @@
     font-family: "Crimson";
     src: url("media/fonts/crimson/CrimsonText-Regular.ttf");
 }
+
+body {
+    background-color: var(--background_color);
+    font-family: "Alte Haas Grotesk";
+}
