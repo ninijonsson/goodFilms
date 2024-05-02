@@ -6,24 +6,16 @@ import { PubSub } from "../../logic/PubSub.js"
 //     detail: "header"
 // });
 
-// // Rendera headern
+// Rendera headern
 // PubSub.publish({
 //     event: "header",
 //     detail: "wrapper"
 // });
 
-export function renderHeader(parentID) {
-    const parent = document.getElementById(parentID);
+export function renderHeader() {
+    const header = document.querySelector("header");
 
-    const header = document.createElement("div");
-    header.id = "header";
-    // #header finns i CSS
-
-    header.innerHTML = `
-        <a href="feed/index.html">
-            <img src="goodFilmsLogo">
-        </a>
+    header.innerHTML += `
+        <p>goodFilms</p>
     `;
-
-    parent.append(header);
 }

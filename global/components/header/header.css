@@ -1,6 +1,8 @@
-#header {
+header {
+    margin: 0;
     height: var(--top_menu_height);
     background-color: var(--top_menu_background);
+    color: var(--font_color);
     display: flex;
     flex-direction: row;
     justify-content: space-between;

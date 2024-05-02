@@ -32,4 +32,5 @@
 body {
     background-color: var(--background_color);
     font-family: "Alte Haas Grotesk";
+    color: var(--font_color);
 }

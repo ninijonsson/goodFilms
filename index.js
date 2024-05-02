@@ -1,6 +1,7 @@
 import { renderLandingPage } from "./start/start.js";
 
 // GLOBAL COMPONENTS
+import "./global/components/searchMovies/searchMovies.js"
 import "./global/components/hamburgerMenu/hamburgerMenu.js"
 import "./global/components/header/header.js"
 
