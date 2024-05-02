@@ -15,11 +15,17 @@ function renderLogIn (parentID) {
 
     const registerBttn = document.getElementById("registerBttn");
     registerBttn.addEventListener("click", () => {
-        //....
+        // omdirigera till registersidan
     })
 
     const logInBttn = document.getElementById("logInLink");
     logInBttn.addEventListener("click", () => {
-        //....
+        let username = document.getElementById("username").value;
+        let password = document.getElementById("password").value;
+
+        if (username && password) {
+            
+        }
     });
+    
 }
