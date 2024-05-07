@@ -17,8 +17,3 @@ export function renderHamburgerMenu() {
         </div>
     `;
 }
-
-function removeHamburgerContainer(event) {
-    const container = event.parentNode; // Target vår hamburgarmenys container
-    container.remove();
-}
