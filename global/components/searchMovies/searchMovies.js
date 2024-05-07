@@ -1,6 +1,5 @@
 import { renderHeader } from "../header/header.js"
 import { PubSub } from "../../logic/PubSub.js"
-import { renderResults } from "../moviesResults/moviesResults.js"
 
 const options = {
     method: "GET",
