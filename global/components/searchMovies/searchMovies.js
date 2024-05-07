@@ -1,5 +1,6 @@
 import { renderHeader } from "../header/header.js"
 import { PubSub } from "../../logic/PubSub.js"
+import { renderResults } from "../moviesResults/moviesResults.js"
 
 const options = {
     method: "GET",
@@ -113,10 +114,6 @@ async function renderSearchMovies(parentID) {
             <select name="year">
                 <option>YEAR</option>
             </select>
-
-            <select name="director">
-                <option>DIRECTOR</option>
-            </select>
         </div>
 
         <h1 id="trendingTitle">WHAT'S TRENDING?</h1>
@@ -128,18 +125,79 @@ async function renderSearchMovies(parentID) {
     `;
 
     // Select "genre"
-    const genre = document.querySelector("select[name='genre']");
+    const selectGenre = document.querySelector("select[name='genre']");
 
     const response = await fetch("https://api.themoviedb.org/3/genre/movie/list?language=en", options);
     const genresObject = await response.json();
+
+    // För att hitta rätt ID på genre utifrån namnet
+    function findGenreIdByName(genres, genreName) {
+        for (const genre of genres) {
+            if (genre.name.toLowerCase() === genreName.toLowerCase()) {
+                return genre.id; // Returnerar ID med rätt namn
+            }
+        }
+
+        return null; // Om namnet inte finns
+    }
 
     for (let i = 0; i < genresObject.genres.length; i++) {
         const option = document.createElement("option");
 
         option.textContent = genresObject.genres[i].name;
+        option.value = genresObject.genres[i].name;
 
-        genre.appendChild(option);
+        selectGenre.appendChild(option);
     }
+
+    let genreOptions = document.querySelectorAll("select[name='genre'] option");
+
+    genreOptions.forEach(option => {
+        option.addEventListener("click", async (event) => {
+            window.localStorage.removeItem("movieQuery");
+            let genre = findGenreIdByName(genresObject.genres, event.target.value);
+
+            let span = `&with_genres=${genre}`;
+
+            window.localStorage.setItem("movieQuery", `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1${span}`);
+
+            window.location = "../moviesResults/index.html";
+        })
+    });
+
+    // Select "year"
+    const selectYear = document.querySelector("select[name='year']");
+
+    let year = 1900;
+    for (let i = 0; i < 13; i++) {
+        const option = document.createElement("option");
+
+        option.textContent = `${year}s`;
+        option.value = year;
+
+        year += 10;
+
+        selectYear.appendChild(option);
+    }
+
+    let yearOptions = document.querySelectorAll("select[name='year'] option");
+
+    yearOptions.forEach(option => {
+        option.addEventListener("click", async (event) => {
+            window.localStorage.removeItem("movieQuery");
+            let year = parseInt(event.target.value);
+
+            let endYear = year - 1;
+            let startYear = year - 10;
+
+            let span = `&release_date.gte=${String(startYear)}-01-01&release_date.lte=${String(endYear)}-12-31`;
+
+            window.localStorage.setItem("movieQuery", `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1${span}`);
+
+            // Fixa senare så länk funkar
+            window.location = `../moviesResults/index.html?year=${year}s`;
+        })
+    });
 
     // Bilderna på filmerna
     const moviesContainer = document.getElementById("moviesContainer");

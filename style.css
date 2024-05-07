@@ -30,7 +30,8 @@
 }
 
 body {
-    background-color: var(--background_color);
+    margin: 0;
+    background-image: var(--background_color);
     font-family: "Alte Haas Grotesk";
     color: var(--font_color);
 }
