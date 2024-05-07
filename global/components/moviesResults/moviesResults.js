@@ -29,21 +29,11 @@ if (window.localStorage.getItem("movieQuery")) {
             <img class="movie" src="https://image.tmdb.org/t/p/original/${filteredMovies.results[i].poster_path}">
         `;
     }
-}
 
-export function renderResults(filteredMovies) {
-    window.location = "../moviesResults/index.html";
-
-    console.log(filteredMovies.results);
-
-    // Bilderna på filmerna
-    const moviesContainer = document.getElementById("moviesContainer");
-
-    console.log(moviesContainer);
-
-    for (let i = 0; i < 9; i++) {
-        moviesContainer.innerHTML += `
-            <img class="movie" src="https://image.tmdb.org/t/p/original/${filteredMovies.results[i].poster_path}">
-        `;
-    }
+    const movies = document.querySelectorAll(".movie");
+    movies.forEach(movie => {
+        movie.addEventListener("click", async (event) => {
+            // Gå vidare till filmens sida
+        })
+    });
 }
