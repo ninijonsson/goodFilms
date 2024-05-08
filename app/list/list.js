@@ -40,7 +40,7 @@ function renderList (parentID) {
         //Same, alter keys depending on DB
     for (let list of lists) {
         listsContainer.innerHTML = `
-            <div id="singleListContainer">
+            <div id="singleListContainer${list.id}">
                 <img src="https://image.tmdb.org/t/p/original/${list.poster_path}">
                 <h2 id="listName">${list.name}</h2>
                 <h3 id="username">Created by: ${list.createdBy}></h3>
@@ -48,5 +48,9 @@ function renderList (parentID) {
                 <button id="edit">EDIT</button>
             </div>
         `;
+
+        const listContainer = document.querySelector(`#singleListContainer${list.id}`);
+
+        listContainer.addEventListener("click", renderSingleList);
     }
 }
