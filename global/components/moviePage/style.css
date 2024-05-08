@@ -1,0 +1,8 @@
+#backdropPoster {
+    width: 100%;
+}
+
+#moviePoster {
+    width: 100px;
+    border-radius: 3px;
+}

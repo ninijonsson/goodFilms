@@ -26,14 +26,20 @@ if (window.localStorage.getItem("movieQuery")) {
 
     for (let i = 0; i < 20; i++) {
         moviesContainer.innerHTML += `
-            <img class="movie" src="https://image.tmdb.org/t/p/original/${filteredMovies.results[i].poster_path}">
+            <img class="movie" id="${filteredMovies.results[i].id}" src="https://image.tmdb.org/t/p/original/${filteredMovies.results[i].poster_path}">
         `;
     }
 
     const movies = document.querySelectorAll(".movie");
     movies.forEach(movie => {
         movie.addEventListener("click", async (event) => {
-            // Gå vidare till filmens sida
+            console.log(event.target.id);
+
+            const movieId = event.target.id;
+
+            window.localStorage.setItem("movieInfo", `https://api.themoviedb.org/3/movie/${movieId}?language=en-US`);
+
+            window.location = "../moviePage/index.html";
         })
     });
 }
