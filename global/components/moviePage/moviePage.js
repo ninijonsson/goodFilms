@@ -1,3 +1,5 @@
+import { renderHeader } from "../header/header.js"
+
 // Gör om till global variabel
 const options = {
     method: "GET",
@@ -7,22 +9,23 @@ const options = {
     }
 };
 
+renderHeader();
+
 const wrapper = document.getElementById("wrapper");
 
 if (window.localStorage.getItem("movieInfo")) {
     let info = window.localStorage.getItem("movieInfo");
-    console.log(info);
     const response = await fetch(info, options);
     const movie = await response.json();
 
     wrapper.innerHTML = `
     <div id="movieContainer">
         <img id="backdropPoster" src="https://image.tmdb.org/t/p/original/${movie.backdrop_path}">
+        <div id="shadowOverlay"></div>
 
         <div id="movieInformationContainer">
-            <h1 id="movieTitle">${movie.title}</h1>
-            <h2 id="releaseYear">${movie.release_date.slice(0, 4)}</h2>
-            <h2 id="directedBy">DIRECTED BY ${movie.production_companies[0].name.toUpperCase()}</h2>
+            <h1 id="movieTitle">${movie.title} <span id="releaseYear">(${movie.release_date.slice(0, 4)})</span></h1>
+            <h2 id="directedBy">PRODUCED BY ${movie.production_companies[0].name.toUpperCase()}</h2>
             <p id="movieDescription">${movie.overview}</p>
             <img id="moviePoster" src="https://image.tmdb.org/t/p/original/${movie.poster_path}">
         </div>
@@ -32,18 +35,44 @@ if (window.localStorage.getItem("movieInfo")) {
             <button id="watchedButton" type="submit">WATCH</button>
         </div>
 
-        <h3 id="includedInText">INCLUDED IN</h3>
+        <h3 id="similarMoviesText">SIMILAR MOVIES</h3>
         <hr>
 
-        <div id="listsContainer">
-            <div class="listContainer">
-                <img class="moviePoster" src="">
-                <h4 class="listName">LIST NAME</h4>
-                <p id="listDescription">Information about this list.</p>
-            </div>
-        </div>
-
+        <div id="similarMoviesContainer"></div>
     </div>
-`;
+    `;
+
+    // Fixa filmer som saknar backdrop poster
+
+    const similarMoviesContainer = document.getElementById("similarMoviesContainer");
+
+    const responseSimilarMovies = await fetch(`https://api.themoviedb.org/3/movie/${movie.id}/similar?language=en-US&page=1`, options);
+    const similarMovies = await responseSimilarMovies.json();
+
+    let count = 0;
+    for (let i = 0; i < similarMovies.results.length && count < 12; i++) {
+        if (similarMovies.results[i].poster_path === null) {
+            continue;
+        }
+
+        similarMoviesContainer.innerHTML += `
+            <img class="movie" id="${similarMovies.results[i].id}" src="https://image.tmdb.org/t/p/original/${similarMovies.results[i].poster_path}">
+        `;
+
+        count++;
+    }
+
+    const movies = document.querySelectorAll(".movie");
+    movies.forEach(movie => {
+        movie.addEventListener("click", async (event) => {
+            console.log(event.target.id);
+
+            const movieId = event.target.id;
+
+            window.localStorage.setItem("movieInfo", `https://api.themoviedb.org/3/movie/${movieId}?language=en-US`);
+
+            window.location = "index.html";
+        })
+    });
 }
 

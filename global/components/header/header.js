@@ -74,7 +74,7 @@ export function renderHeader() {
         searchMoviesButton.addEventListener("click", (event) => {
             removeHamburgerContainer(event);
 
-            window.location = "profile"; // Hänvisa till rätt sökväg
+            window.location = "../searchMovies/index.html"; // Hänvisa till rätt sökväg
         })
 
         // Gå till listorna

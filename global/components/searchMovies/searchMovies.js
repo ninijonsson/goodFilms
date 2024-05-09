@@ -39,12 +39,27 @@ async function renderSearchMovies(parentID) {
     // Sök på en film
     const inputSearchMovie = document.querySelector("input[name='searchMovie']");
 
-    inputSearchMovie.addEventListener("keypress", (event) => {
+    inputSearchMovie.addEventListener("keypress", async (event) => {
         if (event.key === "Enter") {
+            debugger;
             event.preventDefault();
 
-            // Gå vidare till filmsida
+            const movieInput = event.target.value.toLowerCase();
 
+            const response = await fetch(`https://api.themoviedb.org/3/movie/popular?language=en-US&page=1`, options);
+            const movies = await response.json();
+
+            const foundMovie = movies.results.find((movie1) => movie1.title.toLowerCase() === movieInput);
+
+            const foundMovieId = 0;
+            if (foundMovie) {
+                foundMovieId = foundMovie.id;
+            }
+
+            window.localStorage.setItem("movieInfo", `https://api.themoviedb.org/3/movie/${foundMovieId}?language=en-US`);
+
+            // Gå vidare till filmsida
+            window.location = "../moviePage/index.html";
         }
     })
 
@@ -55,6 +70,7 @@ async function renderSearchMovies(parentID) {
     const genresObject = await response.json();
 
     // För att hitta rätt ID på genre utifrån namnet
+    // Flytta till global funktion?
     function findGenreIdByName(genres, genreName) {
         for (const genre of genres) {
             if (genre.name.toLowerCase() === genreName.toLowerCase()) {
@@ -128,9 +144,22 @@ async function renderSearchMovies(parentID) {
 
     for (let i = 0; i < 9; i++) {
         moviesContainer.innerHTML += `
-            <img class="movie" src="https://image.tmdb.org/t/p/original/${movies.results[i].poster_path}">
+            <img class="movie" id="${movies.results[i].id}" src="https://image.tmdb.org/t/p/original/${movies.results[i].poster_path}">
         `;
     }
+
+    const movie = document.querySelectorAll(".movie");
+    movie.forEach(movie => {
+        movie.addEventListener("click", async (event) => {
+            console.log(event.target.id);
+
+            const movieId = event.target.id;
+
+            window.localStorage.setItem("movieInfo", `https://api.themoviedb.org/3/movie/${movieId}?language=en-US`);
+
+            window.location = "../moviePage/index.html";
+        })
+    });
 }
 
 async function getMovies() {

@@ -30,6 +30,7 @@ if (window.localStorage.getItem("movieQuery")) {
         `;
     }
 
+    // Gör om till global funktion
     const movies = document.querySelectorAll(".movie");
     movies.forEach(movie => {
         movie.addEventListener("click", async (event) => {
