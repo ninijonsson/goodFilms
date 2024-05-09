@@ -162,7 +162,7 @@ async function renderSearchMovies(parentID) {
     // Bilderna på filmerna
     const moviesContainer = document.getElementById("moviesContainer");
 
-    for (let i = 0; i < 9; i++) {
+    for (let i = 0; i < 18; i++) {
         moviesContainer.innerHTML += `
             <img class="movie" id="${movies.results[i].id}" src="https://image.tmdb.org/t/p/original/${movies.results[i].poster_path}">
         `;
