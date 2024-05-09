@@ -13,7 +13,7 @@
 
 #moviePoster {
     width: 90%;
-    border-radius: 8px;
+    border-radius: var(--border_radius_big);
     grid-column: 3;
     grid-row: 1;
 

@@ -6,7 +6,12 @@
     --top_menu_height: 50px;
     /* Ändra height */
 
-    --border_radius: 3px;
+    --menu_opened_background: #EDEDED;
+    --menu_opened_font_color: #242424;
+    --menu_opened_font_size: 32px;
+
+    --border_radius_small: 3px;
+    --border_radius_big: 8px;
 
     --font_color: #EDEDED;
 

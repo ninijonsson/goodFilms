@@ -37,11 +37,26 @@ export function renderHeader() {
         hamburgerOverlay.innerHTML = `
             <div id="hamburgerMenuContainer">
                 <div id="closeButton">X</div>
-                <div id="homeButton">HOME</div>
-                <div id="profileButton">PROFILE</div>
-                <div id="searchMoviesButton">SEARCH MOVIES</div>
-                <div id="listsButton">LISTS</div>
-                <div id="membersButton">MEMBERES</div>
+                <div id="homeButton">
+                    <img src="../../../media/icons/home_icon.svg" alt="Home icon">
+                    HOME
+                </div>
+                <div id="profileButton">
+                    <img src="../../../media/icons/profile_icon.svg" alt="Profile icon">
+                    PROFILE
+                </div>
+                <div id="searchMoviesButton">
+                    <img src="../../../media/icons/search_icon.svg" alt="Search icon">
+                    SEARCH MOVIES
+                </div>
+                <div id="listsButton">
+                    <img src="../../../media/icons/lists_icon.svg" alt="Lists icon">
+                    LISTS
+                </div>
+                <div id="membersButton">
+                    <img src="../../../media/icons/members_icon.svg" alt="Members icon">
+                    MEMBERES
+                </div>
             </div>
         `;
 
