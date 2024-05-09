@@ -7,12 +7,12 @@
     top: 50px;
     left: 0;
     width: 100%;
-    height: 363px;
+    height: 55vw;
     box-shadow: var(--backdrop_poster_shadow);
 }
 
 #moviePoster {
-    width: 90%;
+    width: 42vw;
     border-radius: var(--border_radius_big);
     grid-column: 3;
     grid-row: 1;
