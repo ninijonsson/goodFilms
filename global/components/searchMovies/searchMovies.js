@@ -39,27 +39,47 @@ async function renderSearchMovies(parentID) {
     // Sök på en film
     const inputSearchMovie = document.querySelector("input[name='searchMovie']");
 
+    // Fixa "loading screen"
     inputSearchMovie.addEventListener("keypress", async (event) => {
         if (event.key === "Enter") {
-            debugger;
             event.preventDefault();
 
             const movieInput = event.target.value.toLowerCase();
 
-            const response = await fetch(`https://api.themoviedb.org/3/movie/popular?language=en-US&page=1`, options);
-            const movies = await response.json();
+            let page = 1; // Börja på första sidan
+            // Behöver en page eftersom varje fetch har en page med 20 filmer
+            let foundMovie = null;
+            let maxPages = 100; // Hur många pages vi max vill fetcha för att inte få den bli oändlig
 
-            const foundMovie = movies.results.find((movie1) => movie1.title.toLowerCase() === movieInput);
-
-            const foundMovieId = 0;
-            if (foundMovie) {
-                foundMovieId = foundMovie.id;
+            // Funktion som fetchar filmerna utifrån page
+            async function fetchMovies(page) {
+                const response = await fetch(`https://api.themoviedb.org/3/movie/popular?language=en-US&page=${page}`, options);
+                return await response.json();
             }
 
-            window.localStorage.setItem("movieInfo", `https://api.themoviedb.org/3/movie/${foundMovieId}?language=en-US`);
+            while (page <= maxPages && !foundMovie) {
+                const movies = await fetchMovies(page);
 
-            // Gå vidare till filmsida
-            window.location = "../moviePage/index.html";
+                foundMovie = movies.results.find((movie) =>
+                    movie.title.toLowerCase().includes(movieInput)
+                );
+
+                if (foundMovie) {
+                    // Om filmen hittas, lägg in i localStorage för att föra över informationen till ny sida
+                    window.localStorage.setItem("movieInfo", `https://api.themoviedb.org/3/movie/${foundMovie.id}?language=en-US`);
+
+                    // Gå till filmsidan
+                    window.location = "../moviePage/index.html";
+                } else {
+                    page++; // Om filmen inte hittas, går vi till nästa page
+                }
+            }
+
+            // Om filmen inte hittades efter att ha gått igenom max antal pages ska användaren få ett felmeddelande
+            if (!foundMovie) {
+                window.alert("Movie not found.");
+            }
+
         }
     })
 
