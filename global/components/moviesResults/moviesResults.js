@@ -29,6 +29,8 @@ wrapper.innerHTML = `
     <div id="moviesContainer"></div>
 `;
 
+// Implementera "view more"?
+
 if (window.localStorage.getItem("movieQuery")) {
     let query = window.localStorage.getItem("movieQuery");
     console.log(query);
@@ -38,9 +40,16 @@ if (window.localStorage.getItem("movieQuery")) {
     const moviesContainer = document.getElementById("moviesContainer");
 
     for (let i = 0; i < 20; i++) {
-        moviesContainer.innerHTML += `
-            <img class="movie" id="${filteredMovies.results[i].id}" src="https://image.tmdb.org/t/p/original/${filteredMovies.results[i].poster_path}">
-        `;
+        console.log(filteredMovies.results[i]);
+        if (filteredMovies.results[i] === undefined) {
+            continue;
+        }
+
+        if (filteredMovies.results[i].poster_path !== null) {
+            moviesContainer.innerHTML += `
+                <img class="movie" id="${filteredMovies.results[i].id}" src="https://image.tmdb.org/t/p/original/${filteredMovies.results[i].poster_path}">
+            `;
+        }
     }
 
     let sortOptions = document.querySelectorAll("select[name='sortBy'] option");
@@ -129,6 +138,7 @@ if (window.localStorage.getItem("movieQuery")) {
     });
 
     moviesContainer.addEventListener("click", async (event) => {
+        console.log(event);
         if (event.target.classList.contains("movie")) {
             const movieId = event.target.id;
 

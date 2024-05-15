@@ -46,40 +46,20 @@ async function renderSearchMovies(parentID) {
 
             const movieInput = event.target.value.toLowerCase();
 
-            let page = 1; // Börja på första sidan
-            // Behöver en page eftersom varje fetch har en page med 20 filmer
-            let foundMovie = null;
-            let maxPages = 100; // Hur många pages vi max vill fetcha för att inte få den bli oändlig
+            const response = await fetch(`https://api.themoviedb.org/3/search/movie?query=${movieInput}&include_adult=false&language=en-US&page=1`, options);
 
-            // Funktion som fetchar filmerna utifrån page
-            async function fetchMovies(page) {
-                const response = await fetch(`https://api.themoviedb.org/3/movie/popular?language=en-US&page=${page}`, options);
-                return await response.json();
-            }
+            const movies = await response.json();
 
-            while (page <= maxPages && !foundMovie) {
-                const movies = await fetchMovies(page);
+            // När vi sökt på filmen så sparar vi i localStorage för att gå till "movieResults"
+            window.localStorage.setItem("movieQuery", `https://api.themoviedb.org/3/search/movie?query=${movieInput}&include_adult=false&language=en-US&page=1`);
 
-                foundMovie = movies.results.find((movie) =>
-                    movie.title.toLowerCase().includes(movieInput)
-                );
+            // Gå till filmsidan
+            window.location = "../moviesResults/index.html";
 
-                if (foundMovie) {
-                    // Om filmen hittas, lägg in i localStorage för att föra över informationen till ny sida
-                    window.localStorage.setItem("movieInfo", `https://api.themoviedb.org/3/movie/${foundMovie.id}?language=en-US`);
-
-                    // Gå till filmsidan
-                    window.location = "../moviePage/index.html";
-                } else {
-                    page++; // Om filmen inte hittas, går vi till nästa page
-                }
-            }
-
-            // Om filmen inte hittades efter att ha gått igenom max antal pages ska användaren få ett felmeddelande
-            if (!foundMovie) {
+            // Om "movies"-arrayen är tom, meddela användaren
+            if (movies.length === 0) {
                 window.alert("Movie not found.");
             }
-
         }
     })
 

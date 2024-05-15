@@ -1,5 +1,6 @@
 #backdropPoster {
     width: 100%;
+    height: 57vw;
 }
 
 #shadowOverlay {
@@ -7,7 +8,7 @@
     top: 50px;
     left: 0;
     width: 100%;
-    height: 55vw;
+    height: 57vw;
     box-shadow: var(--backdrop_poster_shadow);
 }
 
@@ -36,6 +37,7 @@
 #movieInformationContainer>p {
     margin: 0;
     grid-column: 1;
+    z-index: 10;
 }
 
 #movieTitle {

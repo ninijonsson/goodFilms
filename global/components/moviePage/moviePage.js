@@ -18,14 +18,33 @@ if (window.localStorage.getItem("movieInfo")) {
     const response = await fetch(info, options);
     const movie = await response.json();
 
+    // För att fixa när production company är undefined
+    let productionCompany = "";
+    // Fixa när nycklar är undefined, t.ex. production company
+    if (movie.production_companies[0] === undefined) {
+        productionCompany = "MOVIE PRODUCTION";
+    } else {
+        productionCompany = movie.production_companies[0].name.toUpperCase();
+    }
+
+    // Till filmer som saknar backdrop posters
+    let backdropPath = "";
+    if (movie.backdrop_path === null) {
+        backdropPath = "../../../media/icons/test.png"
+        console.log(backdropPath);
+        console.log(movie.backdrop_path);
+    } else {
+        backdropPath = `https://image.tmdb.org/t/p/original/${movie.backdrop_path}`;
+    }
+
     wrapper.innerHTML = `
     <div id="movieContainer">
-        <img id="backdropPoster" src="https://image.tmdb.org/t/p/original/${movie.backdrop_path}">
+        <img id="backdropPoster" src="${backdropPath}">
         <div id="shadowOverlay"></div>
 
         <div id="movieInformationContainer">
             <h1 id="movieTitle">${movie.title} <span id="releaseYear">(${movie.release_date.slice(0, 4)})</span></h1>
-            <h2 id="directedBy">PRODUCED BY ${movie.production_companies[0].name.toUpperCase()}</h2>
+            <h2 id="directedBy">PRODUCED BY ${productionCompany}</h2>
             <p id="movieDescription">${movie.overview}</p>
             <img id="moviePoster" src="https://image.tmdb.org/t/p/original/${movie.poster_path}">
         </div>
