@@ -1,7 +1,8 @@
-import { PubSub } from "../../global/logic/PubSub.js"
+import { PubSub } from "../../global/logic/PubSub.js";
+import {fetcher} from '../../global/logic/fetcher.js';
 
-function renderList (parentID) {
-    const container = document.querySelector(parentID);
+async function renderList (parentID) {
+    const container = document.getElementById(parentID);
 
     container.innerHTML =   `<div id="headerContainer">
                                 <h1>YOUR LISTS</h1>
@@ -14,14 +15,18 @@ function renderList (parentID) {
 
     const listsContainer = document.getElementById("listsContainer");
 
-        //Depending on database, edit what value to gather from localStorage
-    let id = localStorage.getItem("id");
+    const token = "c62f39ace22172680875af13e02f6a6313ea1125";
 
+    let options = {
+        method: "GET",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({"token": token})
+    }
 
-        //Depending on how data is stored in _state, alter keys etc.
-    let user = _state.users.find(user => user.id === id);
+    let user = await fetcher("../../api/lists.php", options);
 
-    let userLists = user.lists;
+    console.log(user);
+    
 
     if (userLists === []) {
         listsContainer.innerHTML = `<p>You have not created any lists yet. Get started now!</p>`;
@@ -54,3 +59,5 @@ function renderList (parentID) {
         listContainer.addEventListener("click", renderSingleList);
     }
 }
+
+renderList("wrapper");
