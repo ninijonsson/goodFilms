@@ -59,6 +59,14 @@
     width: 150%;
     border-radius: var(--border_radius_small);
     margin: 7px 0;
+
+    box-shadow: -12px 0px 21px 0px rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: -12px 0px 21px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: -12px 0px 21px 0px rgba(0, 0, 0, 0.75);
+}
+
+#followerLine {
+    margin: 0 20px;
 }
 
 #watchedPosters,
@@ -85,4 +93,8 @@
     color: #B4B5B9;
 
     cursor: pointer;
+}
+
+#editButton.save {
+    background-color: var(--button_save_color);
 }

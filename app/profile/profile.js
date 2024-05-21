@@ -9,6 +9,8 @@ const options = {
     }
 };
 
+const mediaPrefix = "../../media/icons/";
+
 renderHeader();
 
 // Gör om denna till global funktion? I state.js?
@@ -48,7 +50,7 @@ wrapper.innerHTML = `
             <p id="following"></p>
         </div>
 
-        <hr>
+        <hr id="followerLine">
 
     <div id="watchedContainer">
         <div id="watchedTitleContainer">
@@ -84,6 +86,33 @@ wrapper.innerHTML = `
         </div>
     </div>
 `;
+
+// EDIT PROFILE
+const editButton = document.getElementById("editButton");
+
+editButton.addEventListener("click", (event) => {
+    event.preventDefault();
+
+    if (editButton.textContent === "SAVE") {
+        profilePicture.src = `${mediaPrefix}profile_picture.png`;
+        backdropPoster.src = `${mediaPrefix}test_backdrop_profile.jpeg`;
+
+        editButton.classList.remove("save");
+        editButton.textContent = "EDIT";
+    } else if (editButton.textContent === "EDIT") {
+        // Selektera profilbilden, backdrop och knappen
+        const profilePicture = document.getElementById("profilePicture");
+        const backdropPoster = document.getElementById("backdropPoster");
+
+        profilePicture.src = `${mediaPrefix}add_profile_picture.png`;
+        backdropPoster.src = `${mediaPrefix}add_backdrop_profile.png`;
+
+        console.log(profilePicture.src);
+
+        editButton.classList.add("save");
+        editButton.textContent = "SAVE";
+    }
+})
 
 // "WATCHED" POSTERS
 const watchedPosters = document.getElementById("watchedPosters");
