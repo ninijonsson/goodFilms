@@ -16,6 +16,13 @@ const mediaPrefix = "../../media/icons/";
 
 renderHeader();
 
+async function fetchMovie(type, i) {
+    const response = await fetch(`https://api.themoviedb.org/3/movie/${user[type][i]}?language=en-US`, options);
+    const movie = await response.json();
+
+    return movie;
+}
+
 // Gör om denna till global funktion? I state.js?
 async function getMovies() {
     const response = await fetch("https://api.themoviedb.org/3/trending/movie/day?language=en-US", options);
@@ -40,10 +47,10 @@ const wrapper = document.getElementById("wrapper");
 
 wrapper.innerHTML = `
     <div id="profileDetailsContainer">
-        <img id="backdropPoster" src="../../media/icons/test_backdrop_profile.jpeg">
+        <img id="backdropPoster" src="${user.header}">
         <div id="shadowOverlay"></div>
         <div id="profileAndEditContainer">
-            <img id="profilePicture" src="../../media/icons/profile_picture.png">
+            <img id="profilePicture" src="${user.avatar}">
 
             <div id="buttonContainer">
                 <button id="editButton">EDIT</button>
@@ -52,8 +59,8 @@ wrapper.innerHTML = `
     </div>
 
         <div id="userInfo">
-            <h3 id="displayName">${user[1].displayName}</h3>
-            <p id="username">@${user[1].username.toLowerCase()}</p>
+            <h3 id="displayName">${user.displayName}</h3>
+            <p id="username">@${user.username.toLowerCase()}</p>
         </div>
 
         <div id="followContainer">
@@ -156,8 +163,10 @@ editButton.addEventListener("click", async (event) => {
 const watchedPosters = document.getElementById("watchedPosters");
 
 for (let i = 0; i < 5; i++) {
+    const movie = await fetchMovie("watched", i);
+
     watchedPosters.innerHTML += `
-        <img class="movie" id="watched_${i}" src="https://image.tmdb.org/t/p/original/${movies.results[i].poster_path}">
+        <img class="movie" id="watched_${i}" src="https://image.tmdb.org/t/p/original/${movie.poster_path}">
     `;
 }
 
@@ -165,8 +174,10 @@ for (let i = 0; i < 5; i++) {
 const likedPosters = document.getElementById("likedPosters");
 
 for (let i = 0; i < 5; i++) {
+    const movie = await fetchMovie("liked", i);
+
     likedPosters.innerHTML += `
-        <img class="movie" id="liked_${i}" src="https://image.tmdb.org/t/p/original/${movies.results[i].poster_path}">
+        <img class="movie" id="liked_${i}" src="https://image.tmdb.org/t/p/original/${movie.poster_path}">
     `;
 }
 

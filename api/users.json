@@ -15,17 +15,29 @@
     {
         "id": 2,
         "username": "Luci",
-        "displayName": "Nini",
+        "displayName": "Nininini",
         "password": "WDU123!",
-        "liked": [],
-        "watched": [],
+        "liked": [
+            222,
+            123,
+            679,
+            1892,
+            12
+        ],
+        "watched": [
+            742,
+            231,
+            2314,
+            553,
+            555
+        ],
         "lists": [
             226,
             225
         ],
         "following": [],
         "followers": [],
-        "avatar": "pathway",
-        "header": "pathway"
+        "avatar": "../../media/icons/profile_picture.png",
+        "header": "../../media/icons/test_backdrop_profile.jpeg"
     }
 ]
