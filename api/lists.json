@@ -6,7 +6,7 @@
         "favCount": 0,
         "itemCount": 0,
         "items": [],
-        "posterPath": "",
+        "posterPath": "../../media/icons/hello_kitty.png",
         "id": 225
     },
     {
@@ -20,7 +20,7 @@
             11111,
             22222222
         ],
-        "posterPath": "",
+        "posterPath": "../../media/icons/test_backdrop_profile.jpeg",
         "id": 226
     }
 ]

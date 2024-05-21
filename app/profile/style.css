@@ -98,3 +98,8 @@
 #editButton.save {
     background-color: var(--button_save_color);
 }
+
+.listPoster {
+    width: 100%;
+    border-radius: var(--border_radius_small);
+}

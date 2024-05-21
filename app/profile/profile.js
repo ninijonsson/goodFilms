@@ -9,6 +9,8 @@ const options = {
     }
 };
 
+// DELETE USER!
+
 // Test token
 const token = "c62f39ace22172680875af13e02f6a6313ea1125";
 
@@ -32,6 +34,7 @@ async function getUser() {
 }
 
 const user = await getUser();
+const lists = await getUsersLists();
 
 const wrapper = document.getElementById("wrapper");
 
@@ -87,13 +90,17 @@ wrapper.innerHTML = `
         <h6 id="showAllLists">SHOW ALL</h6>
         <hr>
 
-        <div id="listsPosters">
-            <img id="" src="">
-            <h5 id="listTitle">My top 10 romance movies</h5>
-            <p id="listDescription">They are so romantic!</p>
+        <div id="listPosters">
         </div>
     </div>
 `;
+
+async function getUsersLists() {
+    const response = await fetch(`../../api/lists.php?user=${token}`);
+    const lists = await response.json();
+
+    return lists;
+}
 
 // EDIT PROFILE
 const editButton = document.getElementById("editButton");
@@ -192,3 +199,15 @@ showAllLiked.addEventListener("click", (event) => {
     window.location = "../likedList/index.html";
 });
 
+// SHOW LISTS
+const listPosters = document.getElementById("listPosters");
+
+console.log(lists);
+
+for (let i = 0; i < lists.length; i++) {
+    listPosters.innerHTML += `
+        <img class="listPoster" id="${lists[i].id}" src="${lists[i].posterPath}">
+        <h5 id="listTitle">${lists[i].name}</h5>
+        <p id="listDescription">${lists[i].description}</p>
+    `;
+}

@@ -47,10 +47,19 @@ if (window.localStorage.getItem("movieInfo")) {
             <h2 id="directedBy">PRODUCED BY ${productionCompany}</h2>
             <p id="movieDescription">${movie.overview}</p>
             <img id="moviePoster" src="https://image.tmdb.org/t/p/original/${movie.poster_path}">
-        </div>
 
-        <div id="likedAndWatchedContainer">
-            <img id="heartUnliked" src="">
+            <div id="likedAndWatchedContainer">
+                <div id="likedContainer">
+                    <img class="heart" src="../../media/icons/unfilled_heart.png">
+                    <p id="likedAmount">10</p>
+                </div>
+
+                <div id="watchedContainer">
+                    <img id="watchedEye" src="../../media/icons/eye.png">
+                    <p id="watchedAmount">10</p>
+                </div>
+            </div>
+
             <button id="watchedButton" type="submit">WATCH</button>
         </div>
 
