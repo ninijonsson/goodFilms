@@ -14,7 +14,19 @@ $requestMethod = $_SERVER["REQUEST_METHOD"];
 $requestData = getRequestData();
 
 if ($requestMethod == "GET") {
+
     $userDatabase = getDatabase("users.json");
+
+    if (isset($_GET["user"])) {
+        $userInfo = getUserFromToken($_GET["user"]);
+
+        foreach ($userDatabase as $user) {
+             if ($user["id"] == $userInfo["id"]){
+                send(201, $user);
+            }
+        }    
+    }
+
     send(201, $userDatabase);
 }
 
