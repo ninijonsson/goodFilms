@@ -1,0 +1,13 @@
+#backdropPoster {
+    height: 57vw;
+    width: 100%;
+}
+
+#shadowOverlay {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    width: 100%;
+    height: 57vw;
+    box-shadow: var(--backdrop_poster_shadow);
+}

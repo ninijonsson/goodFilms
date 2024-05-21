@@ -1,4 +1,4 @@
-import { renderHeader } from "../header/header.js"
+import { renderHeader } from "../../global/components/header/header.js"
 
 // Gör om till global variabel
 const options = {
@@ -15,10 +15,11 @@ const wrapper = document.getElementById("wrapper");
 
 wrapper.innerHTML = `
     <div id="profileDetailsContainer">
-        <img id="backdropPoster" src="...">
-        <img id="profilePicture" src="...">
+        <img id="backdropPoster" src="../../media/icons/test.png">
+        <div id="shadowOverlay"></div>
+        <img id="profilePicture" src="../../media/icons/profile_picture.png">
 
-        <button id="editButton">
+        <button id="editButton">EDIT</button>
 
         <h3 id="displayName">Nicole</h3>
         <p id="username">@nicoleJ</p>
@@ -33,7 +34,7 @@ wrapper.innerHTML = `
 
     <div id="watchedContainer">
         <h4 id="watchedTitle">WATCHED</h4>
-        <h6 id="showAllTitle">SHOW ALL</h6>
+        <h6 id="showAllWatched">SHOW ALL</h6>
         <hr>
 
         <div id="watchedPosters">
@@ -72,5 +73,17 @@ wrapper.innerHTML = `
     </div>
 `;
 
+// SHOW ALL WATCHED
+const showAllWatched = document.getElementById("showAllWatched");
 
+showAllWatched.addEventListener("click", (event) => {
+
+});
+
+// SHOW ALL LIKED
+const showAllLiked = document.getElementById("showAllLiked");
+
+showAllLiked.addEventListener("click", (event) => {
+
+});
 

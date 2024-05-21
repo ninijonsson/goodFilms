@@ -81,7 +81,7 @@ export function renderHeader() {
         profileButton.addEventListener("click", (event) => {
             removeHamburgerContainer(event);
 
-            window.location = "profile"; // Hänvisa till rätt sökväg
+            window.location = "../profile/index.html"; // Hänvisa till rätt sökväg
         })
 
         // Gå till "Search Movies"
