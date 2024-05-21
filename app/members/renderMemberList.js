@@ -3,9 +3,8 @@ import {fetcher} from '../../global/logic/fetcher.js';
 async function renderMemberList (parentID = "wrapper") {
     const container = document.getElementById(parentID);
 
-    let usrs = await fetcher("../../api/users.php");
-    console.log(usrs);
-
+    let users = await fetcher("../../api/users.php");
+    console.log(users);
     container.innerHTML = `
                             <div id="topContainer">
                                 <input placeholder="Search for members"></input>
@@ -68,100 +67,5 @@ async function renderMemberList (parentID = "wrapper") {
         }
     });
 }
-
-let users = [
-    {
-        "id": 1,
-        "username": "luci",
-        "displayName": "luci",
-        "password": "12345",
-        "liked": [
-
-        ],
-        "watched": [
-
-        ],
-        "lists": [
-
-        ],
-        "following": [
-
-        ],
-        "followers": [
-
-        ],
-        "avatar": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png",
-        "header": "pathway"
-    },
-    {
-        "id": 2,
-        "username": "Awesomesauce",
-        "displayName": "Esmir",
-        "password": "12345",
-        "liked": [
-
-        ],
-        "watched": [
-
-        ],
-        "lists": [
-
-        ],
-        "following": [
-
-        ],
-        "followers": [
-
-        ],
-        "avatar": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png",
-        "header": "pathway"
-    },
-    {
-        "id": 3,
-        "username": "dragonslayR99",
-        "displayName": "Nicole",
-        "password": "12345",
-        "liked": [
-
-        ],
-        "watched": [
-
-        ],
-        "lists": [
-
-        ],
-        "following": [
-
-        ],
-        "followers": [
-
-        ],
-        "avatar": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png",
-        "header": "pathway"
-    },
-    {
-        "id": 4,
-        "username": "EpicErik1337",
-        "displayName": "Erik",
-        "password": "12345",
-        "liked": [
-
-        ],
-        "watched": [
-
-        ],
-        "lists": [
-
-        ],
-        "following": [
-
-        ],
-        "followers": [
-
-        ],
-        "avatar": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png",
-        "header": "pathway"
-    }
-]
 
 renderMemberList();
