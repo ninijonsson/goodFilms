@@ -14,14 +14,11 @@
         "description": "testiiiing this desc change",
         "createdBy": 2,
         "favCount": 0,
-        "itemCount": 0,
+        "itemCount": 3,
         "items": [
             444,
-            555,
-            666,
-            777,
-            233343,
-            1111
+            11111,
+            22222222
         ],
         "posterPath": "",
         "id": 226

@@ -28,5 +28,15 @@
         "movieId": 1111,
         "userId": 2,
         "action": "has added"
+    },
+    {
+        "movieId": 11111,
+        "userId": 2,
+        "action": "has added"
+    },
+    {
+        "movieId": 22222222,
+        "userId": 2,
+        "action": "has added"
     }
 ]
