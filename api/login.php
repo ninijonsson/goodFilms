@@ -20,7 +20,7 @@ if ($requestMethod == "POST") // Login (name + password)
         abort(400, "Bad Request (empty request)");
     }
 
-    $loginKeys = ["username", "name", "password"];
+    $loginKeys = ["username", "password"];
 
     if (requestContainsAllKeys($requestData, $loginKeys) == false) {
         abort(400, "Bad Request (missing keys)");
@@ -39,7 +39,9 @@ if ($requestMethod == "POST") // Login (name + password)
     }
 
     // This token is used to authenticate future requests
-    $token = ["token" => sha1("$name$password")];
+
+    $token = ["token" => sha1("$username$password")];
+
     send(200, $token);
 }
 else

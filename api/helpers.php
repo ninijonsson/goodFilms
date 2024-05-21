@@ -16,6 +16,8 @@ function abort($status = 400, $message = "")
 function getRequestData()
 {
     if ($_SERVER["REQUEST_METHOD"] == "GET") {
+        $json = file_get_contents("php://input");
+        return json_decode($json, true);
         return $_GET;
     }
 
@@ -33,7 +35,7 @@ function getDatabase($filename)
     $emptyDatabaseTemplate = json_encode([], JSON_PRETTY_PRINT);
 
     if (file_exists($filename) == false) {
-        file_put_contents("$filename", $emptyDatabaseTemplate);
+        file_put_contents($filename, $emptyDatabaseTemplate);
     }
 
     $databaseContents = file_get_contents($filename);
@@ -50,17 +52,6 @@ function getDatabase($filename)
     }
 
     return $databaseData;
-}
-
-function getDatabaseByType($type)
-{
-    $database = getDatabase();
-
-    if (isset($database[$type]) == false) {
-        abort(500, "Internal Server Error (database type '$type' does not exist)");
-    }
-
-    return $database[$type];
 }
 
 function requestContainsAllKeys($data, $keys)
@@ -106,13 +97,11 @@ function findItemByKey($filename, $key, $value)
 
 function insertItemByType($filename, $keys, $data)
 {
-    $database = getDatabase($filname);
+    $database = getDatabase($filename);
     
     if (!$database) {
-        abort(500, "Internal Server Error (database type '$type' does not exist)");
+        abort(500, "Internal Server Error (database type '$filename' does not exist)");
     }
-
-    $databaseByType = $database;
 
     $newItem = [];
 
@@ -122,84 +111,77 @@ function insertItemByType($filename, $keys, $data)
         }
         $newItem[$key] = $data[$key];
     }
-
+  
     $id = 0;
 
-    foreach ($databaseByType as $item) {
+    foreach ($database as $item) {
         if (isset($item["id"]) && $item["id"] > $id) {
             $id = $item["id"];
         }
     }
 
     $newItem["id"] = $id + 1;
-    $databaseByType[] = $newItem;
-    $database[$type] = $databaseByType;
+    $database[] = $newItem;
     $json = json_encode($database, JSON_PRETTY_PRINT);
-    file_put_contents("database.json", $json);
+    file_put_contents($filename, $json);
     return $newItem;
 }
 
-function updateItemByType($type, $updatedItem)
+function updateItemByType($filename, $updatedItem)
 {
-    $database = getDatabase();
+    $database = getDatabase($filename);
     
-    if (isset($database[$type]) == false) {
-        abort(500, "Internal Server Error (database type '$type' does not exist)");
+    if (!$database) {
+        abort(500, "Internal Server Error (database type '$filename' does not exist)");
     }
+  
+    //$databaseByType = $database[$type];
 
-    $databaseByType = $database[$type];
-
-    foreach ($databaseByType as $index => $item) {
+    foreach ($database as $index => $item) {
         if (isset($item["id"]) && $item["id"] == $updatedItem["id"]) {
-            $databaseByType[$index] = $updatedItem;
+            $database[$index] = $updatedItem;
         }
     }
 
-    $database[$type] = $databaseByType;
+    //$database[$type] = $databaseByType;
     $json = json_encode($database, JSON_PRETTY_PRINT);
-    file_put_contents("database.json", $json);
+    file_put_contents($filename, $json);
     return $updatedItem;
 }
 
-function deleteItemByType($type, $itemToDelete)
+function deleteItemByType($filename, $itemToDelete)
 {
-    $database = getDatabase();
+    $database = getDatabase($filename);
     
-    if (isset($database[$type]) == false) {
-        abort(500, "Internal Server Error (database type '$type' does not exist)");
+    if (!$database) {
+        abort(500, "Internal Server Error (database file '$filename' does not exist)");
     }
 
-    $databaseByType = $database[$type];
-
-    foreach ($databaseByType as $index => $item) {
+    foreach ($database as $index => $item) {
         if (isset($item["id"]) && $item["id"] == $itemToDelete["id"]) {
-            array_splice($databaseByType, $index, 1);
+            array_splice($database, $index, 1);
         }
     }
 
-    $database[$type] = $databaseByType;
     $json = json_encode($database, JSON_PRETTY_PRINT);
-    file_put_contents("database.json", $json);
+    file_put_contents($filename, $json);
     return $itemToDelete;
 }
 
 function getUserFromToken($requestToken)
 {
-    $database = getDatabase();
-    $type = "users";
+    $users = getDatabase("users.json");
     
-    if (isset($database[$type]) == false) {
-        abort(500, "Internal Server Error (database type '$type' does not exist)");
+    if (!$users) {
+        abort(500, "Internal Server Error (database file '$filename' does not exist)");
     }
 
-    $users = $database[$type];
-
     foreach ($users as $user) {
-        if (isset($user["name"], $user["password"])) {
-            $name = $user["name"];
+        if (isset($user["username"], $user["password"])) {
+            $username = $user["username"];
             $password = $user["password"];
 
-            $userToken = sha1("$name$password");
+            $userToken = sha1("$username$password");
 
             if ($requestToken == $userToken) {
                 return $user;
@@ -210,54 +192,82 @@ function getUserFromToken($requestToken)
     return false;
 }
 
-function removeUserFilmsAndLists($user)
+function removeUserLists($user)
 {
-    $database = getDatabase();
+    $listDatabase = getDatabase("lists.json");
 
-    if (isset($database["games"]) == false) {
-        abort(500, "Internal Server Error (database type 'games' does not exist)");
+    if (!$listDatabase) {
+        abort(500, "Internal Server Error (database file 'lists' does not exist)");
     }
 
-    if (isset($database["characters"]) == false) {
-        abort(500, "Internal Server Error (database type 'characters' does not exist)");
-    }
+    //$userId = $user["id"];
+    $username = $user;
 
-    $games = $database["games"];
-    $characters = $database["characters"];
-    $userId = $user["id"];
-
-    foreach ($games as $gameIndex => $game) {
-        // If the user created the game, remove it completely
-        if ($game["user_id"] == $userId) {
-            array_slice($games, $gameIndex, 1);
-        } else {
-            // Otherwise we'll see if they liked it and only remove their like
-            foreach ($game["likes"] as $likeIndex => $like) { 
-                // Remember that each like is represented as a user_id
-                if ($userId == $like) {
-                    array_slice($game["likes"], $likeIndex, 1);
-                    $game[$gameIndex] = $game;
-                }
-            }
+    foreach ($listDatabase as $listIndex => $list ) { 
+        if ($list["createdBy"] == $username) {
+            array_splice($listDatabase, $listIndex, 1);
         }
     }
 
-    foreach ($characters as $characterIndex => $character) {
-        // If the user created the character, remove it completely
-        if ($character["user_id"] == $userId) {
-            array_slice($characters, $characterIndex, 1);
-        } else {
+    $json = json_encode($listDatabase, JSON_PRETTY_PRINT);
+    file_put_contents("lists.json", $json);
+        // If the user created the list, remove it completely
+    
+        // } else {
+            
             // Otherwise we'll see if they liked it and only remove their like
-            foreach ($character["likes"] as $likeIndex => $like) {
-                // Remember that each like is represented as a user_id
-                if ($userId == $like) {
-                    array_slice($character["likes"], $likeIndex, 1);
-                    $character[$characterIndex] = $game;
-                }
+            // foreach ($game["likes"] as $likeIndex => $like) { 
+            //     // Remember that each like is represented as a user_id
+            //     if ($userId == $like) {
+            //         array_slice($game["likes"], $likeIndex, 1);
+            //         $game[$gameIndex] = $game;
+            //     }
+            // }
+ }
+
+function compareNumbers($a, $b) {
+    return $a - $b;
+}
+
+function createNewID($filename) {
+    $array = file_get_contents($filename);
+    $arrayOfIds = [];
+    
+    if (count($array) === 0) {
+        $newID = 1;
+        return $newID;
+    } else {
+        foreach ($arrayOfEntity as $element) {
+            $arrayOfIds[] = $element['id'];
+        }
+        sort($arrayOfIds);
+        $newID = null;
+        
+        $counter = 1;
+        
+        foreach ($arrayOfIds as $id) {
+            if ($id !== $counter) {
+                $newID = $counter;
+                break;
+            } else {
+                $counter++;
             }
         }
         
+        if (!isset($newID)) {
+            $newID = count($arrayOfIds) + 1;
+        }
+        
+        return $newID;
     }
 }
+?>
 
+function logActivity ($activity) {
+   $activityDatabase = getDatabase("./activity.json");
+
+   $activityDatabase[] = $activity;
+   $json = json_encode($activityDatabase, JSON_PRETTY_PRINT);
+   file_put_contents("activity.json", $json);
+ }
 ?>
