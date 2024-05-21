@@ -32,23 +32,23 @@ if ($requestMethod == "GET") {
         }
     
 
-    $userDatabase = getDatabase("users.json");
-    foreach($userDatabase as $user) {
-        if ($user["id"] == $userInfo["id"]) {
-            $listIds = $user["lists"];
-        }
-    }
-
-    $lists = [];
-    foreach($listIds as $listId) {
-        foreach($listDatabase as $list){
-            if ($list["id"] == $listId) {
-                $lists[] = $list; 
+        $userDatabase = getDatabase("users.json");
+        foreach($userDatabase as $user) {
+            if ($user["id"] == $userInfo["id"]) {
+                $listIds = $user["lists"];
             }
         }
-    }
 
-    send(200, $lists);
+        $lists = [];
+        foreach($listIds as $listId) {
+            foreach($listDatabase as $list){
+                if ($list["id"] == $listId) {
+                    $lists[] = $list; 
+                }
+            }
+        }
+
+        send(200, $lists);
 
     }
 }
