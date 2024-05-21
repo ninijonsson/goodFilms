@@ -16,19 +16,12 @@ const mediaPrefix = "../../media/icons/";
 
 renderHeader();
 
+// Gör om till Promise.all()
 async function fetchMovie(type, i) {
     const response = await fetch(`https://api.themoviedb.org/3/movie/${user[type][i]}?language=en-US`, options);
     const movie = await response.json();
 
     return movie;
-}
-
-// Gör om denna till global funktion? I state.js?
-async function getMovies() {
-    const response = await fetch("https://api.themoviedb.org/3/trending/movie/day?language=en-US", options);
-    const resource = await response.json();
-
-    return resource;
 }
 
 async function getUser() {
@@ -39,9 +32,6 @@ async function getUser() {
 }
 
 const user = await getUser();
-const movies = await getMovies();
-
-console.log(movies);
 
 const wrapper = document.getElementById("wrapper");
 
@@ -124,22 +114,25 @@ editButton.addEventListener("click", async (event) => {
 
         const inputValue = input.value;
 
-        const request = new Request("../../api/users.php", {
-            method: "PATCH",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                displayName: inputValue,
-                token: token // Fixa token
-            })
-        });
+        if (inputValue !== "") {
+            const request = new Request("../../api/users.php", {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    displayName: inputValue,
+                    token: token // Fixa token
+                })
+            });
 
-        const response = await fetch(request);
-        const resource = await response.json();
+            const response = await fetch(request);
+            const resource = await response.json();
+
+            displayName.textContent = resource.displayName;
+        }
 
         input.remove();
 
         displayName.style.display = "block";
-        displayName.textContent = resource.displayName;
 
         editButton.classList.remove("save");
         editButton.textContent = "EDIT";

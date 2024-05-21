@@ -11,14 +11,24 @@ const options = {
 
 renderHeader();
 
-async function getMovies() {
-    const response = await fetch("https://api.themoviedb.org/3/trending/movie/day?language=en-US", options);
-    const resource = await response.json();
+// Test token
+const token = "c62f39ace22172680875af13e02f6a6313ea1125";
 
-    return resource;
+async function getUser() {
+    const response = await fetch(`../../api/users.php?user=${token}`);
+    const user = await response.json();
+
+    return user;
 }
 
-const movies = await getMovies();
+async function fetchMovie(i) {
+    const response = await fetch(`https://api.themoviedb.org/3/movie/${user.liked[i]}?language=en-US`, options);
+    const movie = await response.json();
+
+    return movie;
+}
+
+const user = await getUser();
 
 const wrapper = document.getElementById("wrapper");
 
@@ -34,9 +44,12 @@ wrapper.innerHTML = `
 
 const moviesContainer = document.getElementById("moviesContainer");
 
-for (let i = 0; i < movies.results.length; i++) {
+for (let i = 0; i < user.liked.length; i++) {
+    // Gör till Promise.all();
+    const movie = await fetchMovie(i);
+
     moviesContainer.innerHTML += `
-        <img class="movie" id="${movies.results[i].id}" src="https://image.tmdb.org/t/p/original/${movies.results[i].poster_path}">
+        <img class="movie" id="${movie.id}" src="https://image.tmdb.org/t/p/original/${movie.poster_path}">
     `;
 }
 

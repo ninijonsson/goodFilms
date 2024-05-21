@@ -15,7 +15,7 @@
     {
         "id": 2,
         "username": "Luci",
-        "displayName": "Nininini",
+        "displayName": "Nini",
         "password": "WDU123!",
         "liked": [
             222,
@@ -29,7 +29,9 @@
             231,
             2314,
             553,
-            555
+            555,
+            13,
+            16
         ],
         "lists": [
             226,
@@ -37,7 +39,7 @@
         ],
         "following": [],
         "followers": [],
-        "avatar": "../../media/icons/profile_picture.png",
-        "header": "../../media/icons/test_backdrop_profile.jpeg"
+        "avatar": "..\/..\/media\/icons\/profile_picture.png",
+        "header": "..\/..\/media\/icons\/test_backdrop_profile.jpeg"
     }
 ]
