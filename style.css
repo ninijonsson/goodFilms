@@ -1,11 +1,17 @@
 :root {
+    /* Denna ska vara background-image!!! */
     --background_color: linear-gradient(180deg, #2D2D2D 0%, #101010 100%);
 
     --top_menu_background: #111111;
     --top_menu_height: 50px;
     /* Ändra height */
 
-    --border_radius: 3px;
+    --menu_opened_background: #EDEDED;
+    --menu_opened_font_color: #242424;
+    --menu_opened_font_size: 32px;
+
+    --border_radius_small: 3px;
+    --border_radius_big: 8px;
 
     --font_color: #EDEDED;
 
@@ -15,6 +21,8 @@
     --line_color: #CDCEE5;
 
     --add_profile_picture_background: #4B4B4B;
+
+    --backdrop_poster_shadow: 20px 0px 40px 0px rgba(0, 0, 0, 0.25) inset, -20px 0px 40px 0px rgba(36, 36, 36, 0.25) inset, 0px -37px 40px 0px #2C2B2B inset;
 }
 
 /* BRÖDTEXT */
@@ -30,6 +38,8 @@
 }
 
 body {
-    background-color: var(--background_color);
+    margin: 0;
+    background-image: var(--background_color);
     font-family: "Alte Haas Grotesk";
+    color: var(--font_color);
 }
