@@ -11,27 +11,27 @@ if ($_SERVER["REQUEST_METHOD"] == "OPTIONS") {
 }
 
 $requestMethod = $_SERVER["REQUEST_METHOD"];
-$requestData = getRequestData();
 
 if ($requestMethod == "GET") {
-    if (empty($requestData)) {
-        abort(400, "Bad Request (empty request)");
-    }
-
-    if (!isset($requestData["token"])) {
-        abort(400, "Bad Request (missing token)");
-    }
-
-    $userInfo = getUserFromToken($requestData["token"]);
     $activityDatabase = getDatabase("activity.json");
 
-    $relevantActivity = [];
-    foreach ($activityDatabase as $activity) {
-        if ($activity["userId"] == $userInfo["id"]) {
-            $relevantActivity[] = $activity;
+    if (isset($_GET["user"])) {
+    
+        $userInfo = getUserFromToken($requestData["token"]);
+        $following = $userInfo["following"];
+
+        $relevantActivity = [];
+        foreach ($activityDatabase as $activity) {
+            foreach($following as $user) {
+                if ($activity["userId"] == $user) {
+                    $relevantActivity[] = $activity;
+                }
+            }
         }
+
+        send(201, $relevantActivity);
     }
 
-    send(201, $relevantActivity);
+    send(201, $activityDatabase);
 }
 ?>

@@ -98,6 +98,15 @@ else if ($requestMethod == "POST") {
         send(201, $requestData["movieId"]);
     }
 
+    if (isset($requestData["backdropPath"])) {
+        $listDatabase = getDatabase("lists.json");
+
+        for ($i = 0; $i < count($listDatabase); $i++) {
+            if ($listDatabase[$i]["id"] == $requestData["id"]) {
+                $listDatabase[$i]["backdropPath"][] = $requestData["backdropPath"];
+            }
+        }
+    }
 
     $newListKeys = ["name", "description"]; 
 
@@ -110,7 +119,7 @@ else if ($requestMethod == "POST") {
         "favCount" => 0,
         "itemCount" => 0,
         "items" => [],
-        "posterPath" => "",
+        "backdropPath" => "",
     ];
 
     foreach ($extraValuesForNewList as $key => $value) {
