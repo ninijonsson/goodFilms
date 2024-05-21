@@ -24,8 +24,8 @@ header {
 }
 
 #hamburgerMenuContainer {
-    background-color: white;
-    color: black;
+    background-color: var(--menu_opened_background);
+    color: var(--menu_opened_font_color);
     height: 100%;
     width: 60%;
     padding: 30px 20px;
@@ -34,6 +34,10 @@ header {
 #hamburgerMenuContainer>div {
     margin: 10px 0;
     margin-left: 10px;
-    font-size: 32px;
+    font-size: var(--menu_opened_font_size);
     cursor: pointer;
+}
+
+#closeButton {
+    font-weight: bolder;
 }
