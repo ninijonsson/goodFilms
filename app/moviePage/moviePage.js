@@ -1,4 +1,4 @@
-import { renderHeader } from "../header/header.js"
+import { renderHeader } from "../../global/components/header/header.js"
 
 // Gör om till global variabel
 const options = {
