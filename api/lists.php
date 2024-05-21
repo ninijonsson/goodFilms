@@ -25,6 +25,7 @@ if ($requestMethod == "GET") {
 
     $userInfo = getUserFromToken($requestData["token"]);
     $listKeys = ["id"];
+
     if (isset($requestData["id"])){
         $listDatabase = getDatabase("lists.json");
         foreach ($listDatabase as $list) {
@@ -42,6 +43,7 @@ if ($requestMethod == "GET") {
         }
     }
 
+
     $listDatabase = getDatabase("lists.json");
     $lists = [];
     foreach($listIds as $listId) {
@@ -52,7 +54,7 @@ if ($requestMethod == "GET") {
         }
     }
 
-    return $lists;
+    send(200, $lists);
 }
 
 //skapa lista (token required)
@@ -79,6 +81,10 @@ else if ($requestMethod == "POST") {
                 }
 
                 $listDatabase[$i]["items"][] = $requestData["movieId"];
+
+                $itemCount = count($listDatabase[$i]["items"]);
+                $listDatabase[$i]["itemCount"] = $itemCount;
+
                 break;
             }
         }
@@ -193,9 +199,18 @@ else if ($requestMethod == "DELETE")
     $listKeys = ["id", "movieId"];
     if (isset($requestData["id"]) and isset($requestData["movieId"])){
         $listDatabase = getDatabase("lists.json");
+
         for ($i = 0; $i < count($listDatabase); $i++) {
             if ($listDatabase[$i]["id"] == $requestData["id"]) {
-                array_splice($listDatabase[$i]["items"], $i+1, 1);
+
+                //for ($listDatabase[$i]["items"] as $item) {
+
+                //}
+                array_splice($listDatabase[$i]["items"], $i, 1);
+
+                $itemCount = count($listDatabase[$i]["items"]);
+                $listDatabase[$i]["itemCount"] = $itemCount;
+
                 break;
             }
         }
@@ -222,8 +237,8 @@ else if ($requestMethod == "DELETE")
     }
 
     if ($user == false || $list["createdBy"] != $user["username"]) {
-                abort(400, "Bad Request (invalid token)");
-            }
+        abort(400, "Bad Request (invalid token)");
+    }
 
     $deletedList = deleteItemByType("lists.json", $list);
     send(200, $deletedList);
