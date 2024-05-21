@@ -225,11 +225,42 @@ function removeUserLists($user)
             // }
  }
 
- function logActivity ($activity) {
+function logActivity ($activity) {
     $activityDatabase = getDatabase("./activity.json");
 
     $activityDatabase[] = $activity;
     $json = json_encode($activityDatabase, JSON_PRETTY_PRINT);
     file_put_contents("activity.json", $json);
  }
+
+function updateInteractionCount ($activityCounter) {
+    $movieCounter = getDatabase("counter.json");
+    $action = $activityCounter["action"];
+    
+    foreach($movieCounter as &$movie){
+        if ($movie["movieId"] == $activityCounter["movieId"]){
+            $count = ($movie[$action] + 1);
+
+            if ($action == "liked") {
+                $movie["liked"] = $count;
+            } else if ($action == "watched") {
+                $movie["watched"] = $count;
+            }
+
+            $json = json_encode($movieCounter, JSON_PRETTY_PRINT);
+            file_put_contents("counter.json", $json);
+            return;
+        }
+    }
+
+    $movieLog = [
+        "movieId" => $activityCounter["movieId"],
+        "liked" =>  ($action == "liked") ? 1 : 0,
+        "watched" =>  ($action == "watched") ? 1 : 0
+    ];
+
+    $movieCounter[] = $movieLog;
+    $json = json_encode($movieCounter, JSON_PRETTY_PRINT);
+    file_put_contents("counter.json", $json);
+}
 ?>

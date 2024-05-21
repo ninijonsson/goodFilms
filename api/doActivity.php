@@ -38,13 +38,21 @@ if ($requestMethod == "POST") {
         }
     }
 
+    $action = $requestData["action"];
+
     $activity = [
         "movieId" => $requestData["movieId"],
         "userId" => $userInfo["id"],
-        "action" => "has added"
+        "action" => "has $action"
+    ];
+
+    $counter = [
+        "movieId" => $requestData["movieId"],
+        "action" => $requestData["action"]
     ];
 
     logActivity($activity);
+    updateInteractionCount($counter);
 
     $json = json_encode($userDatabase, JSON_PRETTY_PRINT);
     file_put_contents("users.json", $json);
