@@ -17,13 +17,7 @@ async function renderList (parentID) {
 
     const token = "c62f39ace22172680875af13e02f6a6313ea1125";
 
-    let options = {
-        method: "GET",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({"token": token})
-    }
-
-    let user = await fetcher("../../api/lists.php", options);
+    let user = await fetcher(`../../api/lists.php`);
 
     console.log(user);
     
