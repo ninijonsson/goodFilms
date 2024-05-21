@@ -10,10 +10,15 @@
     --menu_opened_font_color: #242424;
     --menu_opened_font_size: 32px;
 
+    --button_background: #454D56;
+    --button_drop_shadow: drop-shadow(4px 4px 0px rgba(0, 0, 0, 0.25));
+
     --border_radius_small: 3px;
     --border_radius_big: 8px;
 
     --font_color: #EDEDED;
+
+    --body_margin: 20px;
 
     --box_input_background: rgba(102, 119, 136, 0.50);
     --box_input_innershadow: -2px -2px 0px 0px #656667 inset;

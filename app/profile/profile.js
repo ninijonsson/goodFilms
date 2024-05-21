@@ -11,18 +11,37 @@ const options = {
 
 renderHeader();
 
+// Gör om denna till global funktion? I state.js?
+async function getMovies() {
+    const response = await fetch("https://api.themoviedb.org/3/trending/movie/day?language=en-US", options);
+    const resource = await response.json();
+
+    return resource;
+}
+
+const movies = await getMovies();
+
+console.log(movies);
+
 const wrapper = document.getElementById("wrapper");
 
 wrapper.innerHTML = `
     <div id="profileDetailsContainer">
-        <img id="backdropPoster" src="../../media/icons/test.png">
+        <img id="backdropPoster" src="../../media/icons/test_backdrop_profile.jpeg">
         <div id="shadowOverlay"></div>
-        <img id="profilePicture" src="../../media/icons/profile_picture.png">
+        <div id="profileAndEditContainer">
+            <img id="profilePicture" src="../../media/icons/profile_picture.png">
 
-        <button id="editButton">EDIT</button>
+            <div id="buttonContainer">
+                <button id="editButton">EDIT</button>
+            </div>
+        </div>
+    </div>
 
-        <h3 id="displayName">Nicole</h3>
-        <p id="username">@nicoleJ</p>
+        <div id="userInfo">
+            <h3 id="displayName">Nicole</h3>
+            <p id="username">@nicoleJ</p>
+        </div>
 
         <div id="followContainer">
             <p id="followers"></p>
@@ -30,33 +49,26 @@ wrapper.innerHTML = `
         </div>
 
         <hr>
-    </div>
 
     <div id="watchedContainer">
-        <h4 id="watchedTitle">WATCHED</h4>
-        <h6 id="showAllWatched">SHOW ALL</h6>
+        <div id="watchedTitleContainer">
+            <h4 id="watchedTitle">WATCHED</h4>
+            <h6 id="showAllWatched">SHOW ALL</h6>
+        </div>
         <hr>
 
         <div id="watchedPosters">
-            <img id="" src="">
-            <img id="" src="">
-            <img id="" src="">
-            <img id="" src="">
-            <img id="" src="">
         </div>
     </div>
 
     <div id="likedContainer">
-        <h4 id="likedTitle">LIKED</h4>
-        <h6 id="showAllLiked">SHOW ALL</h6>
+        <div id="likedTitleContainer">
+            <h4 id="likedTitle">LIKED</h4>
+            <h6 id="showAllLiked">SHOW ALL</h6>
+        </div>
         <hr>
 
         <div id="likedPosters">
-            <img id="" src="">
-            <img id="" src="">
-            <img id="" src="">
-            <img id="" src="">
-            <img id="" src="">
         </div>
     </div>
 
@@ -73,17 +85,39 @@ wrapper.innerHTML = `
     </div>
 `;
 
+// "WATCHED" POSTERS
+const watchedPosters = document.getElementById("watchedPosters");
+
+for (let i = 0; i < 5; i++) {
+    watchedPosters.innerHTML += `
+        <img class="movie" id="watched_${i}" src="https://image.tmdb.org/t/p/original/${movies.results[i].poster_path}">
+    `;
+}
+
+// "LIKED" POSTERS
+const likedPosters = document.getElementById("likedPosters");
+
+for (let i = 0; i < 5; i++) {
+    likedPosters.innerHTML += `
+        <img class="movie" id="liked_${i}" src="https://image.tmdb.org/t/p/original/${movies.results[i].poster_path}">
+    `;
+}
+
 // SHOW ALL WATCHED
 const showAllWatched = document.getElementById("showAllWatched");
 
 showAllWatched.addEventListener("click", (event) => {
+    event.preventDefault();
 
+    window.location = "../watchedList/index.html";
 });
 
 // SHOW ALL LIKED
 const showAllLiked = document.getElementById("showAllLiked");
 
 showAllLiked.addEventListener("click", (event) => {
+    event.preventDefault();
 
+    window.location = "../likedList/index.html";
 });
 

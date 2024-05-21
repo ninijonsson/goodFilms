@@ -1,3 +1,16 @@
+#userInfo,
+#followContainer,
+#watchedContainer,
+#likedContainer,
+#listsContainer {
+    margin: var(--body_margin);
+}
+
+#profileAndEditContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
 #backdropPoster {
     height: 57vw;
     width: 100%;
@@ -10,4 +23,66 @@
     width: 100%;
     height: 57vw;
     box-shadow: var(--backdrop_poster_shadow);
+}
+
+#profilePicture {
+    margin-left: 20px;
+    width: 130px;
+    height: 130px;
+}
+
+#displayName {
+    margin: 0;
+    font-size: 24px;
+}
+
+#username {
+    margin-top: 4px;
+    font-size: 18px;
+}
+
+#editButton {
+    margin-right: 20px;
+    margin-top: 50px;
+
+    font-family: "Alte Haas Grotesk";
+    color: var(--font_color);
+    background-color: var(--button_background);
+    filter: var(--button_drop_shadow);
+    border-radius: var(--border_radius_small);
+    border: 1px solid black;
+    padding: 7px 26px;
+    font-size: 22px;
+}
+
+.movie {
+    width: 150%;
+    border-radius: var(--border_radius_small);
+    margin: 7px 0;
+}
+
+#watchedPosters,
+#likedPosters {
+    display: grid;
+    grid-template-columns: repeat(5, 17vw);
+}
+
+#watchedTitleContainer,
+#likedTitleContainer {
+    display: flex;
+    justify-content: space-between;
+    height: 50px;
+}
+
+#watchedTitle,
+#likedTitle {
+    font-size: 20px;
+}
+
+#showAllWatched,
+#showAllLiked {
+    font-size: 14px;
+    color: #B4B5B9;
+
+    cursor: pointer;
 }
