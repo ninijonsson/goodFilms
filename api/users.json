@@ -1,0 +1,25 @@
+[
+    {
+        "id": 1,
+        "username": "luci",
+        "displayName": "luci",
+        "password": "12345",
+        "liked": [
+
+        ],
+        "watched": [
+
+        ],
+        "lists": [
+
+        ],
+        "following": [
+
+        ],
+        "followers": [
+
+        ],
+        "avatar": "pathway",
+        "header": "pathway"
+    }
+]

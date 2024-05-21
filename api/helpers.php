@@ -111,13 +111,7 @@ function insertItemByType($filename, $keys, $data)
         }
         $newItem[$key] = $data[$key];
     }
-
-<<<<<<< Updated upstream
-    $newItem["id"] = createNewID($filename);
-    $databaseByType[] = $newItem;
-    $database[$type] = $databaseByType;
-
-=======
+  
     $id = 0;
 
     foreach ($database as $item) {
@@ -128,29 +122,19 @@ function insertItemByType($filename, $keys, $data)
 
     $newItem["id"] = $id + 1;
     $database[] = $newItem;
->>>>>>> Stashed changes
     $json = json_encode($database, JSON_PRETTY_PRINT);
     file_put_contents($filename, $json);
     return $newItem;
 }
 
-<<<<<<< Updated upstream
-function deleteItem($filename, $itemToDelete)
-=======
 function updateItemByType($filename, $updatedItem)
->>>>>>> Stashed changes
 {
     $database = getDatabase($filename);
     
     if (!$database) {
-        abort(500, "Internal Server Error (database type '$type' does not exist)");
+        abort(500, "Internal Server Error (database type '$filename' does not exist)");
     }
-
-<<<<<<< Updated upstream
-    $databaseByType = $database;
-
-    foreach ($databaseByType as $index => $item) {
-=======
+  
     //$databaseByType = $database[$type];
 
     foreach ($database as $index => $item) {
@@ -174,16 +158,11 @@ function deleteItemByType($filename, $itemToDelete)
     }
 
     foreach ($database as $index => $item) {
->>>>>>> Stashed changes
         if (isset($item["id"]) && $item["id"] == $itemToDelete["id"]) {
             array_splice($database, $index, 1);
         }
     }
 
-<<<<<<< Updated upstream
-    $database = $databaseByType;
-=======
->>>>>>> Stashed changes
     $json = json_encode($database, JSON_PRETTY_PRINT);
     file_put_contents($filename, $json);
     return $itemToDelete;
@@ -191,18 +170,6 @@ function deleteItemByType($filename, $itemToDelete)
 
 function getUserFromToken($requestToken)
 {
-<<<<<<< Updated upstream
-    $database = getDatabase("users.json");
-    
-    if (!$database) {
-        abort(500, "Internal Server Error (database type '$type' does not exist)");
-    }
-    $users = $database;
-
-    foreach ($users as $user) {
-        if (isset($user["username"], $user["password"])) {
-            $name = $user["username"];
-=======
     $users = getDatabase("users.json");
     
     if (!$users) {
@@ -212,7 +179,6 @@ function getUserFromToken($requestToken)
     foreach ($users as $user) {
         if (isset($user["username"], $user["password"])) {
             $username = $user["username"];
->>>>>>> Stashed changes
             $password = $user["password"];
 
             $userToken = sha1("$username$password");
@@ -226,34 +192,6 @@ function getUserFromToken($requestToken)
     return false;
 }
 
-<<<<<<< Updated upstream
-function removeUserFilmsAndLists($filename, $user)
-{
-    $database = getDatabase($filename);
-
-    if (!$filename) {
-        abort(500, "Internal Server Error (database type '$filename' does not exist)");
-    }
-
-    if ($filename === "lists.json") {
-        $lists = $database;
-        $userId = $user["id"];
-        $username = $user["username"];
-
-        foreach ($list as $listIndex => $movie) {
-        // If the user created the list, remove it completely
-        if ($lists["createdBy"] == $userId) {
-            array_slice($games, $gameIndex, 1);
-        } else {
-            // Otherwise we'll see if they liked it and only remove their like
-            foreach ($game["likes"] as $likeIndex => $like) { 
-                // Remember that each like is represented as a user_id
-                if ($userId == $like) {
-                    array_slice($game["likes"], $likeIndex, 1);
-                    $game[$gameIndex] = $game;
-                }
-            }
-=======
 function removeUserLists($user)
 {
     $listDatabase = getDatabase("lists.json");
@@ -268,13 +206,8 @@ function removeUserLists($user)
     foreach ($listDatabase as $listIndex => $list ) { 
         if ($list["createdBy"] == $username) {
             array_splice($listDatabase, $listIndex, 1);
->>>>>>> Stashed changes
         }
     }
-    }
-
-
-    
 
     $json = json_encode($listDatabase, JSON_PRETTY_PRINT);
     file_put_contents("lists.json", $json);
@@ -292,7 +225,6 @@ function removeUserLists($user)
             // }
  }
 
-<<<<<<< Updated upstream
 function compareNumbers($a, $b) {
     return $a - $b;
 }
@@ -330,13 +262,12 @@ function createNewID($filename) {
     }
 }
 ?>
-=======
- function logActivity ($activity) {
-    $activityDatabase = getDatabase("./activity.json");
 
-    $activityDatabase[] = $activity;
-    $json = json_encode($activityDatabase, JSON_PRETTY_PRINT);
-    file_put_contents("activity.json", $json);
+function logActivity ($activity) {
+   $activityDatabase = getDatabase("./activity.json");
+
+   $activityDatabase[] = $activity;
+   $json = json_encode($activityDatabase, JSON_PRETTY_PRINT);
+   file_put_contents("activity.json", $json);
  }
 ?>
->>>>>>> Stashed changes

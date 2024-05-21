@@ -1,0 +1,14 @@
+body {
+    margin: 0;
+    background-image: var(--background_color);
+}
+
+#wrapper {
+    margin: 10px;
+}
+
+.movie {
+    width: 200px;
+    border-radius: 5px;
+    margin: 2px;
+}

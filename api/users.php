@@ -23,8 +23,8 @@ else if ($requestMethod == "POST") // Register a new user
     if (empty($requestData)) {
         abort(400, "Bad Request (empty request)");
     }
-
-    $userKeys = ["name", "name", "password"];
+  
+    $userKeys = ["username", "name", "password"];
 
     if (requestContainsAllKeys($requestData, $userKeys) == false) {
         abort(400, "Bad Request (missing keys)");
@@ -95,7 +95,10 @@ else if ($requestMethod == "PATCH")
     $updatedList = updateItemByType("lists.json", $list);
     send(200, $updatedList);
 }
-
+    $newUser = insertItemByType("users", $userKeys, $requestData);
+    unset($newUser["password"]);
+    send(201, $newUser);
+}
 else if ($requestMethod == "DELETE") // Delete an user account (token required)
 {
     if (empty($requestData)) {

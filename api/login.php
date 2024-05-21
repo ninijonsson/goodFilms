@@ -39,7 +39,9 @@ if ($requestMethod == "POST") // Login (name + password)
     }
 
     // This token is used to authenticate future requests
+
     $token = ["token" => sha1("$username$password")];
+
     send(200, $token);
 }
 else
