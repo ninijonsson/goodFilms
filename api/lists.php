@@ -15,26 +15,22 @@ $requestData = getRequestData();
 
 //hämta user lists (token required)
 if ($requestMethod == "GET") {
-    if (empty($requestData)) {
-        abort(400, "Bad Request (empty request)");
-    }
 
-    if (!isset($requestData["token"])) {
-        abort(400, "Bad Request (missing token)");
-    }
+    if (isset ($_GET["user"])) {
 
-    $userInfo = getUserFromToken($requestData["token"]);
-    $listKeys = ["id"];
-
-    if (isset($requestData["id"])){
+        $token = $_GET["user"];
+        $userInfo = getUserFromToken($token);
         $listDatabase = getDatabase("lists.json");
-        foreach ($listDatabase as $list) {
-            if ($list["id"] == $requestData["id"]){
-                $list["createdBy"] = $userInfo["username"];
-                send(201, $list);
-            }
+
+        if (isset($_GET["id"])) {
+           foreach ($listDatabase as $list) {
+                if ($list["id"] == $_GET["id"]){
+                    $list["createdBy"] = $userInfo["username"];
+                    send(201, $list);
+                }
+            }    
         }
-    }
+    
 
     $userDatabase = getDatabase("users.json");
     foreach($userDatabase as $user) {
@@ -43,8 +39,6 @@ if ($requestMethod == "GET") {
         }
     }
 
-
-    $listDatabase = getDatabase("lists.json");
     $lists = [];
     foreach($listIds as $listId) {
         foreach($listDatabase as $list){
@@ -55,6 +49,8 @@ if ($requestMethod == "GET") {
     }
 
     send(200, $lists);
+
+    }
 }
 
 //skapa lista (token required)
