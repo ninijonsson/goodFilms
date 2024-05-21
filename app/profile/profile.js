@@ -9,6 +9,9 @@ const options = {
     }
 };
 
+// Test token
+const token = "c62f39ace22172680875af13e02f6a6313ea1125";
+
 const mediaPrefix = "../../media/icons/";
 
 renderHeader();
@@ -21,6 +24,14 @@ async function getMovies() {
     return resource;
 }
 
+async function getUser() {
+    const response = await fetch(`../../api/users.php?user=${token}`);
+    const resource = await response.json();
+
+    return resource;
+}
+
+const user = await getUser();
 const movies = await getMovies();
 
 console.log(movies);
@@ -41,8 +52,8 @@ wrapper.innerHTML = `
     </div>
 
         <div id="userInfo">
-            <h3 id="displayName">Nicole</h3>
-            <p id="username">@nicoleJ</p>
+            <h3 id="displayName">${user[1].displayName}</h3>
+            <p id="username">@${user[1].username.toLowerCase()}</p>
         </div>
 
         <div id="followContainer">
@@ -90,24 +101,51 @@ wrapper.innerHTML = `
 // EDIT PROFILE
 const editButton = document.getElementById("editButton");
 
-editButton.addEventListener("click", (event) => {
+editButton.addEventListener("click", async (event) => {
     event.preventDefault();
+
+    // Selektera profilbilden och backdrop
+    const profilePicture = document.getElementById("profilePicture");
+    const backdropPoster = document.getElementById("backdropPoster");
+    const displayName = document.getElementById("displayName");
 
     if (editButton.textContent === "SAVE") {
         profilePicture.src = `${mediaPrefix}profile_picture.png`;
         backdropPoster.src = `${mediaPrefix}test_backdrop_profile.jpeg`;
 
+        const input = document.querySelector("input");
+
+        const inputValue = input.value;
+
+        const request = new Request("../../api/users.php", {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                displayName: inputValue,
+                token: token // Fixa token
+            })
+        });
+
+        const response = await fetch(request);
+        const resource = await response.json();
+
+        input.remove();
+
+        displayName.style.display = "block";
+        displayName.textContent = resource.displayName;
+
         editButton.classList.remove("save");
         editButton.textContent = "EDIT";
+
     } else if (editButton.textContent === "EDIT") {
-        // Selektera profilbilden, backdrop och knappen
-        const profilePicture = document.getElementById("profilePicture");
-        const backdropPoster = document.getElementById("backdropPoster");
+
+        displayName.style.display = "none";
+
+        const inputDisplayName = document.createElement("input");
+        document.getElementById("userInfo").append(inputDisplayName);
 
         profilePicture.src = `${mediaPrefix}add_profile_picture.png`;
         backdropPoster.src = `${mediaPrefix}add_backdrop_profile.png`;
-
-        console.log(profilePicture.src);
 
         editButton.classList.add("save");
         editButton.textContent = "SAVE";
