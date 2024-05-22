@@ -48,7 +48,8 @@ if ($requestMethod == "POST") {
 
     $counter = [
         "movieId" => $requestData["movieId"],
-        "action" => $requestData["action"]
+        "action" => $requestData["action"],
+        "method" => "POST"
     ];
 
     logActivity($activity);
@@ -85,6 +86,14 @@ else if ($requestMethod == "DELETE") {
             for ($ii = 0; $ii < count($userDatabase[$i][$requestData["action"]]); $ii++) {
                 if ($userDatabase[$i][$requestData["action"]][$ii] == $requestData["movieId"]){
                     array_splice($userDatabase[$i][$requestData["action"]], $ii, 1);
+
+                    $counter = [
+                        "movieId" => $requestData["movieId"],
+                        "action" => $requestData["action"],
+                        "method" => "DELETE"
+                    ];
+                
+                    updateInteractionCount($counter);
                     break;
                 }
             }

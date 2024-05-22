@@ -87,6 +87,7 @@ else if ($requestMethod == "POST") {
                 $itemCount = count($listDatabase[$i]["items"]);
                 $listDatabase[$i]["itemCount"] = $itemCount;
 
+                send(201, $movie);
                 break;
             }
         }
