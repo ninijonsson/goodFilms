@@ -5,15 +5,14 @@ function renderLogIn (parentID) {
         <img id="logoImg" src="../../media/icons/logo.svg">
         <h1 id="logoFont">goodFilms</h1>
     </div>
-    <hr>
+    <hr id="topLine">
     <div id="bottom">
         <input type="text" name="username" placeholder="username" id="username">
         <input type="password" name="password" placeholder="password" id="password">
     <div id="bottom>
-
         <button id="logIn">LOG IN</button>
         <h3>Not a memeber? <a id="registerLink" href="../register">Register</a></h3>
-    <hr>
+    <hr id="bottomLine">
     `;
 
     // const registerBttn = document.getElementById("registerBttn");

@@ -23,5 +23,10 @@
         "movieId": 534034,
         "liked": 1,
         "watched": 1
+    },
+    {
+        "movieId": 1072432,
+        "liked": 1,
+        "watched": 0
     }
 ]
