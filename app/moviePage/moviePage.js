@@ -9,6 +9,14 @@ const options = {
     }
 };
 
+async function getWatchedAndLiked(movieId) {
+    const response = await fetch(`../../api/getInteraction.php?movieId=${movieId}`);
+
+    const data = await response.json();
+
+    return data;
+}
+
 const token = "c62f39ace22172680875af13e02f6a6313ea1125";
 
 renderHeader();
@@ -19,6 +27,20 @@ if (window.localStorage.getItem("movieInfo")) {
     let info = window.localStorage.getItem("movieInfo");
     const response = await fetch(info, options);
     const movie = await response.json();
+
+    const data = await getWatchedAndLiked(movie.id);
+
+    // Om filmerna inte finns i databasen, ska värdena vara 0
+    // Annars blir dem "undefined"
+    if (data.watched === undefined) {
+        data.watched = 0;
+    }
+
+    if (data.liked === undefined) {
+        data.liked = 0;
+    }
+
+    console.log(data);
 
     // För att fixa när production company är undefined
     let productionCompany = "";
@@ -53,12 +75,12 @@ if (window.localStorage.getItem("movieInfo")) {
             <div id="likedAndWatchedContainer">
                 <div id="likedContainer">
                     <img class="heart" src="../../media/icons/unfilled_heart.png">
-                    <p id="likedAmount">0</p>
+                    <p id="likedAmount">${data.liked}</p>
                 </div>
 
                 <div id="watchedContainer">
                     <img id="watchedEye" src="../../media/icons/eye.png">
-                    <p id="watchedAmount">0</p>
+                    <p id="watchedAmount">${data.watched}</p>
                 </div>
             </div>
 
@@ -111,12 +133,10 @@ if (window.localStorage.getItem("movieInfo")) {
 
         heart.classList.toggle("filled");
 
+        const movieId = movie.id;
+
         if (heart.classList.contains("filled")) {
             heart.src = "../../media/icons/filled_heart.png";
-        } else {
-            heart.src = "../../media/icons/unfilled_heart.png";
-
-            const movieId = movie.id;
 
             // movieId, token, action (liked/watched)
             const request = new Request("../../api/doActivity.php", {
@@ -134,7 +154,28 @@ if (window.localStorage.getItem("movieInfo")) {
 
             console.log(amountOfLikes);
 
-            document.getElementById("likedAmount").textContent = amountOfLikes;
+            document.getElementById("likedAmount").textContent = data.liked + 1;
+
+        } else {
+            heart.src = "../../media/icons/unfilled_heart.png";
+
+            // movieId, token, action (liked/watched)
+            const request = new Request("../../api/doActivity.php", {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    movieId: movieId,
+                    token: token,
+                    action: "liked"
+                })
+            });
+
+            const response = await fetch(request);
+            const amountOfLikes = await response.json();
+
+            console.log(amountOfLikes);
+
+            document.getElementById("likedAmount").textContent = data.liked - 1;
         }
     })
 
@@ -170,11 +211,9 @@ if (window.localStorage.getItem("movieInfo")) {
         const response = await fetch(request);
         const amountOfWatches = await response.json();
 
-        // response.status === 404 amountOfWatches = 0;
-
         console.log(amountOfWatches);
 
-        document.getElementById("watchedAmount").textContent = amountOfWatches;
+        document.getElementById("watchedAmount").textContent = data.watched + 1;
 
         // Tillfälligt för att inte kunna trycka "watched" fler gånger
         watched = true;

@@ -13,5 +13,15 @@
         "movieId": 3333,
         "liked": 2,
         "watched": 2
+    },
+    {
+        "movieId": 786892,
+        "liked": 53,
+        "watched": 62
+    },
+    {
+        "movieId": 280,
+        "liked": 2,
+        "watched": 1
     }
 ]
