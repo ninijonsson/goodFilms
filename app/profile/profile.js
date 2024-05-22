@@ -102,7 +102,7 @@ wrapper.innerHTML = `
             <h4 id="listsTitle">YOUR LISTS</h4>
             <h6 id="showAllLists">SHOW ALL</h6>
         </div>
-        
+
         <hr id="listLine">
 
         <div id="listPosters">
@@ -164,7 +164,7 @@ editButton.addEventListener("click", async (event) => {
         displayName.style.display = "none";
 
         const inputDisplayName = document.createElement("input");
-        document.getElementById("userInfo").append(inputDisplayName);
+        document.getElementById("userInfo").prepend(inputDisplayName);
 
         profilePicture.src = `${mediaPrefix}add_profile_picture.png`;
         backdropPoster.src = `${mediaPrefix}add_backdrop_profile.png`;
