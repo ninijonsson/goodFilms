@@ -17,8 +17,13 @@
         "username": "Luci",
         "displayName": "Luci",
         "password": "WDU123!",
-        "liked": [],
-        "watched": [],
+        "liked": [
+            11111111,
+            3333
+        ],
+        "watched": [
+            3333
+        ],
         "lists": [
             226,
             225
