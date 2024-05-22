@@ -221,13 +221,18 @@ function logActivity ($activity) {
     file_put_contents("activity.json", $json);
  }
 
-function updateInteractionCount ($activityCounter) {
+function updateInteractionCount ($interaction) {
     $interactionDatabase = getDatabase("interaction.json");
-    $action = $activityCounter["action"];
+    $action = $interaction["action"];
     
     foreach($interactionDatabase as &$movie){
-        if ($movie["movieId"] == $activityCounter["movieId"]){
-            $count = ($movie[$action] + 1);
+        if ($movie["movieId"] == $interaction["movieId"]){
+            
+            if ($interaction["method"] == "POST") {
+                $count = ($movie[$action] + 1);
+            } else if ($interaction["method"] == "DELETE") {
+                $count = ($movie[$aciton] - 1);
+            }
 
             if ($action == "liked") {
                 $movie["liked"] = $count;
@@ -242,7 +247,7 @@ function updateInteractionCount ($activityCounter) {
     }
 
     $movieLog = [
-        "movieId" => $activityCounter["movieId"],
+        "movieId" => $interaction["movieId"],
         "liked" =>  ($action == "liked") ? 1 : 0,
         "watched" =>  ($action == "watched") ? 1 : 0
     ];
