@@ -28,7 +28,7 @@
     margin-top: 18px;
     display: grid;
     grid-template-columns: 1fr 0fr 1fr;
-    grid-template-rows: 10vh 7vh 25vh 11vh 8vh;
+    grid-template-rows: 10vw 10vw 46vw 10vw 8vw;
     gap: 10px;
     margin-top: 15px;
 }
@@ -123,7 +123,7 @@ hr {
 /* GRID SIMILAR MOVIES */
 
 .movie {
-    width: 153px;
+    width: 31%;
     border-radius: 5px;
     margin: 2px;
 }

@@ -19,11 +19,18 @@ const mediaPrefix = "../../media/icons/";
 renderHeader();
 
 // Gör om till Promise.all()
-async function fetchMovie(type, i) {
-    const response = await fetch(`https://api.themoviedb.org/3/movie/${user[type][i]}?language=en-US`, options);
-    const movie = await response.json();
+async function fetchMovies(type) {
+    const fetchPromises = [];
 
-    return movie;
+    for (let i = 0; i < 5; i++) {
+        fetchPromises.push(fetch(`https://api.themoviedb.org/3/movie/${user[type][i]}?language=en-US`, options).then(response => response.json()))
+    }
+
+    const movies = await Promise.all(fetchPromises);
+
+    console.log();
+
+    return movies;
 }
 
 async function getUser() {
@@ -86,9 +93,12 @@ wrapper.innerHTML = `
     </div>
 
     <div id="listsContainer">
-        <h4 id="listsTitle">YOUR LISTS</h4>
-        <h6 id="showAllLists">SHOW ALL</h6>
-        <hr>
+        <div id="yourListsContainer">
+            <h4 id="listsTitle">YOUR LISTS</h4>
+            <h6 id="showAllLists">SHOW ALL</h6>
+        </div>
+        
+        <hr id="listLine">
 
         <div id="listPosters">
         </div>
@@ -162,22 +172,22 @@ editButton.addEventListener("click", async (event) => {
 // "WATCHED" POSTERS
 const watchedPosters = document.getElementById("watchedPosters");
 
-for (let i = 0; i < 5; i++) {
-    const movie = await fetchMovie("watched", i);
+const watchedMovies = await fetchMovies("watched");
 
+for (let i = 0; i < 5; i++) {
     watchedPosters.innerHTML += `
-        <img class="movie" id="watched_${i}" src="https://image.tmdb.org/t/p/original/${movie.poster_path}">
+        <img class="movie" id="watched_${i}" src="https://image.tmdb.org/t/p/original/${watchedMovies[i].poster_path}">
     `;
 }
 
 // "LIKED" POSTERS
 const likedPosters = document.getElementById("likedPosters");
 
-for (let i = 0; i < 5; i++) {
-    const movie = await fetchMovie("liked", i);
+const likedMovies = await fetchMovies("liked");
 
+for (let i = 0; i < 5; i++) {
     likedPosters.innerHTML += `
-        <img class="movie" id="liked_${i}" src="https://image.tmdb.org/t/p/original/${movie.poster_path}">
+        <img class="movie" id="liked_${i}" src="https://image.tmdb.org/t/p/original/${likedMovies[i].poster_path}">
     `;
 }
 
@@ -201,8 +211,6 @@ showAllLiked.addEventListener("click", (event) => {
 
 // SHOW LISTS
 const listPosters = document.getElementById("listPosters");
-
-console.log(lists);
 
 for (let i = 0; i < lists.length; i++) {
     listPosters.innerHTML += `

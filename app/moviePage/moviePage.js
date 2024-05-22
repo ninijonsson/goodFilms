@@ -9,6 +9,8 @@ const options = {
     }
 };
 
+const token = "c62f39ace22172680875af13e02f6a6313ea1125";
+
 renderHeader();
 
 const wrapper = document.getElementById("wrapper");
@@ -51,12 +53,12 @@ if (window.localStorage.getItem("movieInfo")) {
             <div id="likedAndWatchedContainer">
                 <div id="likedContainer">
                     <img class="heart" src="../../media/icons/unfilled_heart.png">
-                    <p id="likedAmount">10</p>
+                    <p id="likedAmount">0</p>
                 </div>
 
                 <div id="watchedContainer">
                     <img id="watchedEye" src="../../media/icons/eye.png">
-                    <p id="watchedAmount">10</p>
+                    <p id="watchedAmount">0</p>
                 </div>
             </div>
 
@@ -69,8 +71,6 @@ if (window.localStorage.getItem("movieInfo")) {
         <div id="similarMoviesContainer"></div>
     </div>
     `;
-
-    // Fixa filmer som saknar backdrop poster
 
     const similarMoviesContainer = document.getElementById("similarMoviesContainer");
 
@@ -102,5 +102,82 @@ if (window.localStorage.getItem("movieInfo")) {
             window.location = "index.html";
         })
     });
+
+    // Klick-event för "like"
+    const heart = document.querySelector(".heart");
+
+    heart.addEventListener("click", async (event) => {
+        event.preventDefault();
+
+        heart.classList.toggle("filled");
+
+        if (heart.classList.contains("filled")) {
+            heart.src = "../../media/icons/filled_heart.png";
+        } else {
+            heart.src = "../../media/icons/unfilled_heart.png";
+
+            const movieId = movie.id;
+
+            // movieId, token, action (liked/watched)
+            const request = new Request("../../api/doActivity.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    movieId: movieId,
+                    token: token,
+                    action: "liked"
+                })
+            });
+
+            const response = await fetch(request);
+            const amountOfLikes = await response.json();
+
+            console.log(amountOfLikes);
+
+            document.getElementById("likedAmount").textContent = amountOfLikes;
+        }
+    })
+
+    // Klick-eventet för "watched"-knappen
+    const watchedButton = document.getElementById("watchedButton");
+
+    let watched = false;
+
+    watchedButton.addEventListener("click", async (event) => {
+        event.preventDefault();
+
+        if (watched) {
+            // -1 från API:et?
+
+            window.alert("You've already watched this movie.");
+
+            return;
+        }
+
+        const movieId = movie.id;
+
+        // movieId, token, action (liked/watched)
+        const request = new Request("../../api/doActivity.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                movieId: movieId,
+                token: token,
+                action: "watched"
+            })
+        });
+
+        const response = await fetch(request);
+        const amountOfWatches = await response.json();
+
+        console.log(amountOfWatches);
+
+        document.getElementById("watchedAmount").textContent = amountOfWatches;
+
+        // Tillfälligt för att inte kunna trycka "watched" fler gånger
+        watched = true;
+    });
 }
+
+
 
