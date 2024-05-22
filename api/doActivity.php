@@ -56,7 +56,7 @@ if ($requestMethod == "POST") {
 
     $json = json_encode($userDatabase, JSON_PRETTY_PRINT);
     file_put_contents("users.json", $json);
-    send(201, $activity);
+    send(201, [$activity, $counter]);
 }
 
 else if ($requestMethod == "DELETE") {
