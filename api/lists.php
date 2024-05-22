@@ -69,6 +69,12 @@ else if ($requestMethod == "POST") {
         $listDatabase = getDatabase("lists.json");
         for ($i = 0; $i < count($listDatabase); $i++) {
             if ($listDatabase[$i]["id"] == $requestData["id"]) {
+
+                if (isset($requestData["backdropPath"])) {
+            
+                    $listDatabase[$i]["backdropPath"] = $requestData["backdropPath"];
+                    
+                }
                 
                 foreach ($listDatabase[$i]["items"] as $item) {
                     if ($item == $requestData["movieId"]){
@@ -96,16 +102,6 @@ else if ($requestMethod == "POST") {
         $json = json_encode($listDatabase, JSON_PRETTY_PRINT);
         file_put_contents("lists.json", $json);
         send(201, $requestData["movieId"]);
-    }
-
-    if (isset($requestData["backdropPath"])) {
-        $listDatabase = getDatabase("lists.json");
-
-        for ($i = 0; $i < count($listDatabase); $i++) {
-            if ($listDatabase[$i]["id"] == $requestData["id"]) {
-                $listDatabase[$i]["backdropPath"][] = $requestData["backdropPath"];
-            }
-        }
     }
 
     $newListKeys = ["name", "description"]; 
