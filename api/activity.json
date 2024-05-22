@@ -213,5 +213,15 @@
         "movieId": 7451,
         "userId": 2,
         "action": "has watched"
+    },
+    {
+        "movieId": 7451,
+        "userId": 2,
+        "action": "has liked"
+    },
+    {
+        "movieId": 7451,
+        "userId": 2,
+        "action": "has watched"
     }
 ]

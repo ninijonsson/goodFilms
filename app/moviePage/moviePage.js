@@ -170,6 +170,8 @@ if (window.localStorage.getItem("movieInfo")) {
         const response = await fetch(request);
         const amountOfWatches = await response.json();
 
+        // response.status === 404 amountOfWatches = 0;
+
         console.log(amountOfWatches);
 
         document.getElementById("watchedAmount").textContent = amountOfWatches;
