@@ -211,18 +211,6 @@ function removeUserLists($user)
 
     $json = json_encode($listDatabase, JSON_PRETTY_PRINT);
     file_put_contents("lists.json", $json);
-        // If the user created the list, remove it completely
-    
-        // } else {
-            
-            // Otherwise we'll see if they liked it and only remove their like
-            // foreach ($game["likes"] as $likeIndex => $like) { 
-            //     // Remember that each like is represented as a user_id
-            //     if ($userId == $like) {
-            //         array_slice($game["likes"], $likeIndex, 1);
-            //         $game[$gameIndex] = $game;
-            //     }
-            // }
  }
 
 function logActivity ($activity) {
