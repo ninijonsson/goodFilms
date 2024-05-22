@@ -21,14 +21,19 @@ renderHeader();
 // Gör om till Promise.all()
 async function fetchMovies(type) {
     const fetchPromises = [];
+    let maxMovies = 0;
 
-    for (let i = 0; i < 5; i++) {
+    if (user[type].length < 5) {
+        maxMovies = user[type].length;
+    } else {
+        maxMovies = 5;
+    }
+
+    for (let i = 0; i < maxMovies; i++) {
         fetchPromises.push(fetch(`https://api.themoviedb.org/3/movie/${user[type][i]}?language=en-US`, options).then(response => response.json()))
     }
 
     const movies = await Promise.all(fetchPromises);
-
-    console.log();
 
     return movies;
 }
@@ -174,7 +179,11 @@ const watchedPosters = document.getElementById("watchedPosters");
 
 const watchedMovies = await fetchMovies("watched");
 
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < watchedMovies.length; i++) {
+    if (watchedMovies[i].poster_path === undefined) {
+        continue;
+    }
+
     watchedPosters.innerHTML += `
         <img class="movie" id="watched_${i}" src="https://image.tmdb.org/t/p/original/${watchedMovies[i].poster_path}">
     `;
@@ -185,7 +194,13 @@ const likedPosters = document.getElementById("likedPosters");
 
 const likedMovies = await fetchMovies("liked");
 
-for (let i = 0; i < 5; i++) {
+console.log(likedMovies);
+
+for (let i = 0; i < likedMovies.length; i++) {
+    if (likedMovies[i].poster_path === undefined) {
+        continue;
+    }
+
     likedPosters.innerHTML += `
         <img class="movie" id="liked_${i}" src="https://image.tmdb.org/t/p/original/${likedMovies[i].poster_path}">
     `;
@@ -214,7 +229,7 @@ const listPosters = document.getElementById("listPosters");
 
 for (let i = 0; i < lists.length; i++) {
     listPosters.innerHTML += `
-        <img class="listPoster" id="${lists[i].id}" src="${lists[i].posterPath}">
+        <img class="listPoster" id="${lists[i].id}" src="${lists[i].backdropPath}">
         <h5 id="listTitle">${lists[i].name}</h5>
         <p id="listDescription">${lists[i].description}</p>
     `;

@@ -19,7 +19,7 @@ export function renderHeader() {
     renderHamburgerMenu();
 
     header.innerHTML += `
-        <p>goodFilms</p>
+        <img src="../../media/icons/logo.svg"></img>
     `;
 
     const hamburgerMenu = document.getElementById("hamburgerContainer");

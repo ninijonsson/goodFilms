@@ -41,3 +41,7 @@ header {
 #closeButton {
     font-weight: bolder;
 }
+
+header img {
+    height: 58%;
+}
