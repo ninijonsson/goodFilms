@@ -1,3 +1,24 @@
+#wrapper {
+    margin: 18px;
+}
+
+#welcomeText {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+#activityTitle {
+    margin-bottom: 8px;
+}
+
+#activityLine {
+    margin-bottom: 20px;
+}
+
+span {
+    font-weight: 900;
+}
+
 .movie {
     width: 95%;
     border-radius: var(--border_radius_small);
@@ -6,4 +27,16 @@
 #movieContainer {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+}
+
+.username {
+    margin: 2px auto;
+}
+
+.statusText {
+    margin: 0 auto;
+    margin-bottom: 20px;
+    /* padding-right: 5px; */
+
+    font-style: italic;
 }

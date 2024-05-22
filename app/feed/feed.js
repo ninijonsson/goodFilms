@@ -21,8 +21,8 @@ async function renderFeed(parentID) {
         <h1 id="welcomeText">WELCOME, <span>${user.displayName.toUpperCase()}!</span></h1>
 
         <div id="activityFeed">
-            <h2>ACTIVITY FROM FRIENDS</h2>
-            <hr>
+            <h2 id="activityTitle">ACTIVITY FROM FRIENDS</h2>
+            <hr id="activityLine">
 
             <div id="activityContainer">
                 <div id="movieContainer">
@@ -65,9 +65,9 @@ async function renderFeed(parentID) {
         movieContainer.innerHTML += `
             <div class="activityInfo">
                 <img class="movie" id="${movie.id}" src="https://image.tmdb.org/t/p/original/${movie.poster_path}"></img>
-                <img id="profilePicture" src=""></img>
-                <p id="username">@${friend.username}</p>
-                <p id="statusText">${activities[i].action}</p>
+                <img class="profilePicture" src=""></img>
+                <p class="username">@${friend.username}</p>
+                <p class="statusText">${activities[i].action} <span>${movie.title}</span></p>
             </div>     
         `;
     }
