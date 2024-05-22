@@ -4,11 +4,25 @@ body {
 
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#top {
     position: relative;
+    bottom: 200px;
 }
 
 #logoFont {
-    font-family: "Bodoni_Campanile_Five";
+    font-family: "Normande";
+    font-size: 50px;
+
+    position: absolute;
+    top: 42px;
+}
+
+#topLine {
+    margin: ;
 }
 
 input {
@@ -28,8 +42,15 @@ input {
     font-weight: 100; 
     line-height: normal;
     color: rgba(237, 237, 237, 0.70);
+
+    /* position: relative; */
+    top: 300px;
+}
+
+#username {
+    margin-bottom: 50px;
 }
 
 button {
-    position: absolute;
+    /* position: relative; */
 }
