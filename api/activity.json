@@ -313,5 +313,65 @@
         "movieId": 280,
         "userId": 2,
         "action": "has watched"
+    },
+    {
+        "movieId": 786892,
+        "userId": 2,
+        "action": "has liked"
+    },
+    {
+        "movieId": 786892,
+        "userId": 2,
+        "action": "has liked"
+    },
+    {
+        "movieId": 786892,
+        "userId": 2,
+        "action": "has liked"
+    },
+    {
+        "movieId": 786892,
+        "userId": 2,
+        "action": "has liked"
+    },
+    {
+        "movieId": 786892,
+        "userId": 2,
+        "action": "has liked"
+    },
+    {
+        "movieId": 786892,
+        "userId": 2,
+        "action": "has liked"
+    },
+    {
+        "movieId": 534,
+        "userId": 2,
+        "action": "has liked"
+    },
+    {
+        "movieId": 534,
+        "userId": 2,
+        "action": "has watched"
+    },
+    {
+        "movieId": 534,
+        "userId": 2,
+        "action": "has liked"
+    },
+    {
+        "movieId": 534,
+        "userId": 2,
+        "action": "has liked"
+    },
+    {
+        "movieId": 786892,
+        "userId": 2,
+        "action": "has liked"
+    },
+    {
+        "movieId": 786892,
+        "userId": 2,
+        "action": "has liked"
     }
 ]

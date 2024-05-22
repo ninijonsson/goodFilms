@@ -16,12 +16,7 @@
     },
     {
         "movieId": 786892,
-        "liked": 53,
-        "watched": 62
-    },
-    {
-        "movieId": 280,
-        "liked": 2,
-        "watched": 1
+        "liked": -1,
+        "watched": 60
     }
 ]
