@@ -8,7 +8,21 @@ body {
 }
 
 .movie {
-    width: 200px;
+    width: 31%;
     border-radius: 5px;
     margin: 2px;
+}
+
+select[name='sortBy'] {
+    font-family: "Alte Haas Grotesk";
+    color: var(--font_color);
+    background-color: var(--button_background);
+    filter: var(--button_drop_shadow);
+    border-radius: var(--border_radius_small);
+    border: 1px solid black;
+    padding: 7px;
+    font-size: 14px;
+
+    margin-bottom: 20px;
+    margin-top: 10px;
 }
