@@ -1,0 +1,9 @@
+.movie {
+    width: 95%;
+    border-radius: var(--border_radius_small);
+}
+
+#movieContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}

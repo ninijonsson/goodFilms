@@ -1,4 +1,5 @@
 import { renderHeader } from "../../global/components/header/header.js"
+import { fetcher } from "../../global/logic/fetcher.js"
 
 // Gör om till global variabel
 const options = {
@@ -11,24 +12,13 @@ const options = {
 
 const token = "c62f39ace22172680875af13e02f6a6313ea1125";
 
-async function getMyLists() {
-    const response = await fetch(`../../api/lists.php?user=${token}`);
-    const lists = await response.json();
-
-    return lists;
-}
-
-async function getUsersLists() {
-    const response = await fetch(`../../api/lists.php`);
-    const lists = await response.json();
-
-    return lists;
-}
-
 // Om tid finns, gör search, annars ta bort
 
-const usersLists = await getUsersLists();
-const myLists = await getMyLists();
+const usersRequest = new Request(`../../api/lists.php`, options);
+const usersLists = await fetcher(usersRequest);
+
+const myRequest = new Request(`../../api/lists.php?user=${token}`, options);
+const myLists = await fetcher(myRequest);
 
 renderHeader();
 
