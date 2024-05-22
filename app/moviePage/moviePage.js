@@ -9,6 +9,8 @@ const options = {
     }
 };
 
+const token = "c62f39ace22172680875af13e02f6a6313ea1125";
+
 async function getWatchedAndLiked(movieId) {
     const response = await fetch(`../../api/getInteraction.php?movieId=${movieId}`);
 
@@ -17,7 +19,15 @@ async function getWatchedAndLiked(movieId) {
     return data;
 }
 
-const token = "c62f39ace22172680875af13e02f6a6313ea1125";
+async function getUser() {
+    const response = await fetch(`../../api/users.php?user=${token}`);
+    const resource = await response.json();
+
+    return resource;
+}
+
+const user = await getUser();
+console.log(user);
 
 renderHeader();
 
@@ -39,8 +49,6 @@ if (window.localStorage.getItem("movieInfo")) {
     if (data.liked === undefined) {
         data.liked = 0;
     }
-
-    console.log(data);
 
     // För att fixa när production company är undefined
     let productionCompany = "";
@@ -128,6 +136,10 @@ if (window.localStorage.getItem("movieInfo")) {
     // Klick-event för "like"
     const heart = document.querySelector(".heart");
 
+    if (user.watched.includes(movie.id)) {
+        heart.src = "../../media/icons/filled_heart.png";
+    }
+
     heart.addEventListener("click", async (event) => {
         event.preventDefault();
 
@@ -175,7 +187,7 @@ if (window.localStorage.getItem("movieInfo")) {
 
             console.log(amountOfLikes);
 
-            document.getElementById("likedAmount").textContent = data.liked - 1;
+            document.getElementById("likedAmount").textContent = data.liked;
         }
     })
 
@@ -187,15 +199,32 @@ if (window.localStorage.getItem("movieInfo")) {
     watchedButton.addEventListener("click", async (event) => {
         event.preventDefault();
 
-        if (watched) {
-            // -1 från API:et?
+        const movieId = movie.id;
 
-            window.alert("You've already watched this movie.");
+        if (watched) {
+            const request = new Request("../../api/doActivity.php", {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    movieId: movieId,
+                    token: token,
+                    action: "watched"
+                })
+            });
+
+            const response = await fetch(request);
+            const amountOfWatches = await response.json();
+
+            console.log(amountOfWatches);
+
+            document.getElementById("watchedAmount").textContent = data.watched;
+
+            window.alert("Removed movie from your watched.");
+
+            watched = false;
 
             return;
         }
-
-        const movieId = movie.id;
 
         // movieId, token, action (liked/watched)
         const request = new Request("../../api/doActivity.php", {
@@ -209,9 +238,9 @@ if (window.localStorage.getItem("movieInfo")) {
         });
 
         const response = await fetch(request);
-        const amountOfWatches = await response.json();
+        // const amountOfWatches = await response.json();
 
-        console.log(amountOfWatches);
+        // console.log(amountOfWatches);
 
         document.getElementById("watchedAmount").textContent = data.watched + 1;
 
