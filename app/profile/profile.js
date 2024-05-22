@@ -69,8 +69,8 @@ wrapper.innerHTML = `
         </div>
 
         <div id="followContainer">
-            <p id="followers"></p>
-            <p id="following"></p>
+            <p id="followers">${user.followers.length} Followers</p>
+            <p id="following">${user.following.length} Following</p>
         </div>
 
         <hr id="followerLine">
