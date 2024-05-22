@@ -8,9 +8,22 @@ body {
     align-items: center;
 }
 
+#wrapper {
+    height: 100%;
+    width: 101%;
+
+    display: grid;
+    grid-template-rows: 0.5fr 1px 1fr 1px;
+}
+
 #top {
     position: relative;
-    bottom: 200px;
+    grid-row: 1;
+
+    margin: auto;
+
+    display: flex;
+    align-items: center;
 }
 
 #logoFont {
@@ -22,7 +35,24 @@ body {
 }
 
 #topLine {
-    margin: ;
+    grid-row: 2;
+    width: 100%;
+    height: 0;
+}
+
+#bottom {
+    grid-row: 3;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+}
+
+#inputFields {
+    display: flex;
+    flex-direction: column;
 }
 
 input {
@@ -43,14 +73,35 @@ input {
     line-height: normal;
     color: rgba(237, 237, 237, 0.70);
 
-    /* position: relative; */
-    top: 300px;
+    padding-left: 10px;
 }
 
 #username {
     margin-bottom: 50px;
 }
 
+#bottomLine {
+    grid-row: 2;
+    width: 100%;
+    height: 0;
+    margin-bottom: 100px;
+}
+
 button {
-    /* position: relative; */
+    margin-top: 100px;
+    margin-right: 20px;
+
+    font-family: "Alte Haas Grotesk";
+    color: var(--font_color);
+    background-color: var(--button_background);
+    filter: var(--button_drop_shadow);
+    border-radius: var(--border_radius_small);
+    border: 1px solid black;
+    padding: 7px 26px;
+    font-size: 22px;
+}
+
+a {
+    font-style: italic;
+    color: var(--font_color);
 }

@@ -2,17 +2,22 @@ function renderLogIn (parentID) {
     const DOM = document.getElementById(parentID);
     DOM.innerHTML = `
     <div id="top">
-        <img id="logoImg" src="../../media/icons/logo.svg">
-        <h1 id="logoFont">goodFilms</h1>
+        <div id="logo">
+            <img id="logoImg" src="../../media/icons/logo.svg">
+            <h1 id="logoFont">goodFilms</h1>
+        </div>
     </div>
     <hr id="topLine">
     <div id="bottom">
-        <input type="text" name="username" placeholder="username" id="username">
-        <input type="password" name="password" placeholder="password" id="password">
-    <div id="bottom>
+        <div id="inputFields">
+            <input type="text" name="username" placeholder="username" id="username">
+            <input type="password" name="password" placeholder="password" id="password">
+        </div>
+        
         <button id="logIn">LOG IN</button>
         <h3>Not a memeber? <a id="registerLink" href="../register">Register</a></h3>
-    <hr id="bottomLine">
+        <hr id="bottomLine">
+    </div>
     `;
 
     // const registerBttn = document.getElementById("registerBttn");
