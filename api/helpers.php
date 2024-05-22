@@ -231,7 +231,7 @@ function updateInteractionCount ($interaction) {
             if ($interaction["method"] == "POST") {
                 $count = ($movie[$action] + 1);
             } else if ($interaction["method"] == "DELETE") {
-                $count = ($movie[$aciton] - 1);
+                $count = ($movie[$action] - 1);
             }
 
             if ($action == "liked") {
