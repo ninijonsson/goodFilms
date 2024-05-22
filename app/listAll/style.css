@@ -1,0 +1,89 @@
+#wrapper {
+    margin: 18px;
+}
+
+.listPoster {
+    width: 100%;
+    border-radius: var(--border_radius_small);
+}
+
+#listTitle {
+    font-size: 24px;
+    margin: 0;
+    margin-top: 10px;
+}
+
+#listDescription {
+    font-family: "Crimson";
+    color: var(--description_font_color);
+    margin: 10px 0;
+    margin-bottom: 40px;
+}
+
+#newTextContainer,
+#myTextContainer {
+    display: flex;
+    justify-content: space-between;
+    height: 50px;
+}
+
+#myLists,
+#whatsNew {
+    font-size: 22px;
+}
+
+#showAllNewLists,
+#showAllMy {
+    font-size: 18px;
+    color: #B4B5B9;
+    font-style: italic;
+
+    cursor: pointer;
+}
+
+#createNewListContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0px 17px;
+    margin: 20px 0;
+
+    border: 2px dotted var(--font_color);
+}
+
+#createNewList {
+    font-size: 18px;
+}
+
+#addNewList {
+    font-size: 36px;
+    margin: 0;
+}
+
+#searchList {
+    border-radius: 3px;
+    background: rgba(102, 119, 136, 0.50);
+    box-shadow: -2px -2px 0px 0px #656667 inset;
+    border: 1px solid black;
+    height: 30px;
+    padding-left: 7px;
+    width: 97%;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+#searchList::placeholder {
+    font-family: "Alte Haas Grotesk";
+    color: var(--font_color);
+    font-style: italic;
+}
+
+#newLine,
+#myLine {
+    margin-bottom: 14px;
+}
+
+#shortLine {
+    width: 50%;
+    margin: 70px auto;
+}

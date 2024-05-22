@@ -11,16 +11,24 @@ const options = {
 
 const token = "c62f39ace22172680875af13e02f6a6313ea1125";
 
-async function getUsersLists() {
+async function getMyLists() {
     const response = await fetch(`../../api/lists.php?user=${token}`);
     const lists = await response.json();
 
     return lists;
 }
 
-const lists = await getUsersLists();
+async function getUsersLists() {
+    const response = await fetch(`../../api/lists.php`);
+    const lists = await response.json();
 
-console.log(lists);
+    return lists;
+}
+
+// Om tid finns, gör search, annars ta bort
+
+const usersLists = await getUsersLists();
+const myLists = await getMyLists();
 
 renderHeader();
 
@@ -33,10 +41,10 @@ wrapper.innerHTML = `
         
         <div id="createNewListContainer">
             <h2 id="createNewList">CREATE NEW LIST</h2>
-            <p id="addNewList">X</p>
+            <p id="addNewList">+</p>
         </div>
 
-        <hr>
+        <hr id="createLine">
     </div>
 
     <div id="whatsNewContainer">
@@ -45,7 +53,7 @@ wrapper.innerHTML = `
             <h4 id="showAllNewLists">SHOW ALL</h4>
         </div>
 
-        <hr>
+        <hr id="newLine">
 
         <div id="newListPosters"></div>
 
@@ -55,11 +63,11 @@ wrapper.innerHTML = `
 
     <div id="myListsContainer">
         <div id="myTextContainer">
-            <h2 id="createNewList">MY LISTS</h2>
-            <p id="addNewList">SHOW ALL</p>
+            <h2 id="myLists">MY LISTS</h2>
+            <p id="showAllMy">SHOW ALL</p>
         </div>
 
-        <hr>
+        <hr id="newLine">
 
         <div id="myListPosters"></div>
 
@@ -69,10 +77,37 @@ wrapper.innerHTML = `
 // SHOW "WHAT'S NEW?" LISTS
 const newListPosters = document.getElementById("newListPosters");
 
-for (let i = 0; i < lists.length; i++) {
+let maxNew = 0;
+
+if (usersLists.length < 3) {
+    maxNew = usersLists.length;
+} else {
+    maxNew = 3;
+}
+
+for (let i = 0; i < maxNew; i++) {
     newListPosters.innerHTML += `
-        <img class="listPoster" id="${lists[i].id}" src="${lists[i].backdropPath}">
-        <h5 id="listTitle">${lists[i].name}</h5>
-        <p id="listDescription">${lists[i].description}</p>
+        <img class="listPoster" id="${usersLists[i].id}" src="${usersLists[i].backdropPath}">
+        <h5 id="listTitle">${usersLists[i].name}</h5>
+        <p id="listDescription">${usersLists[i].description}</p>
+    `;
+}
+
+// SHOW MY LISTS
+const myListPosters = document.getElementById("myListPosters");
+
+let maxMy = 0;
+
+if (myLists.length < 3) {
+    maxMy = myLists.length;
+} else {
+    maxMy = 3;
+}
+
+for (let i = 0; i < maxMy; i++) {
+    myListPosters.innerHTML += `
+        <img class="listPoster" id="${myLists[i].id}" src="${myLists[i].backdropPath}">
+        <h5 id="listTitle">${myLists[i].name}</h5>
+        <p id="listDescription">${myLists[i].description}</p>
     `;
 }
