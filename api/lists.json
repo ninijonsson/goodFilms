@@ -6,12 +6,12 @@
         "favCount": 0,
         "itemCount": 0,
         "items": [],
-        "posterPath": "",
+        "posterPath": "/lVnUdJ7nqho86UievvSr1LpfU6k.jpg",
         "id": 225
     },
     {
         "name": "testiiiing",
-        "description": "testiiiing this desc change",
+        "description": "testiiiing this desc change testiiiing this desc change testiiiing this desc change",
         "createdBy": 2,
         "favCount": 0,
         "itemCount": 3,
@@ -20,7 +20,7 @@
             11111,
             22222222
         ],
-        "posterPath": "",
+        "posterPath": "/lVnUdJ7nqho86UievvSr1LpfU6k.jpg",
         "id": 226
     }
 ]

@@ -1,12 +1,14 @@
 import { PubSub } from "../../global/logic/PubSub.js";
-import {fetcher} from '../../global/logic/fetcher.js';
+import { fetcher } from '../../global/logic/fetcher.js';
+
+
 
 async function renderList (parentID) {
     const container = document.getElementById(parentID);
 
     container.innerHTML =   `<div id="headerContainer">
                                 <h1>YOUR LISTS</h1>
-                                <button id="addListBtn">+</button>
+                                <img id="addListBtn" src="../../media/icons/plus_btn.svg"></button>
                             </div>
                             <div id="listsContainer">
 
@@ -17,40 +19,37 @@ async function renderList (parentID) {
 
     const token = "c62f39ace22172680875af13e02f6a6313ea1125";
 
-    let user = await fetcher(`../../api/lists.php`);
+    let userLists = await fetcher(`../../api/lists.php?user=${token}`);
 
-    console.log(user);
-    
+    console.log(userLists);
 
-    if (userLists === []) {
+    if (userLists === [] || !userLists) {
         listsContainer.innerHTML = `<p>You have not created any lists yet. Get started now!</p>`;
         return;
     }
 
-    let lists = [];
+    for (let list of userLists) {
+        let singleList = await fetcher(`../../api/lists.php?user=${token}&id=${list.id}`);
+        console.log(singleList);
 
-        //Same as previous comment
-    _state.lists.forEach( list => {
-        if (userLists.includes(list.id)) {
-            lists.push(list);
-        }
-    });
-
-        //Same, alter keys depending on DB
-    for (let list of lists) {
-        listsContainer.innerHTML = `
-            <div id="singleListContainer${list.id}">
-                <img src="https://image.tmdb.org/t/p/original/${list.poster_path}">
-                <h2 id="listName">${list.name}</h2>
-                <h3 id="username">Created by: ${list.createdBy}></h3>
-                <p>DESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTION</p>
-                <button id="edit">EDIT</button>
+        listsContainer.innerHTML += `
+            <div id="${singleList.id}" class="singleListContainer">
+                <div class="imgContainer">
+                    <img src="https://image.tmdb.org/t/p/original${singleList.posterPath}">
+                    <button class="edit">EDIT</button>
+                </div>
+                <div class="listInfo">
+                    <h2 id="listName">${singleList.name}</h2>
+                    <h3 id="username">Created by: ${singleList.createdBy}</h3>
+                    <p>${singleList.description}</p>
+                </div>
+                
             </div>
         `;
 
-        const listContainer = document.querySelector(`#singleListContainer${list.id}`);
+        const popupBtn = document.querySelector("#addListBtn");
 
-        listContainer.addEventListener("click", renderSingleList);
+        popupBtn.addEventListener("click", addListPopup);
     }
 }
 
