@@ -51,6 +51,9 @@ if ($requestMethod == "GET") {
         send(200, $lists);
 
     }
+
+    $listDatabase = getDatabase("lists.json");
+    send(201, $listDatabase);
 }
 
 //skapa lista (token required)
