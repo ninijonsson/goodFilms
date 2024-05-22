@@ -6,7 +6,7 @@
         "favCount": 0,
         "itemCount": 0,
         "items": [],
-        "backdropPath": "",
+        "backdropPath": "../../media/icons/hello_kitty.png",
         "id": 225
     },
     {
@@ -22,7 +22,7 @@
             3333,
             22
         ],
-        "backdropPath": "",
+        "backdropPath": "../../media/icons/test_backdrop_profile.jpeg",
         "id": 226
     }
 ]

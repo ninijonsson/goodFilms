@@ -14,7 +14,7 @@ let movieRatings = [];
 const wrapper = document.getElementById("wrapper");
 
 wrapper.innerHTML = `
-    <h1 id="title">SHOWING ONLY MOVIES</h1>
+    <h1 id="title">MOVIE RESULTS</h1>
     <hr>
     <select name="sortBy">
         <option>SORT BY</option>

@@ -30,8 +30,6 @@ async function fetchMovie(i) {
 
 const user = await getUser();
 
-console.log(user.watched);
-
 const wrapper = document.getElementById("wrapper");
 
 wrapper.innerHTML = `
@@ -47,9 +45,13 @@ wrapper.innerHTML = `
 const moviesContainer = document.getElementById("moviesContainer");
 
 for (let i = 0; i < user.watched.length; i++) {
+    // Gör till Promise.all();
     const movie = await fetchMovie(i);
 
-    console.log(movie);
+    // Vissa filmer saknar poster, skippa dem
+    if (movie.poster_path === undefined) {
+        continue;
+    }
 
     moviesContainer.innerHTML += `
         <img class="movie" id="${movie.id}" src="https://image.tmdb.org/t/p/original/${movie.poster_path}">
