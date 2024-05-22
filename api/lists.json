@@ -6,7 +6,7 @@
         "favCount": 0,
         "itemCount": 0,
         "items": [],
-        "posterPath": "../../media/icons/hello_kitty.png",
+        "backdropPath": "",
         "id": 225
     },
     {
@@ -14,13 +14,15 @@
         "description": "testiiiing this desc change",
         "createdBy": 2,
         "favCount": 0,
-        "itemCount": 3,
+        "itemCount": 5,
         "items": [
             444,
             11111,
-            22222222
+            22222222,
+            3333,
+            22
         ],
-        "posterPath": "../../media/icons/test_backdrop_profile.jpeg",
+        "backdropPath": "",
         "id": 226
     }
 ]
