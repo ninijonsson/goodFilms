@@ -1,0 +1,17 @@
+[
+    {
+        "movieId": 666,
+        "likedCount": 1,
+        "watchedCount": 1
+    },
+    {
+        "movieId": 11111111,
+        "liked": 0,
+        "watched": 1
+    },
+    {
+        "movieId": 3333,
+        "liked": 2,
+        "watched": 2
+    }
+]

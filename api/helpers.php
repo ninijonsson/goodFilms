@@ -222,10 +222,10 @@ function logActivity ($activity) {
  }
 
 function updateInteractionCount ($activityCounter) {
-    $movieCounter = getDatabase("counter.json");
+    $interactionDatabase = getDatabase("interaction.json");
     $action = $activityCounter["action"];
     
-    foreach($movieCounter as &$movie){
+    foreach($interactionDatabase as &$movie){
         if ($movie["movieId"] == $activityCounter["movieId"]){
             $count = ($movie[$action] + 1);
 
@@ -235,8 +235,8 @@ function updateInteractionCount ($activityCounter) {
                 $movie["watched"] = $count;
             }
 
-            $json = json_encode($movieCounter, JSON_PRETTY_PRINT);
-            file_put_contents("counter.json", $json);
+            $json = json_encode($interactionDatabase, JSON_PRETTY_PRINT);
+            file_put_contents("interaction.json", $json);
             return;
         }
     }
@@ -247,8 +247,8 @@ function updateInteractionCount ($activityCounter) {
         "watched" =>  ($action == "watched") ? 1 : 0
     ];
 
-    $movieCounter[] = $movieLog;
-    $json = json_encode($movieCounter, JSON_PRETTY_PRINT);
-    file_put_contents("counter.json", $json);
+    $interactionDatabase[] = $movieLog;
+    $json = json_encode($interactionDatabase, JSON_PRETTY_PRINT);
+    file_put_contents("interaction.json", $json);
 }
 ?>
