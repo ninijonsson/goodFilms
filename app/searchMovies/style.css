@@ -8,7 +8,9 @@ body {
 }
 
 .movie {
-    width: 200px;
+    width: 31%;
     border-radius: 5px;
     margin: 2px;
+
+    cursor: pointer;
 }

@@ -81,7 +81,7 @@ export function renderHeader() {
         profileButton.addEventListener("click", (event) => {
             removeHamburgerContainer(event);
 
-            window.location = "../profile/index.html"; // Hänvisa till rätt sökväg
+            window.location = "../../../app/profile/index.html"; // Hänvisa till rätt sökväg
         })
 
         // Gå till "Search Movies"
@@ -89,7 +89,7 @@ export function renderHeader() {
         searchMoviesButton.addEventListener("click", (event) => {
             removeHamburgerContainer(event);
 
-            window.location = "../searchMovies/index.html"; // Hänvisa till rätt sökväg
+            window.location = "../../../app/searchMovies/index.html"; // Hänvisa till rätt sökväg
         })
 
         // Gå till listorna

@@ -1,0 +1,18 @@
+#wrapper {
+    margin: 10px;
+}
+
+#showAll {
+    margin: 28px 5px;
+}
+
+hr {
+    margin-bottom: 14px;
+}
+
+.movie {
+    width: 120px;
+    border-radius: var(--border_radius_small);
+
+    cursor: pointer;
+}

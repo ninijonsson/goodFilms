@@ -15,7 +15,7 @@
     {
         "id": 2,
         "username": "Luci",
-        "displayName": "Luci",
+        "displayName": "laki",
         "password": "WDU123!",
         "liked": [
             11111111,
@@ -23,6 +23,46 @@
         ],
         "watched": [
             3333
+            222,
+            123,
+            679,
+            1892,
+            12,
+            217527,
+            217527,
+            882059,
+            882059,
+            882059,
+            7451,
+            7451,
+            280,
+            280,
+            534,
+            534,
+            786892,
+            786892,
+            786892,
+            786892,
+            534034
+        ],
+        "watched": [
+            742,
+            231,
+            2314,
+            553,
+            555,
+            13,
+            16,
+            7451,
+            7451,
+            7451,
+            7451,
+            280,
+            534,
+            786892,
+            786892,
+            786892,
+            534034
         ],
         "lists": [
             226,
@@ -30,7 +70,7 @@
         ],
         "following": [],
         "followers": [],
-        "avatar": "pathway",
-        "header": "pathway"
+        "avatar": "..\/..\/media\/icons\/profile_picture.png",
+        "header": "..\/..\/media\/icons\/test_backdrop_profile.jpeg"
     }
 ]

@@ -1,5 +1,5 @@
-import { renderHeader } from "../header/header.js"
-import { PubSub } from "../../logic/PubSub.js"
+import { renderHeader } from "../../global/components/header/header.js"
+import { PubSub } from "../../global/logic/PubSub.js"
 
 const options = {
     method: "GET",
