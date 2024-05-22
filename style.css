@@ -37,15 +37,9 @@
     src: url("media/fonts/crimson/CrimsonText-Regular.ttf");
 }
 
-/* LOGO FONT */
-@font-face {
-    font-family: "Bodoni_Campanile_Five";
-    src: url("media/fonts/bodoni_campanile_five/OPTIBodoniCampanileFive.otf");
-}
-
 body {
     margin: 0;
-    background: var(--background_color);
+    background-image: var(--background_color);
     font-family: "Alte Haas Grotesk";
     color: var(--font_color);
 }
