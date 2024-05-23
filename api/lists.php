@@ -201,6 +201,11 @@ else if ($requestMethod == "PATCH")
         $list["description"] = $requestData["description"];
     }
 
+    //Change "backdropPath"
+    if (isset($requestData["backdropPath"])) {
+        $list["backdropPath"] = $requestData["backdropPath"];
+    }
+
     $updatedList = updateItemByType("lists.json", $list);
     send(200, $updatedList);
 }
