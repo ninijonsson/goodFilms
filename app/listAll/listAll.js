@@ -1,21 +1,31 @@
-import { renderHeader } from "../../global/components/header/header.js";
-import { fetcher } from "../../global/logic/fetcher.js";
 import { options } from "../../state.js";
 import { token } from "../../state.js";
+import { PubSub } from "../../../global/logic/PubSub.js";
+import { STATE } from "../../state.js";
+
 
 // Om tid finns, gör search, annars ta bort
 
-const usersRequest = new Request(`../../api/lists.php`, options);
-const usersLists = await fetcher(usersRequest);
+PubSub.subscribe({
+    event: "renderListAll",
+    listener: (detail) => renderListAll(detail)
+});
 
-const myRequest = new Request(`../../api/lists.php?user=${token}`, options);
-const myLists = await fetcher(myRequest);
+async function renderListAll(parentID) {
+    const usersRequest = new Request(`../../api/lists.php`, options);
+    const usersLists = await STATE.get("allLists", usersRequest);
 
-renderHeader();
+    console.log(usersLists);
+    // const usersLists = await fetcher(usersRequest);
 
-const wrapper = document.getElementById("wrapper");
+    const myRequest = new Request(`../../api/lists.php?user=${token}`, options);
+    const myLists = await STATE.get("myLists", myRequest);
 
-wrapper.innerHTML = `
+    // renderHeader();
+
+    const wrapper = document.getElementById(parentID);
+
+    wrapper.innerHTML = `
     <div id="upperContainer">
         <input id="searchList" placeholder="SEARCH FOR LISTS">
         <hr>
@@ -55,40 +65,41 @@ wrapper.innerHTML = `
     </div>
 `;
 
-// SHOW "WHAT'S NEW?" LISTS
-const newListPosters = document.getElementById("newListPosters");
+    // SHOW "WHAT'S NEW?" LISTS
+    const newListPosters = document.getElementById("newListPosters");
 
-let maxNew = 0;
+    let maxNew = 0;
 
-if (usersLists.length < 3) {
-    maxNew = usersLists.length;
-} else {
-    maxNew = 3;
-}
+    if (usersLists.length < 3) {
+        maxNew = usersLists.length;
+    } else {
+        maxNew = 3;
+    }
 
-for (let i = 0; i < maxNew; i++) {
-    newListPosters.innerHTML += `
+    for (let i = 0; i < maxNew; i++) {
+        newListPosters.innerHTML += `
         <img class="listPoster" id="${usersLists[i].id}" src="${usersLists[i].backdropPath}">
         <h5 id="listTitle">${usersLists[i].name}</h5>
         <p id="listDescription">${usersLists[i].description}</p>
     `;
-}
+    }
 
-// SHOW MY LISTS
-const myListPosters = document.getElementById("myListPosters");
+    // SHOW MY LISTS
+    const myListPosters = document.getElementById("myListPosters");
 
-let maxMy = 0;
+    let maxMy = 0;
 
-if (myLists.length < 3) {
-    maxMy = myLists.length;
-} else {
-    maxMy = 3;
-}
+    if (myLists.length < 3) {
+        maxMy = myLists.length;
+    } else {
+        maxMy = 3;
+    }
 
-for (let i = 0; i < maxMy; i++) {
-    myListPosters.innerHTML += `
+    for (let i = 0; i < maxMy; i++) {
+        myListPosters.innerHTML += `
         <img class="listPoster" id="${myLists[i].id}" src="${myLists[i].backdropPath}">
         <h5 id="listTitle">${myLists[i].name}</h5>
         <p id="listDescription">${myLists[i].description}</p>
     `;
+    }
 }

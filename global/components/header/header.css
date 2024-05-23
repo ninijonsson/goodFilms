@@ -37,7 +37,7 @@ header {
 }
 
 #hamburgerMenuContainer>div {
-    margin: 20px 0;
+    margin: 18px 0;
     margin-left: 10px;
     font-size: var(--menu_opened_font_size);
     cursor: pointer;

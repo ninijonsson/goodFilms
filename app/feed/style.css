@@ -40,6 +40,8 @@ span {
     /* padding-right: 5px; */
 
     font-style: italic;
+    margin-right: 10px;
+    font-size: 14px;
 }
 
 .listPoster {

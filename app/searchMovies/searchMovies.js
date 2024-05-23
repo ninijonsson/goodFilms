@@ -1,20 +1,18 @@
-import { renderHeader } from "../../global/components/header/header.js"
 import { PubSub } from "../../global/logic/PubSub.js"
+import { STATE } from "../../state.js";
+import { options } from "../../state.js";
+import { token } from "../../state.js";
 
-const options = {
-    method: "GET",
-    headers: {
-        accept: "application/json",
-        Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1ZjJhYjRlMGQ2MWMxY2MxNDUzOTVmYjhmYWI1ZGZiMSIsInN1YiI6IjY2MThmMDVjMTA5Y2QwMDE2NWEzODEzYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Nj98FemKpT0B2H3wU6gj47MrwtNhMTHRQ4Z3om_-I5E"
-    }
-};
-
-renderHeader();
+PubSub.subscribe({
+    event: "renderSearchMovies",
+    listener: (detail) => renderSearchMovies(detail)
+})
 
 async function renderSearchMovies(parentID) {
     const parent = document.getElementById(parentID);
 
-    const movies = await getMovies();
+    const moviesRequest = new Request("https://api.themoviedb.org/3/trending/movie/day?language=en-US", options);
+    const movies = await STATE.get("trendingMovies", moviesRequest);
 
     parent.innerHTML = `
         <div id="searchContainer">
@@ -161,17 +159,3 @@ async function renderSearchMovies(parentID) {
         })
     });
 }
-
-async function getMovies() {
-    fetch("https://api.themoviedb.org/3/trending/movie/day?language=en-US", options)
-        .then(response => response.json())
-        .then(response => console.log(response))
-        .catch(err => console.error(err));
-
-    const response = await fetch("https://api.themoviedb.org/3/trending/movie/day?language=en-US", options);
-    const resource = await response.json();
-
-    return resource;
-}
-
-renderSearchMovies("wrapper");

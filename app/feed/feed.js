@@ -1,26 +1,28 @@
-import { renderHeader } from "../../global/components/header/header.js";
+import { PubSub } from "../../global/logic/PubSub.js";
+import { STATE } from "../../state.js";
 import { fetcher } from "../../global/logic/fetcher.js";
 import { options } from "../../state.js";
 import { token } from "../../state.js";
 
-renderHeader();
+PubSub.subscribe({
+    event: "renderFeed",
+    listener: (detail) => renderFeed(detail)
+});
 
 async function renderFeed(parentID) {
     const parent = document.getElementById(parentID);
 
     const userRequest = new Request(`../../api/users.php?user=${token}`, options);
-    const user = await fetcher(userRequest);
+    const user = await STATE.get("user", userRequest);
 
     const allUsersRequest = new Request(`../../api/users.php`, options);
-    const allUsers = await fetcher(allUsersRequest);
+    const allUsers = await STATE.get("allUsers", allUsersRequest);
 
     const activitesRequest = new Request(`../../api/getActivity.php`, options);
-    const activities = await fetcher(activitesRequest);
+    const activities = await STATE.get("allActivity", activitesRequest);
 
     const listRequest = new Request(`../../api/lists.php`, options);
-    const allLists = await fetcher(listRequest);
-
-    console.log(allLists);
+    const allLists = await STATE.get("allLists", listRequest);
 
     parent.innerHTML = `
         <h1 id="welcomeText">WELCOME, <span>${user.displayName.toUpperCase()}!</span></h1>
@@ -50,18 +52,18 @@ async function renderFeed(parentID) {
     const movieContainer = document.getElementById("movieContainer");
 
     let fetchPromises = [];
+    activities.reverse();
 
     for (let i = 0; i < 6; i++) {
         const request = new Request(`https://api.themoviedb.org/3/movie/${activities[i].movieId}?language=en-US`, options);
 
+        // STATE.get()?
         fetchPromises.push(
             fetcher(request)
         )
     }
 
     const results = await Promise.all(fetchPromises);
-
-    console.log(user);
 
     for (let i = 0; i < results.length; i++) {
         const movie = await results[i];
@@ -108,14 +110,4 @@ async function renderFeed(parentID) {
         <p id="listDescription">${allLists[i].description}</p>
     `;
     }
-}
-
-renderFeed("wrapper");
-
-function getActivityFromFriends(parentID) {
-
-}
-
-function getNewLists(parentID) {
-
 }

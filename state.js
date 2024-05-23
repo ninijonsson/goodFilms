@@ -1,3 +1,5 @@
+import { fetcher } from "./global/logic/fetcher.js";
+
 export const options = {
     method: "GET",
     headers: {
@@ -8,7 +10,26 @@ export const options = {
 
 export const token = "c62f39ace22172680875af13e02f6a6313ea1125";
 
-fetch("https://api.themoviedb.org/3/authentication", options)
-    .then(response => response.json())
-    .then(response => console.log(response))
-    .catch(err => console.error(err));
+let _state = {};
+
+function cloneData(data) {
+    return JSON.parse(JSON.stringify(data));
+}
+
+export const STATE = {
+    get: async (entity, request) => {
+        if (_state[entity]) {
+            return cloneData(_state[entity]);
+        }
+
+        const response = await fetcher(request);
+
+        if (!response) {
+            return console.log("Error in GET");
+        }
+
+        _state[entity] = response;
+        console.log(_state);
+        return STATE.get(entity);
+    }
+}; //getInternal & getExternal istället för att fetcha hela tiden i varje fil
