@@ -89,7 +89,7 @@ else if ($requestMethod == "POST") {
                 $itemCount = count($listDatabase[$i]["items"]);
                 $listDatabase[$i]["itemCount"] = $itemCount;
 
-                send(201, $movie);
+                send(201, $listDatabase[$i]);
                 break;
             }
         }
