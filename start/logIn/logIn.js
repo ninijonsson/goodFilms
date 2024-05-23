@@ -17,7 +17,7 @@ function renderLogIn (parentID) {
         </div>
 
         <button id="logIn">LOG IN</button>
-        <h3>Not a memeber? <a id="registerLink" href="../register">Register</a></h3>
+        <h3>Not a memeber? <a id="registerLink" href="../start/register">Register</a></h3>
         <hr id="bottomLine">
     </div>
     `;
@@ -45,6 +45,11 @@ function renderLogIn (parentID) {
             });
     
             let logInFetch = await fetcher(logInRqst);
+
+            if (logInFetch === undefined) {
+                window.alert("Ooops... login failed. Please, check that your username and password are correct.");
+            }
+
             let logInToken = await logInFetch.token;
             localStorage.setItem("token", logInToken);
 
@@ -71,8 +76,16 @@ function renderLogIn (parentID) {
                 });
         
                 let logInFetch = await fetcher(logInRqst);
+
+                if (logInFetch === undefined) {
+                    window.alert("Ooops... login failed. Please, check that your username and password are correct.");
+                }
+
                 let logInToken = await logInFetch.token;
                 localStorage.setItem("token", logInToken);
+
+                //pubSub Logged In Feed elr. window.location = "path/länk";
+                
             }
         }
     });

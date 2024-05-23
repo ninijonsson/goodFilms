@@ -1,3 +1,5 @@
+import {fetcher} from '../../global/logic/fetcher.js';
+
 function renderRegister (parentID) {
     const DOM = document.getElementById(parentID);
     DOM.innerHTML = `
@@ -17,7 +19,7 @@ function renderRegister (parentID) {
         </div>
 
         <button id="registerBttn">REGISTER</button>
-        <h3>Already a memeber? <a id="logInLink" href="../logIn">Log in</a></h3>
+        <h3>Already a memeber? <a id="logInLink" href="../start/logIn">Log in</a></h3>
         <hr id="bottomLine">
     </div>
     `;
@@ -46,6 +48,12 @@ function renderRegister (parentID) {
             });
     
             let registerFetch = await fetcher(registerRqst);
+
+            if (registerFetch === undefined) {
+                window.alert("Ooops... register failed. Please, try again.");
+            }
+            
+            //rederict till login!
         }
     });
 
@@ -73,13 +81,12 @@ function renderRegister (parentID) {
                 });
         
                 let registerFetch = await fetcher(registerRqst);
+                if (registerFetch === undefined) {
+                    window.alert("Ooops... register failed. Please, try again.");
+                }
+                //redirect till login!!
             }
         }
-    });
-
-    const logInBttn = document.getElementById("logInLink");
-    logInBttn.addEventListener("click", () => {
-        //.... omdirigera till loginsidan
     });
 }
 
