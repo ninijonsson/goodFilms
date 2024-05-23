@@ -2,7 +2,7 @@ import { PubSub } from "../../global/logic/PubSub.js";
 import { STATE } from "../../state.js";
 import { options } from "../../state.js";
 import { token } from "../../state.js";
-import {fetcher} from '../../global/logic/fetcher.js';
+import { fetcher } from '../../global/logic/fetcher.js';
 
 PubSub.subscribe({
     event: "renderProfile",
@@ -114,7 +114,7 @@ async function renderProfile(parentID) {
     
         <div id="listsContainer">
             <div id="yourListsContainer">
-                <h4 id="listsTitle">${info.displayName.toUpperCase()}S LISTS</h4>
+                <h4 id="listsTitle">${info.displayName.toUpperCase()}'S LISTS</h4>
                 <h6 id="showAllLists">SHOW ALL</h6>
             </div>
     
@@ -205,10 +205,10 @@ async function renderProfile(parentID) {
             deleteBttn.addEventListener("click", async () => {
                 window.alert("Are you sure you want to proceed? A kitten dies every time a user is deleted... :(");
 
-                let deleteRqst = new Request ("../../api/users.php", {
+                let deleteRqst = new Request("../../api/users.php", {
                     method: "DELETE",
-                    headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify({"token": token})
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ "token": token })
                 });
 
                 let deleteFetch = await fetcher(deleteRqst);
