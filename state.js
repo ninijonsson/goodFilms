@@ -1,3 +1,5 @@
+//let token = localStorage.getItem("token");
+
 export const options = {
     method: "GET",
     headers: {
