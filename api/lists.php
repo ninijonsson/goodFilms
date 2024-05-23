@@ -204,20 +204,25 @@ else if ($requestMethod == "DELETE")
 
         for ($i = 0; $i < count($listDatabase); $i++) {
             if ($listDatabase[$i]["id"] == $requestData["id"]) {
+                $items = $listDatabase[$i]["items"];
 
-                //for ($listDatabase[$i]["items"] as $item) {
+                foreach ($items as $index => $item) {
 
-                //}
-                array_splice($listDatabase[$i]["items"], $i, 1);
+                    if ($item == $requestData["movieId"]) {
+                        array_splice($listDatabase[$i]["items"], $index, 1);
 
-                $itemCount = count($listDatabase[$i]["items"]);
-                $listDatabase[$i]["itemCount"] = $itemCount;
+                        $itemCount = count($listDatabase[$i]["items"]);
+                        $listDatabase[$i]["itemCount"] = $itemCount;
+        
+                        $json = json_encode($listDatabase, JSON_PRETTY_PRINT);
+                        file_put_contents("lists.json", $json);
+                        send(201);
+        
+                        break;
+                    }
 
-                $json = json_encode($listDatabase, JSON_PRETTY_PRINT);
-                file_put_contents("lists.json", $json);
-                send(201);
+                }
 
-                break;
             }
         }
     }
