@@ -4,8 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="start/index.css">
 </head>
 <body>
+    <!-- <header></header> -->
     <div id="wrapper"></div>
+
+    <!-- <script src="../../index.js" type="module"></script> -->
+    <!-- <script type="module" src="start/start.js"></script> -->
+
+    <script type="module">
+        import "./start/start.js";
+        import {PubSub} from "../global/logic/PubSub.js";
+
+        PubSub.publish({
+            event: "renderStart",
+            detail: "wrapper"
+        });
+    </script>
 </body>
 </html>
