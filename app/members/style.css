@@ -31,8 +31,16 @@ h2 {
 
 .displayName,
 .username {
-    font-size: 0.75rem;
+    font-size: 1.2rem;
     margin: 0;
+}
+
+.displayName {
+    margin-top: 10px;
+}
+
+.username {
+    font-size: 0.85rem;
 }
 
 #topContainer {
