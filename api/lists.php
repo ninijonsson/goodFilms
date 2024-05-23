@@ -135,7 +135,7 @@ else if ($requestMethod == "POST") {
         "favCount" => 0,
         "itemCount" => 0,
         "items" => [],
-        "backdropPath" => "",
+        "backdropPath" => "../../media/icons/hello_kitty.png",
     ];
 
     foreach ($extraValuesForNewList as $key => $value) {
@@ -199,6 +199,11 @@ else if ($requestMethod == "PATCH")
     // Change "description"
     if (isset($requestData["description"])) {
         $list["description"] = $requestData["description"];
+    }
+
+    //Change "backdropPath"
+    if (isset($requestData["backdropPath"])) {
+        $list["backdropPath"] = $requestData["backdropPath"];
     }
 
     $updatedList = updateItemByType("lists.json", $list);
