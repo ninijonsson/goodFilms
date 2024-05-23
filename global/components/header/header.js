@@ -1,17 +1,46 @@
 import { PubSub } from "../../logic/PubSub.js";
 import { renderHamburgerMenu } from "../hamburgerMenu/hamburgerMenu.js";
 
-// // Skapa hamburgarmenyn
-// PubSub.publish({
-//     event: "hamburgerMenu",
-//     detail: "header"
-// });
+PubSub.subscribe({
+    event: "renderListAll",
+    listener: () => renderHeader()
+});
 
-// Rendera headern
-// PubSub.publish({
-//     event: "header",
-//     detail: "wrapper"
-// });
+PubSub.subscribe({
+    event: "renderFeed",
+    listener: () => renderHeader()
+});
+
+PubSub.subscribe({
+    event: "renderLikedList",
+    listener: () => renderHeader()
+});
+
+PubSub.subscribe({
+    event: "renderMoviePage",
+    listener: () => renderHeader()
+});
+
+PubSub.subscribe({
+    event: "renderMoviesResults",
+    listener: () => renderHeader()
+});
+
+PubSub.subscribe({
+    event: "renderProfile",
+    listener: () => renderHeader()
+});
+
+PubSub.subscribe({
+    event: "renderSearchMovies",
+    listener: () => renderHeader()
+});
+
+PubSub.subscribe({
+    event: "renderWatchedList",
+    listener: () => renderHeader()
+});
+
 
 export function renderHeader() {
     const header = document.querySelector("header");
@@ -79,7 +108,7 @@ export function renderHeader() {
         homeButton.addEventListener("click", (event) => {
             removeHamburgerContainer(event);
 
-            window.location = "home"; // Hänvisa till rätt sökväg
+            window.location = "../../../app/feed/index.html"; // Hänvisa till rätt sökväg
         })
 
         // Gå till profilsidan

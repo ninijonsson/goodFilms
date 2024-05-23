@@ -1,22 +1,14 @@
-import { renderHeader } from "../../global/components/header/header.js"
+import { PubSub } from "../../global/logic/PubSub.js";
+import { STATE } from "../../state.js";
+import { options } from "../../state.js";
+import { token } from "../../state.js";
 
-// Gör om till global variabel
-const options = {
-    method: "GET",
-    headers: {
-        accept: "application/json",
-        Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1ZjJhYjRlMGQ2MWMxY2MxNDUzOTVmYjhmYWI1ZGZiMSIsInN1YiI6IjY2MThmMDVjMTA5Y2QwMDE2NWEzODEzYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Nj98FemKpT0B2H3wU6gj47MrwtNhMTHRQ4Z3om_-I5E"
-    }
-};
-
-// DELETE USER!
-
-// Test token
-const token = "c62f39ace22172680875af13e02f6a6313ea1125";
+PubSub.subscribe({
+    event: "renderProfile",
+    listener: (detail) => renderProfile(detail)
+});
 
 const mediaPrefix = "../../media/icons/";
-
-renderHeader();
 
 // Gör om till Promise.all()
 async function fetchMovies(type) {
@@ -38,199 +30,191 @@ async function fetchMovies(type) {
     return movies;
 }
 
-async function getUser() {
-    const response = await fetch(`../../api/users.php?user=${token}`);
-    const resource = await response.json();
+const userRequest = new Request(`../../api/users.php?user=${token}`);
+const user = await STATE.get("user", userRequest);
 
-    return resource;
-}
+const listsRequest = new Request(`../../api/lists.php?user=${token}`);
+const lists = await STATE.get("myLists", listsRequest);
 
-const user = await getUser();
-const lists = await getUsersLists();
+async function renderProfile(parentID) {
+    const wrapper = document.getElementById(parentID);
 
-const wrapper = document.getElementById("wrapper");
-
-wrapper.innerHTML = `
-    <div id="profileDetailsContainer">
-        <img id="backdropPoster" src="${user.header}">
-        <div id="shadowOverlay"></div>
-        <div id="profileAndEditContainer">
-            <img id="profilePicture" src="${user.avatar}">
-
-            <div id="buttonContainer">
-                <button id="editButton">EDIT</button>
+    wrapper.innerHTML = `
+        <div id="profileDetailsContainer">
+            <img id="backdropPoster" src="${user.header}">
+            <div id="shadowOverlay"></div>
+            <div id="profileAndEditContainer">
+                <img id="profilePicture" src="${user.avatar}">
+    
+                <div id="buttonContainer">
+                    <button id="editButton">EDIT</button>
+                </div>
             </div>
         </div>
-    </div>
-
-        <div id="userInfo">
-            <h3 id="displayName">${user.displayName}</h3>
-            <p id="username">@${user.username.toLowerCase()}</p>
+    
+            <div id="userInfo">
+                <h3 id="displayName">${user.displayName}</h3>
+                <p id="username">@${user.username.toLowerCase()}</p>
+            </div>
+    
+            <div id="followContainer">
+                <p id="followers">${user.followers.length} Followers</p>
+                <p id="following">${user.following.length} Following</p>
+            </div>
+    
+            <hr id="followerLine">
+    
+        <div id="watchedContainer">
+            <div id="watchedTitleContainer">
+                <h4 id="watchedTitle">WATCHED</h4>
+                <h6 id="showAllWatched">SHOW ALL</h6>
+            </div>
+            <hr>
+    
+            <div id="watchedPosters">
+            </div>
         </div>
-
-        <div id="followContainer">
-            <p id="followers">${user.followers.length} Followers</p>
-            <p id="following">${user.following.length} Following</p>
+    
+        <div id="likedContainer">
+            <div id="likedTitleContainer">
+                <h4 id="likedTitle">LIKED</h4>
+                <h6 id="showAllLiked">SHOW ALL</h6>
+            </div>
+            <hr>
+    
+            <div id="likedPosters">
+            </div>
         </div>
-
-        <hr id="followerLine">
-
-    <div id="watchedContainer">
-        <div id="watchedTitleContainer">
-            <h4 id="watchedTitle">WATCHED</h4>
-            <h6 id="showAllWatched">SHOW ALL</h6>
+    
+        <div id="listsContainer">
+            <div id="yourListsContainer">
+                <h4 id="listsTitle">YOUR LISTS</h4>
+                <h6 id="showAllLists">SHOW ALL</h6>
+            </div>
+    
+            <hr id="listLine">
+    
+            <div id="listPosters">
+            </div>
         </div>
-        <hr>
+    `;
 
-        <div id="watchedPosters">
-        </div>
-    </div>
+    // EDIT PROFILE
+    const editButton = document.getElementById("editButton");
 
-    <div id="likedContainer">
-        <div id="likedTitleContainer">
-            <h4 id="likedTitle">LIKED</h4>
-            <h6 id="showAllLiked">SHOW ALL</h6>
-        </div>
-        <hr>
+    editButton.addEventListener("click", async (event) => {
+        event.preventDefault();
 
-        <div id="likedPosters">
-        </div>
-    </div>
+        // Selektera profilbilden och backdrop
+        const profilePicture = document.getElementById("profilePicture");
+        const backdropPoster = document.getElementById("backdropPoster");
+        const displayName = document.getElementById("displayName");
 
-    <div id="listsContainer">
-        <div id="yourListsContainer">
-            <h4 id="listsTitle">YOUR LISTS</h4>
-            <h6 id="showAllLists">SHOW ALL</h6>
-        </div>
+        if (editButton.textContent === "SAVE") {
+            profilePicture.src = `${mediaPrefix}profile_picture.png`;
+            backdropPoster.src = `${mediaPrefix}test_backdrop_profile.jpeg`;
 
-        <hr id="listLine">
+            const input = document.querySelector("input");
 
-        <div id="listPosters">
-        </div>
-    </div>
-`;
+            const inputValue = input.value;
 
-async function getUsersLists() {
-    const response = await fetch(`../../api/lists.php?user=${token}`);
-    const lists = await response.json();
+            if (inputValue !== "") {
+                const request = new Request("../../api/users.php", {
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        displayName: inputValue,
+                        token: token // Fixa token
+                    })
+                });
 
-    return lists;
-}
+                const response = await fetch(request);
+                const resource = await response.json();
 
-// EDIT PROFILE
-const editButton = document.getElementById("editButton");
+                displayName.textContent = resource.displayName;
+            }
 
-editButton.addEventListener("click", async (event) => {
-    event.preventDefault();
+            input.remove();
 
-    // Selektera profilbilden och backdrop
-    const profilePicture = document.getElementById("profilePicture");
-    const backdropPoster = document.getElementById("backdropPoster");
-    const displayName = document.getElementById("displayName");
+            displayName.style.display = "block";
 
-    if (editButton.textContent === "SAVE") {
-        profilePicture.src = `${mediaPrefix}profile_picture.png`;
-        backdropPoster.src = `${mediaPrefix}test_backdrop_profile.jpeg`;
+            editButton.classList.remove("save");
+            editButton.textContent = "EDIT";
 
-        const input = document.querySelector("input");
+        } else if (editButton.textContent === "EDIT") {
 
-        const inputValue = input.value;
+            displayName.style.display = "none";
 
-        if (inputValue !== "") {
-            const request = new Request("../../api/users.php", {
-                method: "PATCH",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    displayName: inputValue,
-                    token: token // Fixa token
-                })
-            });
+            const inputDisplayName = document.createElement("input");
+            document.getElementById("userInfo").prepend(inputDisplayName);
 
-            const response = await fetch(request);
-            const resource = await response.json();
+            profilePicture.src = `${mediaPrefix}add_profile_picture.png`;
+            backdropPoster.src = `${mediaPrefix}add_backdrop_profile.png`;
 
-            displayName.textContent = resource.displayName;
+            editButton.classList.add("save");
+            editButton.textContent = "SAVE";
+        }
+    })
+
+    // "WATCHED" POSTERS
+    const watchedPosters = document.getElementById("watchedPosters");
+
+    const watchedMovies = await fetchMovies("watched");
+
+    for (let i = 0; i < watchedMovies.length; i++) {
+        if (watchedMovies[i].poster_path === undefined) {
+            continue;
         }
 
-        input.remove();
-
-        displayName.style.display = "block";
-
-        editButton.classList.remove("save");
-        editButton.textContent = "EDIT";
-
-    } else if (editButton.textContent === "EDIT") {
-
-        displayName.style.display = "none";
-
-        const inputDisplayName = document.createElement("input");
-        document.getElementById("userInfo").prepend(inputDisplayName);
-
-        profilePicture.src = `${mediaPrefix}add_profile_picture.png`;
-        backdropPoster.src = `${mediaPrefix}add_backdrop_profile.png`;
-
-        editButton.classList.add("save");
-        editButton.textContent = "SAVE";
-    }
-})
-
-// "WATCHED" POSTERS
-const watchedPosters = document.getElementById("watchedPosters");
-
-const watchedMovies = await fetchMovies("watched");
-
-for (let i = 0; i < watchedMovies.length; i++) {
-    if (watchedMovies[i].poster_path === undefined) {
-        continue;
+        watchedPosters.innerHTML += `
+            <img class="movie" id="watched_${i}" src="https://image.tmdb.org/t/p/original/${watchedMovies[i].poster_path}">
+        `;
     }
 
-    watchedPosters.innerHTML += `
-        <img class="movie" id="watched_${i}" src="https://image.tmdb.org/t/p/original/${watchedMovies[i].poster_path}">
-    `;
-}
+    // "LIKED" POSTERS
+    const likedPosters = document.getElementById("likedPosters");
 
-// "LIKED" POSTERS
-const likedPosters = document.getElementById("likedPosters");
+    const likedMovies = await fetchMovies("liked");
 
-const likedMovies = await fetchMovies("liked");
+    console.log(likedMovies);
 
-console.log(likedMovies);
+    for (let i = 0; i < likedMovies.length; i++) {
+        if (likedMovies[i].poster_path === undefined) {
+            continue;
+        }
 
-for (let i = 0; i < likedMovies.length; i++) {
-    if (likedMovies[i].poster_path === undefined) {
-        continue;
+        likedPosters.innerHTML += `
+            <img class="movie" id="liked_${i}" src="https://image.tmdb.org/t/p/original/${likedMovies[i].poster_path}">
+        `;
     }
 
-    likedPosters.innerHTML += `
-        <img class="movie" id="liked_${i}" src="https://image.tmdb.org/t/p/original/${likedMovies[i].poster_path}">
-    `;
+    // SHOW ALL WATCHED
+    const showAllWatched = document.getElementById("showAllWatched");
+
+    showAllWatched.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        window.location = "../watchedList/index.html";
+    });
+
+    // SHOW ALL LIKED
+    const showAllLiked = document.getElementById("showAllLiked");
+
+    showAllLiked.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        window.location = "../likedList/index.html";
+    });
+
+    // SHOW LISTS
+    const listPosters = document.getElementById("listPosters");
+
+    for (let i = 0; i < lists.length; i++) {
+        listPosters.innerHTML += `
+            <img class="listPoster" id="${lists[i].id}" src="${lists[i].backdropPath}">
+            <h5 id="listTitle">${lists[i].name}</h5>
+            <p id="listDescription">${lists[i].description}</p>
+        `;
+    }
 }
 
-// SHOW ALL WATCHED
-const showAllWatched = document.getElementById("showAllWatched");
-
-showAllWatched.addEventListener("click", (event) => {
-    event.preventDefault();
-
-    window.location = "../watchedList/index.html";
-});
-
-// SHOW ALL LIKED
-const showAllLiked = document.getElementById("showAllLiked");
-
-showAllLiked.addEventListener("click", (event) => {
-    event.preventDefault();
-
-    window.location = "../likedList/index.html";
-});
-
-// SHOW LISTS
-const listPosters = document.getElementById("listPosters");
-
-for (let i = 0; i < lists.length; i++) {
-    listPosters.innerHTML += `
-        <img class="listPoster" id="${lists[i].id}" src="${lists[i].backdropPath}">
-        <h5 id="listTitle">${lists[i].name}</h5>
-        <p id="listDescription">${lists[i].description}</p>
-    `;
-}
