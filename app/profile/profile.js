@@ -2,6 +2,7 @@ import { PubSub } from "../../global/logic/PubSub.js";
 import { STATE } from "../../state.js";
 import { options } from "../../state.js";
 import { token } from "../../state.js";
+import { fetcher } from "../../global/logic/fetcher.js";
 
 PubSub.subscribe({
     event: "renderProfile",
@@ -38,8 +39,6 @@ const friend = await STATE.get("friend", friendRequest);
 
 let info = [];
 
-console.log(friend);
-
 const listsRequest = new Request(`../../api/lists.php?user=${token}`);
 const lists = await STATE.get("myLists", listsRequest);
 
@@ -52,6 +51,8 @@ async function renderProfile(parentID) {
         info = user;
     }
 
+    console.log(info);
+
     wrapper.innerHTML = `
         <div id="profileDetailsContainer">
             <img id="backdropPoster" src="${info.header}">
@@ -60,7 +61,7 @@ async function renderProfile(parentID) {
                 <img id="profilePicture" src="${info.avatar}">
     
                 <div id="buttonContainer">
-                    <button id="editButton">EDIT</button>
+                    <button id="editButton"></button>
                 </div>
             </div>
         </div>
@@ -115,6 +116,23 @@ async function renderProfile(parentID) {
     // EDIT PROFILE
     const editButton = document.getElementById("editButton");
 
+    if (localStorage.getItem("userId")) {
+
+        editButton.textContent = "FOLLOW";
+        editButton.classList.add("save");
+
+        for (let i = 0; i < info.followers.length; i++) {
+            if (info.followers[i] === user.id) {
+                editButton.textContent = "FOLLOWING";
+                editButton.classList.remove("save");
+                break;
+            }
+        }
+
+    } else {
+        editButton.textContent = "EDIT";
+    }
+
     editButton.addEventListener("click", async (event) => {
         event.preventDefault();
 
@@ -166,6 +184,39 @@ async function renderProfile(parentID) {
 
             editButton.classList.add("save");
             editButton.textContent = "SAVE";
+        } else if (editButton.textContent === "FOLLOW") {
+
+            editButton.textContent = "FOLLOWING";
+            editButton.classList.remove("save");
+
+            const request = new Request("../../api/followActivity.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    id: friend.id,
+                    token: token,
+                })
+            })
+            const response = await fetcher(request);
+
+            document.getElementById("followers").textContent = `${(info.followers.length + 1)} Followers`;
+
+        } else if (editButton.textContent === "FOLLOWING") {
+            editButton.textContent = "FOLLOW";
+            editButton.classList.add("save");
+
+            const request = new Request("../../api/followActivity.php", {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    id: friend.id,
+                    token: token,
+                })
+            })
+            const response = await fetcher(request);
+            console.log(response);
+
+            document.getElementById("followers").textContent = `${info.followers.length} Followers`;
         }
     })
 
