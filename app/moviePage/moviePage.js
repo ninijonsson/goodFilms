@@ -9,6 +9,26 @@ const options = {
     }
 };
 
+const token = "c62f39ace22172680875af13e02f6a6313ea1125";
+
+async function getWatchedAndLiked(movieId) {
+    const response = await fetch(`../../api/getInteraction.php?movieId=${movieId}`);
+
+    const data = await response.json();
+
+    return data;
+}
+
+async function getUser() {
+    const response = await fetch(`../../api/users.php?user=${token}`);
+    const resource = await response.json();
+
+    return resource;
+}
+
+const user = await getUser();
+console.log(user);
+
 renderHeader();
 
 const wrapper = document.getElementById("wrapper");
@@ -17,6 +37,18 @@ if (window.localStorage.getItem("movieInfo")) {
     let info = window.localStorage.getItem("movieInfo");
     const response = await fetch(info, options);
     const movie = await response.json();
+
+    const data = await getWatchedAndLiked(movie.id);
+
+    // Om filmerna inte finns i databasen, ska värdena vara 0
+    // Annars blir dem "undefined"
+    if (data.watched === undefined) {
+        data.watched = 0;
+    }
+
+    if (data.liked === undefined) {
+        data.liked = 0;
+    }
 
     // För att fixa när production company är undefined
     let productionCompany = "";
@@ -47,10 +79,19 @@ if (window.localStorage.getItem("movieInfo")) {
             <h2 id="directedBy">PRODUCED BY ${productionCompany}</h2>
             <p id="movieDescription">${movie.overview}</p>
             <img id="moviePoster" src="https://image.tmdb.org/t/p/original/${movie.poster_path}">
-        </div>
 
-        <div id="likedAndWatchedContainer">
-            <img id="heartUnliked" src="">
+            <div id="likedAndWatchedContainer">
+                <div id="likedContainer">
+                    <img class="heart" src="../../media/icons/unfilled_heart.png">
+                    <p id="likedAmount">${data.liked}</p>
+                </div>
+
+                <div id="watchedContainer">
+                    <img id="watchedEye" src="../../media/icons/eye.png">
+                    <p id="watchedAmount">${data.watched}</p>
+                </div>
+            </div>
+
             <button id="watchedButton" type="submit">WATCH</button>
         </div>
 
@@ -60,8 +101,6 @@ if (window.localStorage.getItem("movieInfo")) {
         <div id="similarMoviesContainer"></div>
     </div>
     `;
-
-    // Fixa filmer som saknar backdrop poster
 
     const similarMoviesContainer = document.getElementById("similarMoviesContainer");
 
@@ -93,5 +132,118 @@ if (window.localStorage.getItem("movieInfo")) {
             window.location = "index.html";
         })
     });
+
+    // Klick-event för "like"
+    const heart = document.querySelector(".heart");
+
+    if (user.liked.includes(movie.id)) {
+        heart.src = "../../media/icons/filled_heart.png";
+    }
+
+    heart.addEventListener("click", async (event) => {
+        event.preventDefault();
+
+        heart.classList.toggle("filled");
+
+        const movieId = movie.id;
+
+        if (heart.classList.contains("filled")) {
+            heart.src = "../../media/icons/filled_heart.png";
+
+            // movieId, token, action (liked/watched)
+            const request = new Request("../../api/doActivity.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    movieId: movieId,
+                    token: token,
+                    action: "liked"
+                })
+            });
+
+            const response = await fetch(request);
+            const amountOfLikes = await response.json();
+
+            document.getElementById("likedAmount").textContent = data.liked + 1;
+
+        } else {
+            heart.src = "../../media/icons/unfilled_heart.png";
+
+            // movieId, token, action (liked/watched)
+            const request = new Request("../../api/doActivity.php", {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    movieId: movieId,
+                    token: token,
+                    action: "liked"
+                })
+            });
+
+            const response = await fetch(request);
+            const amountOfLikes = await response.json();
+
+            console.log(amountOfLikes);
+
+            document.getElementById("likedAmount").textContent = data.liked;
+        }
+    })
+
+    // Klick-eventet för "watched"-knappen
+    const watchedButton = document.getElementById("watchedButton");
+
+    let watched = false;
+
+    watchedButton.addEventListener("click", async (event) => {
+        event.preventDefault();
+
+        const movieId = movie.id;
+
+        if (watched) {
+            const request = new Request("../../api/doActivity.php", {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    movieId: movieId,
+                    token: token,
+                    action: "watched"
+                })
+            });
+
+            const response = await fetch(request);
+            const amountOfWatches = await response.json();
+
+            document.getElementById("watchedAmount").textContent = data.watched;
+
+            window.alert("Removed movie from your watched.");
+
+            watched = false;
+
+            return;
+        }
+
+        // movieId, token, action (liked/watched)
+        const request = new Request("../../api/doActivity.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                movieId: movieId,
+                token: token,
+                action: "watched"
+            })
+        });
+
+        const response = await fetch(request);
+        // const amountOfWatches = await response.json();
+
+        // console.log(amountOfWatches);
+
+        document.getElementById("watchedAmount").textContent = data.watched + 1;
+
+        // Tillfälligt för att inte kunna trycka "watched" fler gånger
+        watched = true;
+    });
 }
+
+
 

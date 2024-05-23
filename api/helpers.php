@@ -211,25 +211,49 @@ function removeUserLists($user)
 
     $json = json_encode($listDatabase, JSON_PRETTY_PRINT);
     file_put_contents("lists.json", $json);
-        // If the user created the list, remove it completely
-    
-        // } else {
-            
-            // Otherwise we'll see if they liked it and only remove their like
-            // foreach ($game["likes"] as $likeIndex => $like) { 
-            //     // Remember that each like is represented as a user_id
-            //     if ($userId == $like) {
-            //         array_slice($game["likes"], $likeIndex, 1);
-            //         $game[$gameIndex] = $game;
-            //     }
-            // }
  }
 
- function logActivity ($activity) {
+function logActivity ($activity) {
     $activityDatabase = getDatabase("./activity.json");
 
     $activityDatabase[] = $activity;
     $json = json_encode($activityDatabase, JSON_PRETTY_PRINT);
     file_put_contents("activity.json", $json);
  }
+
+function updateInteractionCount ($interaction) {
+    $interactionDatabase = getDatabase("interaction.json");
+    $action = $interaction["action"];
+    
+    foreach($interactionDatabase as &$movie){
+        if ($movie["movieId"] == $interaction["movieId"]){
+            
+            if ($interaction["method"] == "POST") {
+                $count = ($movie[$action] + 1);
+            } else if ($interaction["method"] == "DELETE") {
+                $count = ($movie[$action] - 1);
+            }
+
+            if ($action == "liked") {
+                $movie["liked"] = $count;
+            } else if ($action == "watched") {
+                $movie["watched"] = $count;
+            }
+
+            $json = json_encode($interactionDatabase, JSON_PRETTY_PRINT);
+            file_put_contents("interaction.json", $json);
+            return;
+        }
+    }
+
+    $movieLog = [
+        "movieId" => $interaction["movieId"],
+        "liked" =>  ($action == "liked") ? 1 : 0,
+        "watched" =>  ($action == "watched") ? 1 : 0
+    ];
+
+    $interactionDatabase[] = $movieLog;
+    $json = json_encode($interactionDatabase, JSON_PRETTY_PRINT);
+    file_put_contents("interaction.json", $json);
+}
 ?>

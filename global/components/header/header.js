@@ -1,5 +1,5 @@
-import { PubSub } from "../../logic/PubSub.js"
-import { renderHamburgerMenu } from "../hamburgerMenu/hamburgerMenu.js"
+import { PubSub } from "../../logic/PubSub.js";
+import { renderHamburgerMenu } from "../hamburgerMenu/hamburgerMenu.js";
 
 // // Skapa hamburgarmenyn
 // PubSub.publish({
@@ -19,8 +19,14 @@ export function renderHeader() {
     renderHamburgerMenu();
 
     header.innerHTML += `
-        <p>goodFilms</p>
+        <img id="headerLogo" src="../../media/icons/logo.svg">
     `;
+
+    const headerLogo = document.getElementById("headerLogo");
+
+    headerLogo.addEventListener("click", (event) => {
+        window.location = "../../../app/feed/index.html";
+    });
 
     const hamburgerMenu = document.getElementById("hamburgerContainer");
 
@@ -55,7 +61,7 @@ export function renderHeader() {
                 </div>
                 <div id="membersButton">
                     <img src="../../../media/icons/members_icon.svg" alt="Members icon">
-                    MEMBERES
+                    MEMBERS
                 </div>
             </div>
         `;
@@ -97,7 +103,7 @@ export function renderHeader() {
         listsButton.addEventListener("click", (event) => {
             removeHamburgerContainer(event);
 
-            window.location = "lists"; // Hänvisa till rätt sökväg
+            window.location = "../../../app/listAll/index.html"; // Hänvisa till rätt sökväg
         })
 
         // Gå till medlemmarna

@@ -8,15 +8,17 @@
 
     --menu_opened_background: #EDEDED;
     --menu_opened_font_color: #242424;
-    --menu_opened_font_size: 32px;
+    --menu_opened_font_size: 28px;
 
     --button_background: #454D56;
     --button_drop_shadow: drop-shadow(4px 4px 0px rgba(0, 0, 0, 0.25));
+    --button_save_color: #6EA270;
 
     --border_radius_small: 3px;
     --border_radius_big: 8px;
 
     --font_color: #EDEDED;
+    --description_font_color: #A7A7A7;
 
     --body_margin: 20px;
 
@@ -41,6 +43,13 @@
     font-family: "Crimson";
     src: url("media/fonts/crimson/CrimsonText-Regular.ttf");
 }
+
+/* LOGO FONT */
+@font-face {
+    font-family: "Normande";
+    src: url("media/fonts/normande/Normande\ Regular.otf");
+}
+
 
 body {
     margin: 0;

@@ -1,0 +1,32 @@
+[
+    {
+        "movieId": 666,
+        "likedCount": 1,
+        "watchedCount": 1
+    },
+    {
+        "movieId": 11111111,
+        "liked": 0,
+        "watched": 1
+    },
+    {
+        "movieId": 3333,
+        "liked": 2,
+        "watched": 2
+    },
+    {
+        "movieId": 786892,
+        "liked": 46,
+        "watched": 61
+    },
+    {
+        "movieId": 534034,
+        "liked": 1,
+        "watched": 1
+    },
+    {
+        "movieId": 1072432,
+        "liked": 1,
+        "watched": 0
+    }
+]

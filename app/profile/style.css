@@ -1,9 +1,13 @@
-#userInfo,
 #followContainer,
 #watchedContainer,
 #likedContainer,
 #listsContainer {
     margin: var(--body_margin);
+}
+
+#userInfo {
+    margin-left: 26px;
+    margin-top: 20px;
 }
 
 #profileAndEditContainer {
@@ -59,6 +63,14 @@
     width: 150%;
     border-radius: var(--border_radius_small);
     margin: 7px 0;
+
+    box-shadow: -12px 0px 21px 0px rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: -12px 0px 21px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: -12px 0px 21px 0px rgba(0, 0, 0, 0.75);
+}
+
+#followerLine {
+    margin: 0 20px;
 }
 
 #watchedPosters,
@@ -68,21 +80,78 @@
 }
 
 #watchedTitleContainer,
-#likedTitleContainer {
+#likedTitleContainer,
+#yourListsContainer {
     display: flex;
     justify-content: space-between;
     height: 50px;
 }
 
 #watchedTitle,
-#likedTitle {
-    font-size: 20px;
+#likedTitle,
+#listsTitle {
+    font-size: 22px;
 }
 
 #showAllWatched,
-#showAllLiked {
+#showAllLiked,
+#showAllLists {
     font-size: 14px;
     color: #B4B5B9;
 
     cursor: pointer;
+}
+
+#editButton.save {
+    background-color: var(--button_save_color);
+}
+
+.listPoster {
+    width: 100%;
+    border-radius: var(--border_radius_small);
+}
+
+#listTitle {
+    font-size: 24px;
+    margin: 0;
+    margin-top: 10px;
+}
+
+#listDescription {
+    font-family: "Crimson";
+    color: var(--description_font_color);
+    margin: 10px 0;
+    margin-bottom: 40px;
+}
+
+#listLine {
+    margin-bottom: 20px;
+}
+
+#followContainer {
+    display: flex;
+    flex-direction: row;
+
+    margin: 0;
+    margin-left: 28px;
+}
+
+#following {
+    margin-left: 20px;
+}
+
+input {
+    border-radius: 3px;
+    background: rgba(102, 119, 136, 0.50);
+    box-shadow: -2px -2px 0px 0px #656667 inset;
+    border: 1px solid black;
+    height: 26px;
+    padding-left: 7px;
+    width: 50%;
+}
+
+input::placeholder {
+    font-family: "Alte Haas Grotesk";
+    color: var(--font_color);
+    font-style: italic;
 }

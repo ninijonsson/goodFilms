@@ -38,17 +38,26 @@ if ($requestMethod == "POST") {
         }
     }
 
+    $action = $requestData["action"];
+
     $activity = [
         "movieId" => $requestData["movieId"],
         "userId" => $userInfo["id"],
-        "action" => "has added"
+        "action" => "has $action"
+    ];
+
+    $counter = [
+        "movieId" => $requestData["movieId"],
+        "action" => $requestData["action"],
+        "method" => "POST"
     ];
 
     logActivity($activity);
+    updateInteractionCount($counter);
 
     $json = json_encode($userDatabase, JSON_PRETTY_PRINT);
     file_put_contents("users.json", $json);
-    send(201, $activity);
+    send(201, [$activity, $counter]);
 }
 
 else if ($requestMethod == "DELETE") {
@@ -77,6 +86,14 @@ else if ($requestMethod == "DELETE") {
             for ($ii = 0; $ii < count($userDatabase[$i][$requestData["action"]]); $ii++) {
                 if ($userDatabase[$i][$requestData["action"]][$ii] == $requestData["movieId"]){
                     array_splice($userDatabase[$i][$requestData["action"]], $ii, 1);
+
+                    $counter = [
+                        "movieId" => $requestData["movieId"],
+                        "action" => $requestData["action"],
+                        "method" => "DELETE"
+                    ];
+                
+                    updateInteractionCount($counter);
                     break;
                 }
             }

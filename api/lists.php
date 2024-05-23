@@ -15,12 +15,12 @@ $requestData = getRequestData();
 
 //hämta user lists (token required)
 if ($requestMethod == "GET") {
+    $listDatabase = getDatabase("lists.json");
 
     if (isset ($_GET["user"])) {
 
         $token = $_GET["user"];
         $userInfo = getUserFromToken($token);
-        $listDatabase = getDatabase("lists.json");
 
         if (isset($_GET["id"])) {
            foreach ($listDatabase as $list) {
@@ -32,28 +32,31 @@ if ($requestMethod == "GET") {
         }
     
 
-    $userDatabase = getDatabase("users.json");
-    foreach($userDatabase as $user) {
-        if ($user["id"] == $userInfo["id"]) {
-            $listIds = $user["lists"];
-        }
-    }
-
-    $lists = [];
-    foreach($listIds as $listId) {
-        foreach($listDatabase as $list){
-            if ($list["id"] == $listId) {
-                $lists[] = $list; 
+        $userDatabase = getDatabase("users.json");
+        foreach($userDatabase as $user) {
+            if ($user["id"] == $userInfo["id"]) {
+                $listIds = $user["lists"];
             }
         }
-    }
+
+        $lists = [];
+        foreach($listIds as $listId) {
+            foreach($listDatabase as $list){
+                if ($list["id"] == $listId) {
+                    $lists[] = $list; 
+                }
+            }
+        }
+
+        send(200, $lists);
 
     }
+
+    send(201, $listDatabase);
 }
 
 //skapa lista (token required)
-if ($requestMethod == "POST") {
-
+else if ($requestMethod == "POST") {
     if (empty($requestData)) {
         abort(400, "Bad Request (empty request)");
     }
@@ -68,6 +71,12 @@ if ($requestMethod == "POST") {
         $listDatabase = getDatabase("lists.json");
         for ($i = 0; $i < count($listDatabase); $i++) {
             if ($listDatabase[$i]["id"] == $requestData["id"]) {
+
+                if (isset($requestData["backdropPath"])) {
+            
+                    $listDatabase[$i]["backdropPath"] = $requestData["backdropPath"];
+                    
+                }
                 
                 foreach ($listDatabase[$i]["items"] as $item) {
                     if ($item == $requestData["movieId"]){
@@ -80,6 +89,7 @@ if ($requestMethod == "POST") {
                 $itemCount = count($listDatabase[$i]["items"]);
                 $listDatabase[$i]["itemCount"] = $itemCount;
 
+                send(201, $movie);
                 break;
             }
         }
@@ -97,7 +107,6 @@ if ($requestMethod == "POST") {
         send(201, $requestData["movieId"]);
     }
 
-
     $newListKeys = ["name", "description"]; 
 
     if (requestContainsAllKeys($requestData, $newListKeys) == false) {
@@ -109,11 +118,11 @@ if ($requestMethod == "POST") {
         "favCount" => 0,
         "itemCount" => 0,
         "items" => [],
-        "posterPath" => "",
+        "backdropPath" => "",
     ];
 
     foreach ($extraValuesForNewList as $key => $value) {
-        $listKeys[] = $key;
+        $newListKeys[] = $key;
         $requestData[$key] = $value;
     }
 

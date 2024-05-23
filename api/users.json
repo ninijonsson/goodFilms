@@ -15,17 +15,33 @@
     {
         "id": 2,
         "username": "Luci",
-        "displayName": "Luci",
+        "displayName": "Laki",
         "password": "WDU123!",
-        "liked": [],
-        "watched": [],
+        "liked": [
+            11111111,
+            3333,
+            1072432,
+            111,
+            3333,
+            12
+        ],
+        "watched": [
+            3333,
+            222,
+            123,
+            679,
+            1892,
+            12,
+            217527,
+            882059
+        ],
         "lists": [
             226,
             225
         ],
         "following": [],
         "followers": [],
-        "avatar": "pathway",
-        "header": "pathway"
+        "avatar": "..\/..\/media\/icons\/profile_picture.png",
+        "header": "..\/..\/media\/icons\/test_backdrop_profile.jpeg"
     }
 ]

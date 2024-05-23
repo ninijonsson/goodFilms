@@ -1,4 +1,5 @@
 import { renderHeader } from "../../global/components/header/header.js"
+import { fetcher } from "../../global/logic/fetcher.js"
 
 // Gör om till global variabel
 const options = {
@@ -11,14 +12,11 @@ const options = {
 
 renderHeader();
 
-async function getMovies() {
-    const response = await fetch("https://api.themoviedb.org/3/trending/movie/day?language=en-US", options);
-    const resource = await response.json();
+// Test token
+const token = "c62f39ace22172680875af13e02f6a6313ea1125";
 
-    return resource;
-}
-
-const movies = await getMovies();
+const userRequest = new Request(`../../api/users.php?user=${token}`, options);
+const user = await fetcher(userRequest);
 
 const wrapper = document.getElementById("wrapper");
 
@@ -30,13 +28,29 @@ wrapper.innerHTML = `
     <div id="moviesContainer"></div>
 `;
 
-// Kontrollera token
-
 const moviesContainer = document.getElementById("moviesContainer");
 
-for (let i = 0; i < movies.results.length; i++) {
+let fetchPromises = [];
+
+for (let i = 0; i < user.liked.length; i++) {
+    const request = new Request(`https://api.themoviedb.org/3/movie/${user.liked[i]}?language=en-US`, options);
+
+    fetchPromises.push(
+        fetcher(request)
+    );
+}
+
+const results = await Promise.all(fetchPromises);
+
+for (let i = 0; i < results.length; i++) {
+    const movie = await results[i];
+
+    if (movie === undefined) {
+        continue;
+    }
+
     moviesContainer.innerHTML += `
-        <img class="movie" id="${movies.results[i].id}" src="https://image.tmdb.org/t/p/original/${movies.results[i].poster_path}">
+        <img class="movie" id="${movie.id}" src="https://image.tmdb.org/t/p/original/${movie.poster_path}">
     `;
 }
 

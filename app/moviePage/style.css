@@ -28,9 +28,15 @@
     margin-top: 18px;
     display: grid;
     grid-template-columns: 1fr 0fr 1fr;
-    grid-template-rows: 10vh 7vh 35vh;
+    grid-template-rows: 10vw 10vw 46vw 10vw 8vw;
     gap: 10px;
     margin-top: 15px;
+}
+
+#similarMoviesContainer,
+#similarMoviesText,
+hr {
+    margin: 18px;
 }
 
 #movieInformationContainer>h1,
@@ -62,19 +68,62 @@
 #movieDescription {
     grid-column: 1;
     grid-row: 3;
+
+    font-family: "Crimson";
+    color: var(--description_font_color);
+}
+
+#watchedButton {
+    grid-row: 5;
+    grid-column: 3;
+
+    font-family: "Alte Haas Grotesk";
+    color: var(--font_color);
+    background-color: var(--button_background);
+    filter: var(--button_drop_shadow);
+    border-radius: var(--border_radius_small);
+    border: 1px solid black;
+    padding: 7px 16px;
+    font-size: 14px;
+
+    height: 38px;
+}
+
+#likedContainer,
+#watchedContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    height: 37px;
+}
+
+#likedAmount,
+#watchedAmount {
+    font-size: 24px;
+    margin-left: 10px;
+}
+
+#likedAndWatchedContainer img {
+    width: 36px;
+    height: 36px;
 }
 
 /* GRID WATCH & LIKE */
 #likedAndWatchedContainer {
+    grid-row: 4;
+    grid-column: 3;
+
     display: flex;
+    flex-direction: column;
     justify-content: end;
-    margin-right: 30px;
 }
 
 /* GRID SIMILAR MOVIES */
 
 .movie {
-    width: 200px;
+    width: 31%;
     border-radius: 5px;
     margin: 2px;
 }

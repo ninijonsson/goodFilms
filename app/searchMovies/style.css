@@ -8,7 +8,48 @@ body {
 }
 
 .movie {
-    width: 200px;
+    width: 31%;
     border-radius: 5px;
     margin: 2px;
+
+    cursor: pointer;
+}
+
+input[name='searchMovie'] {
+    border-radius: 3px;
+    background: rgba(102, 119, 136, 0.50);
+    box-shadow: -2px -2px 0px 0px #656667 inset;
+    border: 1px solid black;
+    height: 30px;
+    padding-left: 7px;
+    width: 97%;
+}
+
+input[name='searchMovie']::placeholder {
+    font-family: "Alte Haas Grotesk";
+    color: var(--font_color);
+    font-style: italic;
+}
+
+select[name='genre'],
+select[name='year'] {
+    font-family: "Alte Haas Grotesk";
+    color: var(--font_color);
+    background-color: var(--button_background);
+    filter: var(--button_drop_shadow);
+    border-radius: var(--border_radius_small);
+    border: 1px solid black;
+    padding: 8px;
+    font-size: 14px;
+}
+
+#searchContainer p {
+    margin-top: 36px;
+    margin-bottom: 9px;
+    font-size: 20px;
+}
+
+#trendingTitle {
+    margin-top: 29px;
+    margin-bottom: 16px;
 }

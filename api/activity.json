@@ -1,42 +1,7 @@
 [
     {
-        "movieId": 233343,
+        "movieId": 1072432,
         "userId": 2,
-        "action": "has added"
-    },
-    {
-        "movieId": 133444,
-        "userId": 2,
-        "action": "has added"
-    },
-    {
-        "movieId": 133444,
-        "userId": 2,
-        "action": "has added"
-    },
-    {
-        "movieId": 133444,
-        "userId": 2,
-        "action": "has added"
-    },
-    {
-        "movieId": 133444,
-        "userId": 2,
-        "action": "has added"
-    },
-    {
-        "movieId": 1111,
-        "userId": 2,
-        "action": "has added"
-    },
-    {
-        "movieId": 11111,
-        "userId": 2,
-        "action": "has added"
-    },
-    {
-        "movieId": 22222222,
-        "userId": 2,
-        "action": "has added"
+        "action": "has liked"
     }
 ]

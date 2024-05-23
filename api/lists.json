@@ -6,21 +6,23 @@
         "favCount": 0,
         "itemCount": 0,
         "items": [],
-        "posterPath": "/lVnUdJ7nqho86UievvSr1LpfU6k.jpg",
+        "backdropPath": "../../media/icons/hello_kitty.png",
         "id": 225
     },
     {
         "name": "testiiiing",
-        "description": "testiiiing this desc change testiiiing this desc change testiiiing this desc change",
+        "description": "testiiiing this desc change",
         "createdBy": 2,
         "favCount": 0,
-        "itemCount": 3,
+        "itemCount": 5,
         "items": [
             444,
             11111,
-            22222222
+            22222222,
+            3333,
+            22
         ],
-        "posterPath": "/lVnUdJ7nqho86UievvSr1LpfU6k.jpg",
+        "backdropPath": "../../media/icons/test_backdrop_profile.jpeg",
         "id": 226
     }
 ]
