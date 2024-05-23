@@ -20,11 +20,19 @@ if ($requestMethod == "GET") {
     if (isset($_GET["user"])) {
         $userInfo = getUserFromToken($_GET["user"]);
 
+        if (isset($_GET["profile"])) {
+            foreach ($userDatabase as $user) {
+                if ($user["id"] == $_GET["profile"]) {
+                    send(201, $user);
+                }
+            }
+        }
+        
         foreach ($userDatabase as $user) {
              if ($user["id"] == $userInfo["id"]){
                 send(201, $user);
             }
-        }    
+        }
     }
 
     send(201, $userDatabase);
