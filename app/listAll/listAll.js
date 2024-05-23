@@ -102,4 +102,14 @@ async function renderListAll(parentID) {
         <p id="listDescription">${myLists[i].description}</p>
     `;
     }
+
+    const listPosters = document.querySelectorAll(".listPoster");
+
+    listPosters.forEach(list => {
+        list.addEventListener("click", (event) => {
+            event.preventDefault();
+
+            window.location = "../clickedList/";
+        })
+    })
 }

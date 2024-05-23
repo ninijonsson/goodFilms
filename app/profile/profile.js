@@ -42,6 +42,11 @@ let info = [];
 const listsRequest = new Request(`../../api/lists.php?user=${token}`);
 const lists = await STATE.get("myLists", listsRequest);
 
+const rqst = new Request(`../../api/lists.php?user=${token}&id=226`);
+const r = await fetcher(rqst);
+
+console.log(r);
+
 async function renderProfile(parentID) {
     const wrapper = document.getElementById(parentID);
 
@@ -51,13 +56,14 @@ async function renderProfile(parentID) {
         info = user;
     }
 
+    // Få ut en lista &id=id?user=token
     const allListsRequest = new Request(`../../api/lists.php`, options);
     const allLists = await STATE.get("allLists", allListsRequest);
     const foundLists = allLists.filter(list => {
         return list.createdBy === info.id;
     });
 
-    console.log(foundLists);
+    // få ut lista -> profile=friend.id
 
     wrapper.innerHTML = `
         <div id="profileDetailsContainer">
@@ -290,6 +296,8 @@ async function renderProfile(parentID) {
     document.querySelectorAll("#listPosters img").forEach(list => {
         list.addEventListener("click", (event) => {
             event.preventDefault();
+
+            localStorage.setItem("list", `../../api/lists.php?id=${event.target.id}&user=${token}`);
 
             window.location = "../clickedList/";
         })
