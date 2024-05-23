@@ -1,37 +1,77 @@
 import { PubSub } from "../global/logic/PubSub.js"
+import {fetcher} from '../../global/logic/fetcher.js';
 
-export function renderLandingPage(parentID) {
+PubSub.subscribe({
+    event: "renderStart",
+    listener: detail => renderLandingPage(detail)
+});
+
+const options = {
+    method: "GET",
+    headers: {
+        accept: "application/json",
+        Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1ZjJhYjRlMGQ2MWMxY2MxNDUzOTVmYjhmYWI1ZGZiMSIsInN1YiI6IjY2MThmMDVjMTA5Y2QwMDE2NWEzODEzYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Nj98FemKpT0B2H3wU6gj47MrwtNhMTHRQ4Z3om_-I5E"
+    }
+};
+
+async function getPopularMovies() {
+    const rqst = new Request("https://api.themoviedb.org/3/movie/popular", options);
+    const popularMovies = await fetcher(rqst);
+
+    return popularMovies;
+}
+
+export async function renderLandingPage(parentID) {
     const DOM = document.getElementById(parentID);
     DOM.innerHTML = `
     <div id="top">
-        <img id="logo" src="">
-        <p id="descriptionTxt">DESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTION</p>
+        <div id="logo">
+            <img id="logoImg" src="../../media/icons/logo.svg">
+            <h1 id="logoFont">goodFilms</h1>
+        </div>
+        <p id="descriptionTxt">
+            DESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTION
+        </p>
     </div>
+    <hr id="topLine">
     <div id="middle">
         <button id="join">JOIN US NOW!</button>
-        <h2>Already a member? <a id="logInLink" href="">Log in</a></h2>
+        <h2>Already a member? <a id="logInLink" href="start/login">Log in</a></h2>
     </div>
+    <hr id="middleLine">
     <div id="bottom">
-        <h6>NEED A MOVIE TO WATCH? WE GOT YOU!</h6>
-        <div id="suggestMovies"></div>
-        <h6>ALREADY SEEN THESE? <a id="searchMoreLink" href="">SEARCH FOR MORE</a></h6>
+        <h5>NEED A MOVIE TO WATCH? WE GOT YOU!</h6>
+        <div id="popularMovies"></div>
+        <h5>ALREADY SEEN THESE? <a id="searchMoreLink" href="">SEARCH FOR MORE</a></h6>
     </div>
     `;
 
     const joinBttn = document.getElementById("join");
     joinBttn.addEventListener("click", () => {
-        window.location = "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a";
+        window.location = "start/register";
     });
 
-    // const logInBttn = document.getElementById("logInLink");
-    // logInBttn.addEventListener("click", () => {
-    //     //....
+
+    const movies = await getPopularMovies();
+
+    const moviesContainer = document.getElementById("popularMovies");
+
+    for (let i = 0; i < 6; i++) {
+        moviesContainer.innerHTML += `
+            <img class="movie" id="${movies.results[i].id}" src="https://image.tmdb.org/t/p/original/${movies.results[i].poster_path}">
+        `;
+    }
+
+    // const movie = document.querySelectorAll(".movie");
+    // movie.forEach(movie => {
+    //     movie.addEventListener("click", async (event) => {
+    //         console.log(event.target.id);
+
+    //         const movieId = event.target.id;
+
+    //         window.localStorage.setItem("movieInfo", `https://api.themoviedb.org/3/movie/${movieId}?language=en-US`);
+
+    //         window.location = "../../app/moviePage/index.html";
+    //     })
     // });
-
-    // const searchMoreBttn = document.getElementById("searchMoreLink");
-    // searchMoreBttn.addEventListener("click", () => {
-    //     //....
-    // })
-
-
 }

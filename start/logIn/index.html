@@ -12,7 +12,17 @@
     <div id="wrapper"></div>
 
     <!-- <script src="../../index.js" type="module"></script> -->
-    <script type="module" src="logIn/logIn.js"></script>
+    <!-- <script type="module" src="logIn/logIn.js"></script> -->
+    <script type="module">
+        import "./logIn/logIn.js";
+        import {PubSub} from "../global/logic/PubSub.js";
+
+        PubSub.publish({
+            event: "renderLogIn",
+            detail: "wrapper"
+        });
+
+    </script>
 </body>
 </html>
 
