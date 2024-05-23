@@ -37,7 +37,6 @@ span {
 .statusText {
     margin: 0 auto;
     margin-bottom: 20px;
-    /* padding-right: 5px; */
 
     font-style: italic;
     margin-right: 10px;
@@ -46,6 +45,7 @@ span {
 
 .listPoster {
     width: 100%;
+    border-radius: var(--border_radius_small);
 }
 
 #listTitle {

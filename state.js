@@ -32,4 +32,4 @@ export const STATE = {
         console.log(_state);
         return STATE.get(entity);
     }
-}; //getInternal & getExternal istället för att fetcha hela tiden i varje fil
+};

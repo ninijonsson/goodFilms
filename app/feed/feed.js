@@ -12,16 +12,16 @@ PubSub.subscribe({
 async function renderFeed(parentID) {
     const parent = document.getElementById(parentID);
 
-    const userRequest = new Request(`../../api/users.php?user=${token}`, options);
+    const userRequest = new Request(`../../api/users.php?user=${token}`);
     const user = await STATE.get("user", userRequest);
 
-    const allUsersRequest = new Request(`../../api/users.php`, options);
+    const allUsersRequest = new Request(`../../api/users.php`);
     const allUsers = await STATE.get("allUsers", allUsersRequest);
 
-    const activitesRequest = new Request(`../../api/getActivity.php`, options);
+    const activitesRequest = new Request(`../../api/getActivity.php`);
     const activities = await STATE.get("allActivity", activitesRequest);
 
-    const listRequest = new Request(`../../api/lists.php`, options);
+    const listRequest = new Request(`../../api/lists.php`);
     const allLists = await STATE.get("allLists", listRequest);
 
     parent.innerHTML = `
@@ -57,7 +57,6 @@ async function renderFeed(parentID) {
     for (let i = 0; i < 6; i++) {
         const request = new Request(`https://api.themoviedb.org/3/movie/${activities[i].movieId}?language=en-US`, options);
 
-        // STATE.get()?
         fetchPromises.push(
             fetcher(request)
         )
