@@ -15,14 +15,14 @@ async function fetchMovies(type) {
     const fetchPromises = [];
     let maxMovies = 0;
 
-    if (user[type].length < 5) {
-        maxMovies = user[type].length;
+    if (info[type].length < 5) {
+        maxMovies = info[type].length;
     } else {
         maxMovies = 5;
     }
 
     for (let i = 0; i < maxMovies; i++) {
-        fetchPromises.push(fetch(`https://api.themoviedb.org/3/movie/${user[type][i]}?language=en-US`, options).then(response => response.json()))
+        fetchPromises.push(fetch(`https://api.themoviedb.org/3/movie/${info[type][i]}?language=en-US`, options).then(response => response.json()))
     }
 
     const movies = await Promise.all(fetchPromises);
@@ -33,8 +33,12 @@ async function fetchMovies(type) {
 const userRequest = new Request(`../../api/users.php?user=${token}`);
 const user = await STATE.get("user", userRequest);
 
-const friendRequest = new Request(`../../api/users.php?userId=${token}`);
+const friendRequest = new Request(`../../api/users.php?profile=${localStorage.getItem("userId")}&user=${token}`);
 const friend = await STATE.get("friend", friendRequest);
+
+let info = [];
+
+console.log(friend);
 
 const listsRequest = new Request(`../../api/lists.php?user=${token}`);
 const lists = await STATE.get("myLists", listsRequest);
@@ -42,12 +46,18 @@ const lists = await STATE.get("myLists", listsRequest);
 async function renderProfile(parentID) {
     const wrapper = document.getElementById(parentID);
 
+    if (localStorage.getItem("userId")) {
+        info = friend;
+    } else {
+        info = user;
+    }
+
     wrapper.innerHTML = `
         <div id="profileDetailsContainer">
-            <img id="backdropPoster" src="${user.header}">
+            <img id="backdropPoster" src="${info.header}">
             <div id="shadowOverlay"></div>
             <div id="profileAndEditContainer">
-                <img id="profilePicture" src="${user.avatar}">
+                <img id="profilePicture" src="${info.avatar}">
     
                 <div id="buttonContainer">
                     <button id="editButton">EDIT</button>
@@ -56,13 +66,13 @@ async function renderProfile(parentID) {
         </div>
     
             <div id="userInfo">
-                <h3 id="displayName">${user.displayName}</h3>
-                <p id="username">@${user.username.toLowerCase()}</p>
+                <h3 id="displayName">${info.displayName}</h3>
+                <p id="username">@${info.username.toLowerCase()}</p>
             </div>
     
             <div id="followContainer">
-                <p id="followers">${user.followers.length} Followers</p>
-                <p id="following">${user.following.length} Following</p>
+                <p id="followers">${info.followers.length} Followers</p>
+                <p id="following">${info.following.length} Following</p>
             </div>
     
             <hr id="followerLine">

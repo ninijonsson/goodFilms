@@ -39,6 +39,8 @@ async function renderMemberList(parentID = "wrapper") {
             const userId = user.id.slice(4);
 
             localStorage.setItem("userId", userId);
+
+            window.location = "../profile/";
         })
     });
 

@@ -117,6 +117,7 @@ export function renderHeader() {
         // Gå till profilsidan
         const profileButton = document.getElementById("profileButton");
         profileButton.addEventListener("click", (event) => {
+            localStorage.removeItem("userId");
             removeHamburgerContainer(event);
 
             window.location = "../../../app/profile/index.html"; // Hänvisa till rätt sökväg
