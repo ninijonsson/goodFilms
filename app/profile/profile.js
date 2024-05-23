@@ -321,5 +321,15 @@ async function renderProfile(parentID) {
             window.location = "../clickedList/";
         })
     });
+    let showAllUser = document.querySelector("#showAllLists");
+
+    showAllUser.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        localStorage.setItem("infoId", info.id);
+
+        window.location = "../list/";
+    });
+    //info.id <- user ID
 }
 

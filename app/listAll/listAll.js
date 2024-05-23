@@ -117,4 +117,21 @@ async function renderListAll(parentID) {
 
         window.location = '../editList/index.html';
     })
+
+    let showAllMy = document.getElementById("showAllMy");
+
+    showAllMy.addEventListener("click", (event) => {
+        event.preventDefault();
+        let userId;
+
+        if (myLists.length > 0) {
+            userId = myLists[0].createdBy;
+        } else {
+            return;
+        }
+
+        localStorage.setItem("infoId", userId);
+        
+        window.location = "../list/";
+    });
 }
