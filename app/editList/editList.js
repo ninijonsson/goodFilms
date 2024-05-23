@@ -1,3 +1,5 @@
+import {fetcher} from '../../global/logic/fetcher.js';
+
 const options = {
     method: "GET",
     headers: {
@@ -6,9 +8,9 @@ const options = {
     }
 };
 
+const token = "c62f39ace22172680875af13e02f6a6313ea1125";
 
-
-function renderEditList () {
+async function renderEditList () {
     const container = document.getElementById("wrapper");
     let tempMovieArray = [];
 
@@ -78,31 +80,31 @@ function renderEditList () {
                 for (let movie of movies.results) {
                     
                     if (movie.poster_path) {
-                    let movieBox = document.createElement("img");
-                    movieBox.id = movie.id;
+                        let movieBox = document.createElement("img");
+                        movieBox.id = movie.id;
 
-                    movieBox.src = `https://image.tmdb.org/t/p/original/${movie.poster_path}`;
-                    resultDisplay.appendChild(movieBox);
+                        movieBox.src = `https://image.tmdb.org/t/p/original/${movie.poster_path}`;
+                        resultDisplay.appendChild(movieBox);
 
-                    movieBox.addEventListener("click", () => {
-                        let idOfMovie = parseInt(movieBox.id);
-                        tempMovieArray.push(idOfMovie);
+                        movieBox.addEventListener("click", () => {
+                            let idOfMovie = parseInt(movieBox.id);
+                            tempMovieArray.push(idOfMovie);
 
-                        let addBox = document.getElementById("addBox");
+                            let addBox = document.getElementById("addBox");
 
-                        let newListContainer = document.createElement("div");
-                        newListContainer.id = movieBox.id;
-                        let newListItem = document.createElement("img");
-                        newListItem.src = movieBox.src;
-                        newListContainer.appendChild(newListItem);
-                        bottomContainer.insertBefore(newListContainer, addBox);
+                            let newListContainer = document.createElement("div");
+                            newListContainer.id = movieBox.id;
+                            let newListItem = document.createElement("img");
+                            newListItem.src = movieBox.src;
+                            newListContainer.appendChild(newListItem);
+                            bottomContainer.insertBefore(newListContainer, addBox);
 
-                        popupBackdrop.remove();
+                            popupBackdrop.remove();
 
-                        console.log(tempMovieArray);
-                        console.log(bottomContainer);
-                        
-                    });
+                            console.log(tempMovieArray);
+                            console.log(bottomContainer);
+                            
+                        });
 
                     } else {
                         continue;
@@ -111,8 +113,6 @@ function renderEditList () {
                     if (!resultDisplay.innerHTML) {
                         resultDisplay.innerHTML = `<p>No movies found</p>`;
                     }
-
-                    
                 }
             }
         })
@@ -122,24 +122,104 @@ function renderEditList () {
         });
     });
 
-    if (!localStorage.getItem("listID")) {
-        fetch("")
+    if (localStorage.getItem("listID")) {
 
-        /* 
-        POST list first if it doesnt exist
-        get listID from response
+        let userList = await fetch(`../../api/lists.php?id=${localStorage.getItem("listID")}&user=${token}`); // fetch the LIST
+        let response = await userList.json();
+        console.log(response);
+        let inputName = document.getElementById("listNameInput");
+        let inputDesc = document.getElementById("listDescriptionInput");
 
-        if it exists but input name + desc dont match -> patch list
+        let inputNameAtStart = response.name;
+        let inputDescAtStart = response.description;
 
-        then:
+        inputName.value = response.name;
+        inputDesc.textContent = response.description;
 
-        create loop of tempMovieArray to fetch
-        POST requests to list of listID
-        */
+        let header = document.querySelector("#btnContainer > h1");
+        header.textContent = `Edit ${response.name}`;
+        
+        for (let movieID of response.items) {
+            const request = new Request(`https://api.themoviedb.org/3/movie/${movieID}?language=en-US`, options);
+            let response = await fetcher(request);
 
-    } else {
+            if (!response) {
+                continue;
+            } else {
+
+                console.log(response);
+                let idOfMovie = movieID;
+
+                let addBox = document.getElementById("addBox");
+
+                let newListContainer = document.createElement("div");
+                newListContainer.id = movieID;
+                let newListItem = document.createElement("img");
+                newListItem.src = `https://image.tmdb.org/t/p/original/${response.poster_path}`;
+                newListContainer.appendChild(newListItem);
+                bottomContainer.insertBefore(newListContainer, addBox);
+            }
+        }
 
     }
+
+    let POSTbtn = document.getElementById("POSTbtn");
+
+    POSTbtn.addEventListener("click", async () => {
+        if (!localStorage.getItem("listID")) {
+
+            let inputNameValue = document.querySelector("#listNameInput").value;
+            let inputDescValue = document.querySelector("#listDescriptionInput").value;
+
+            if (inputNameValue !== "" && inputDescValue !== "") {
+
+                let options = {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json"},
+                    body: JSON.stringify({"name": inputNameValue, "description": inputDescValue, "token": token})
+                }
+
+                let rqst = new Request(`../../api/lists.php`, options);
+
+                let response = await fetcher(rqst);
+
+                localStorage.setItem("listID", response.id)
+            } else {
+                let cont = document.getElementById("inputContainer");
+                let warningText = document.createElement("p");
+                warningText.style.color = "red";
+                warningText.textContent = "Fill in both fields";
+                cont.appendChild(warningText);
+            }
+        } else {
+            
+        }
+
+        if (localStorage.getItem("listID") && tempMovieArray !== []) {
+            let rqst = await fetch(`../../api/lists.php?id=${localStorage.getItem("listID")}&user=${token}`);
+            let list = await rqst.json();
+
+            let listID = parseInt(localStorage.getItem("listID"));
+            let oldListIDs = list.items;
+
+            console.log(list);
+
+            for (let newFilmID of tempMovieArray) {
+                if (oldListIDs.includes(newFilmID)) continue; 
+
+                let options = {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json"},
+                    body: JSON.stringify({"id": listID, "movieId": newFilmID, "token": token})
+                }
+                let rqst = new Request(`../../api/lists.php`, options);
+
+                await fetcher(rqst);
+            
+            }
+
+        }
+    });
 }
 
 renderEditList();

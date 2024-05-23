@@ -10,10 +10,13 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
+
+    border: solid 1px var(--line_color);
+    border-radius: 1rem;
 }
 
 #addBox > #add {
-    width: 100%;
+    width: 70%;
     filter: invert(92%) sepia(0%) saturate(3011%) hue-rotate(272deg) brightness(108%) contrast(106%);
     cursor: pointer;
 }
@@ -26,17 +29,18 @@ header {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     justify-content: center;
-
-
 }
 
 #bottomContainer > div {
     height: 20vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #bottomContainer > div > img {
     height: 100%;
-    object-fit:cover;
+    object-fit:contain;
 }
 
 #bottomContainer > #addBox > #add {
@@ -56,6 +60,10 @@ header {
     flex-direction: column;
 
     gap: 1rem;
+}
+
+#inputContainer > p {
+    text-align: center;
 }
 
 #listDescriptionInput {

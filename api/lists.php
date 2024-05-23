@@ -48,13 +48,12 @@ if ($requestMethod == "GET") {
         }
     }
 
-    send(200, $lists);
-
     }
 }
 
 //skapa lista (token required)
-else if ($requestMethod == "POST") {
+if ($requestMethod == "POST") {
+
     if (empty($requestData)) {
         abort(400, "Bad Request (empty request)");
     }
