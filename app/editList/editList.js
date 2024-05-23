@@ -146,9 +146,6 @@ async function renderEditList () {
         let inputName = document.getElementById("listNameInput");
         let inputDesc = document.getElementById("listDescriptionInput");
 
-        let inputNameAtStart = response.name;
-        let inputDescAtStart = response.description;
-
         inputName.value = response.name;
         inputDesc.textContent = response.description;
 
@@ -191,12 +188,12 @@ async function renderEditList () {
                     let DOMtoRemove = document.getElementById(`${idOfClicked}`);
                     DOMtoRemove.remove();
 
-                    let options = {
+                    let optionsDELETE = {
                         method: "DELETE",
                         headers: { "Content-Type": "application/json"},
                         body: JSON.stringify({"id": parseInt(listID), "movieId": idOfClicked, "token": token})
                     }
-                    let rqst = new Request(`../../api/lists.php`, options);
+                    let rqst = new Request(`../../api/lists.php`, optionsDELETE);
     
                     await fetcher(rqst);                
                 });
@@ -216,13 +213,13 @@ async function renderEditList () {
 
             if (inputNameValue !== "" && inputDescValue !== "") {
 
-                let options = {
+                let optionsPOST = {
                     method: "POST",
                     headers: { "Content-Type": "application/json"},
                     body: JSON.stringify({"name": inputNameValue, "description": inputDescValue, "token": token})
                 }
 
-                let rqst = new Request(`../../api/lists.php`, options);
+                let rqst = new Request(`../../api/lists.php`, optionsPOST);
 
                 let response = await fetcher(rqst);
 
@@ -240,38 +237,38 @@ async function renderEditList () {
             let response = await userList.json();
 
             if (response.name !== inputNameValue && response.description !== inputDescValue) {
-                let options = {
+                let optionsNameDesc = {
                     method: "PATCH",
                     headers: { "Content-Type": "application/json"},
-                    body: JSON.stringify({"id": response.id, "name":inputNameValue, "token": token})
+                    body: JSON.stringify({"id": response.id, "name":inputNameValue, "description": inputDescValue, "token": token})
                 }
 
-                let rqst = new Request(`../../api/lists.php`, options);
+                let rqst = new Request(`../../api/lists.php`, optionsNameDesc);
                 fetcher(rqst);
 
             } else if (response.name !== inputNameValue) {
-                let options = {
+                let optionsName = {
                     method: "PATCH",
                     headers: { "Content-Type": "application/json"},
                     body: JSON.stringify({"id": response.id, "name":inputNameValue, "token": token})
                 }
 
-                let rqst = new Request(`../../api/lists.php`, options);
+                let rqst = new Request(`../../api/lists.php`, optionsName);
                 fetcher(rqst);
 
             } else if(response.description !== inputDescValue) {
-                let options = {
+                let optionsDesc = {
                     method: "PATCH",
                     headers: { "Content-Type": "application/json"},
                     body: JSON.stringify({"id": response.id, "description":inputDescValue, "token": token})
                 }
 
-                let rqst = new Request(`../../api/lists.php`, options);
+                let rqst = new Request(`../../api/lists.php`, optionsDesc);
                 fetcher(rqst);
             }
         }
 
-        if (localStorage.getItem("listID") && tempMovieArray !== []) {
+        if (localStorage.getItem("listID") && tempMovieArray.length !== 0) {
             let rqst = await fetch(`../../api/lists.php?id=${localStorage.getItem("listID")}&user=${token}`);
             let list = await rqst.json();
 
@@ -281,19 +278,39 @@ async function renderEditList () {
             console.log(list);
 
             for (let newFilmID of tempMovieArray) {
+        
+                if (list.backdropPath === "../../media/icons/hello_kitty.png") {
+                    const request = new Request(`https://api.themoviedb.org/3/movie/${newFilmID}?language=en-US`, options);
+                    let response = await fetcher(request);
+                    console.log(response);
+                    
+                    
+                    if (!response.backdrop_path) {
+                        continue;
+                    }
+                    let newBackdrop = response.backdrop_path;
+                    console.log(newBackdrop)
+                    let optionsPATCH = {
+                        method: "PATCH",
+                        headers: { "Content-Type": "application/json"},
+                        body: JSON.stringify({"id": listID, "backdropPath": newBackdrop, "token": token})
+                    }
+                    let rqst = new Request(`../../api/lists.php`, optionsPATCH);
+    
+                    await fetcher(rqst);
+                }
+
                 if (oldListIDs.includes(newFilmID)) continue; 
 
-                let options = {
+                let optionsPOST = {
                     method: "POST",
                     headers: { "Content-Type": "application/json"},
                     body: JSON.stringify({"id": listID, "movieId": newFilmID, "token": token})
                 }
-                let rqst = new Request(`../../api/lists.php`, options);
+                let rqst = new Request(`../../api/lists.php`, optionsPOST);
 
                 await fetcher(rqst);
-            
             }
-
         }
     });
 }
