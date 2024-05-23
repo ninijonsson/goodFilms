@@ -92,6 +92,9 @@ export function renderHeader() {
                     <img src="../../../media/icons/members_icon.svg" alt="Members icon">
                     MEMBERS
                 </div>
+                <div id="logOutButton">
+                    <img src="../../../media/icons/logout.png">
+                    LOG OUT
             </div>
         `;
 

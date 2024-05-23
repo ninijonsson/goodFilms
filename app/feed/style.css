@@ -64,3 +64,7 @@ span {
 #shortLine {
     width: 50%;
 }
+
+#hamburgerMenuContainer #logOutButton {
+    margin-top: 238px;
+}
