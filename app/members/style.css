@@ -2,13 +2,8 @@ body {
     background-image: var(--background_color);
 }
 
-img {
-    height: 5rem;
-    border-radius: 50%;
-    background-color: white;
-}
-
-h1, h2 {
+h1,
+h2 {
     margin: 0;
 }
 
@@ -17,19 +12,25 @@ h2 {
     color: grey;
 }
 
-input {
-    color: var(--font_color);
-    background-color: var(--box_input_background);
-    box-shadow: var(--box_input_innershadow);
-    border: 0;
-    margin: 1rem auto;
-
-    width: 50%;
-    height: 2rem;
-    font-size: 1rem;
+#searchMember {
+    border-radius: 3px;
+    background: rgba(102, 119, 136, 0.50);
+    box-shadow: -2px -2px 0px 0px #656667 inset;
+    border: 1px solid black;
+    height: 34px;
+    padding-left: 7px;
+    width: 97%;
+    margin: 20px 0;
 }
 
-.displayName, .username {
+#searchMember::placeholder {
+    font-family: "Alte Haas Grotesk";
+    color: var(--font_color);
+    font-style: italic;
+}
+
+.displayName,
+.username {
     font-size: 0.75rem;
     margin: 0;
 }
@@ -40,7 +41,7 @@ input {
     display: grid;
 }
 
-#topContainer > p {
+#topContainer>p {
     position: relative;
     left: 80%;
     color: grey;
@@ -57,7 +58,7 @@ input {
     width: 100%;
 }
 
-#userContainer > div {
+#userContainer>div {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -66,10 +67,16 @@ input {
     padding: 1rem 0;
 }
 
-#userContainer > h2 {
+#userContainer>h2 {
     grid-column: 1/4;
 }
 
 #wrapper {
     width: 100%;
+}
+
+.profilePicture {
+    height: 6rem;
+    border-radius: 50%;
+    background-color: white;
 }

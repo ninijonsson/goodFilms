@@ -46,6 +46,11 @@ PubSub.subscribe({
     listener: () => renderHeader()
 });
 
+PubSub.subscribe({
+    event: "renderMemberList",
+    listener: () => renderHeader()
+});
+
 export function renderHeader() {
     const header = document.querySelector("header");
 

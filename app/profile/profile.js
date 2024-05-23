@@ -273,8 +273,6 @@ async function renderProfile(parentID) {
 
     const likedMovies = await fetchMovies("liked");
 
-    console.log(likedMovies);
-
     for (let i = 0; i < likedMovies.length; i++) {
         if (likedMovies[i].poster_path === undefined) {
             continue;
