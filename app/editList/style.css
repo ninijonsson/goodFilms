@@ -36,6 +36,13 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
+
+    flex-direction: column;
+}
+
+#bottomContainer > div > button {
+    width: 80%;
+    border: 0;
 }
 
 #bottomContainer > div > img {
@@ -115,7 +122,7 @@ header {
 }
 
 #POSTbtn {
-    height: 40%;
+    height: 50%;
     margin-top: 1rem;
 
     background-color: var(--button_background);
