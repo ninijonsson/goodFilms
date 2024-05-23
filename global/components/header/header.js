@@ -150,7 +150,6 @@ export function renderHeader() {
         const logOutBttn = document.getElementById("logOutButton");
         logOutBttn.addEventListener("click", (event) => {
             localStorage.removeItem("token");
-            document.querySelector("#wrapper").innerHTML = null;
     
            window.location = "../../start/";
         });

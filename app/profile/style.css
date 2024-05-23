@@ -155,3 +155,24 @@ input::placeholder {
     color: var(--font_color);
     font-style: italic;
 }
+
+#deleteBttn {
+    margin-right: 20px;
+    margin-top: 10px;
+
+    font-family: "Alte Haas Grotesk";
+    color: var(--font_color);
+    background-color: firebrick;
+    filter: var(--button_drop_shadow);
+    border-radius: var(--border_radius_small);
+    border: 1px solid black;
+    padding: 7px 26px;
+    font-size: 12px;
+
+    cursor: pointer;
+}
+
+#buttonContainer {
+    display: flex;
+    flex-direction: column;
+}

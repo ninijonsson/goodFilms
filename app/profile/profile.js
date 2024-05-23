@@ -2,6 +2,7 @@ import { PubSub } from "../../global/logic/PubSub.js";
 import { STATE } from "../../state.js";
 import { options } from "../../state.js";
 import { token } from "../../state.js";
+import {fetcher} from '../../global/logic/fetcher.js';
 
 PubSub.subscribe({
     event: "renderProfile",
@@ -153,6 +154,26 @@ async function renderProfile(parentID) {
 
             editButton.classList.add("save");
             editButton.textContent = "SAVE";
+
+            const deleteBttn = document.createElement("button");
+            document.getElementById("buttonContainer").append(deleteBttn);
+            deleteBttn.textContent = "DELETE :(";
+            deleteBttn.id = "deleteBttn";
+
+            deleteBttn.addEventListener("click", async () => {
+                window.alert("Are you sure you want to proceed? A kitten dies every time a user is deleted... :(");
+
+                let deleteRqst = new Request ("../../api/users.php", {
+                    method: "DELETE",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({"token": token})
+                });
+
+                let deleteFetch = await fetcher(deleteRqst);
+                localStorage.removeItem("token");
+                window.location = "../../start/";
+
+            });
         }
     })
 
