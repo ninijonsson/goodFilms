@@ -49,6 +49,7 @@ header {
 
 header img {
     height: 58%;
+    cursor: pointer;
 }
 
 #hamburgerMenuContainer #closeButton {

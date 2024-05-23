@@ -21,11 +21,13 @@ async function renderFeed(parentID) {
     const activitesRequest = new Request(`../../api/getActivity.php`);
     const activities = await STATE.get("allActivity", activitesRequest);
 
+    console.log(activities);
+
     const listRequest = new Request(`../../api/lists.php`);
     const allLists = await STATE.get("allLists", listRequest);
 
     parent.innerHTML = `
-        <h1 id="welcomeText">WELCOME, <span>${user.displayName.toUpperCase()}!</span></h1>
+        <h1 id="welcomeText">WELCOME, <span>${user.displayName.toUpperCase()}</span> !</h1>
 
         <div id="activityFeed">
             <h2 id="activityTitle">ACTIVITY FROM FRIENDS</h2>
@@ -54,7 +56,14 @@ async function renderFeed(parentID) {
     let fetchPromises = [];
     activities.reverse();
 
-    for (let i = 0; i < 6; i++) {
+    let maxNum = 0;
+    if (activities.length < 6) {
+        maxNum = activities.length;
+    } else {
+        maxNum = 6;
+    }
+
+    for (let i = 0; i < maxNum; i++) {
         const request = new Request(`https://api.themoviedb.org/3/movie/${activities[i].movieId}?language=en-US`, options);
 
         fetchPromises.push(
