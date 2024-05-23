@@ -89,6 +89,8 @@ else if ($requestMethod == "POST") {
                 $itemCount = count($listDatabase[$i]["items"]);
                 $listDatabase[$i]["itemCount"] = $itemCount;
 
+                $json = json_encode($listDatabase, JSON_PRETTY_PRINT);
+                file_put_contents("lists.json", $json);
                 send(201, $listDatabase[$i]);
                 break;
             }
@@ -101,10 +103,6 @@ else if ($requestMethod == "POST") {
         ];
 
         logActivity($activity);
-
-        $json = json_encode($listDatabase, JSON_PRETTY_PRINT);
-        file_put_contents("lists.json", $json);
-        send(201, $requestData["movieId"]);
     }
 
     $newListKeys = ["name", "description"]; 
