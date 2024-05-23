@@ -136,7 +136,7 @@ if (window.localStorage.getItem("movieInfo")) {
     // Klick-event för "like"
     const heart = document.querySelector(".heart");
 
-    if (user.watched.includes(movie.id)) {
+    if (user.liked.includes(movie.id)) {
         heart.src = "../../media/icons/filled_heart.png";
     }
 
@@ -163,8 +163,6 @@ if (window.localStorage.getItem("movieInfo")) {
 
             const response = await fetch(request);
             const amountOfLikes = await response.json();
-
-            console.log(amountOfLikes);
 
             document.getElementById("likedAmount").textContent = data.liked + 1;
 
@@ -214,8 +212,6 @@ if (window.localStorage.getItem("movieInfo")) {
 
             const response = await fetch(request);
             const amountOfWatches = await response.json();
-
-            console.log(amountOfWatches);
 
             document.getElementById("watchedAmount").textContent = data.watched;
 

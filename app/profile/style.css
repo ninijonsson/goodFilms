@@ -1,9 +1,13 @@
-#userInfo,
 #followContainer,
 #watchedContainer,
 #likedContainer,
 #listsContainer {
     margin: var(--body_margin);
+}
+
+#userInfo {
+    margin-left: 26px;
+    margin-top: 20px;
 }
 
 #profileAndEditContainer {
@@ -122,6 +126,18 @@
 
 #listLine {
     margin-bottom: 20px;
+}
+
+#followContainer {
+    display: flex;
+    flex-direction: row;
+
+    margin: 0;
+    margin-left: 28px;
+}
+
+#following {
+    margin-left: 20px;
 }
 
 input {

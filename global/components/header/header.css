@@ -27,12 +27,17 @@ header {
     background-color: var(--menu_opened_background);
     color: var(--menu_opened_font_color);
     height: 100%;
-    width: 60%;
+    width: 70%;
     padding: 30px 20px;
 }
 
+#hamburgerMenuContainer div img {
+    width: 26px;
+    margin-right: 6px;
+}
+
 #hamburgerMenuContainer>div {
-    margin: 10px 0;
+    margin: 20px 0;
     margin-left: 10px;
     font-size: var(--menu_opened_font_size);
     cursor: pointer;
@@ -44,4 +49,12 @@ header {
 
 header img {
     height: 58%;
+}
+
+#hamburgerMenuContainer #closeButton {
+    margin-bottom: 44px;
+}
+
+#hamburgerMenuContainer #homeButton {
+    margin-bottom: 70px;
 }
