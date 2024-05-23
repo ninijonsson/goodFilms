@@ -67,5 +67,11 @@ async function renderList (parentID) {
                 
             </div>
         `;
+        let editBtn = document.querySelector(".edit");
+        editBtn.addEventListener("click", (event) => {
+            let listId = event.target.parentElement.parentElement.id;
+            localStorage.setItem("listID", listId);
+            window.location = '../editList/index.html';
+        });
     }
 }
