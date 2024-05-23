@@ -65,6 +65,12 @@ span {
     width: 50%;
 }
 
-#hamburgerMenuContainer #logOutButton {
-    margin-top: 238px;
+#loner {
+    align-self: start;
+    grid-column: 2;
+    font-style: italic;
+}
+
+span {
+    font-weight: bolder;
 }

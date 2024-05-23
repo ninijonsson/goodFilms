@@ -97,7 +97,23 @@ async function renderEditList () {
                             let newListItem = document.createElement("img");
                             newListItem.src = movieBox.src;
                             newListContainer.appendChild(newListItem);
+
+                            let removeBtn = document.createElement("button");
+                            removeBtn.textContent = "Remove";
+                            removeBtn.style.backgroundColor = "red";
+                            newListContainer.appendChild(removeBtn);
+
                             bottomContainer.insertBefore(newListContainer, addBox);
+
+                            removeBtn.addEventListener("click", (event) => {
+                                
+                                let movieID = parseInt(event.target.parentElement.id);
+                                
+                                console.log(movieID);
+                                tempMovieArray.splice(tempMovieArray.indexOf(movieID), 1);
+                                console.log(tempMovieArray);
+                                event.target.parentElement.remove();
+                            })
 
                             popupBackdrop.remove();
 
@@ -138,6 +154,9 @@ async function renderEditList () {
 
         let header = document.querySelector("#btnContainer > h1");
         header.textContent = `Edit ${response.name}`;
+
+        let POSTbtn = document.getElementById("POSTbtn");
+        POSTbtn.textContent = "Save";
         
         for (let movieID of response.items) {
             const request = new Request(`https://api.themoviedb.org/3/movie/${movieID}?language=en-US`, options);
@@ -157,7 +176,30 @@ async function renderEditList () {
                 let newListItem = document.createElement("img");
                 newListItem.src = `https://image.tmdb.org/t/p/original/${response.poster_path}`;
                 newListContainer.appendChild(newListItem);
+
+                let removeBtn = document.createElement("button");
+                removeBtn.textContent = "Remove";
+                removeBtn.style.backgroundColor = "red";
+                newListContainer.appendChild(removeBtn);
+
                 bottomContainer.insertBefore(newListContainer, addBox);
+
+                removeBtn.addEventListener("click", async (event) => {
+                    let idOfClicked = parseInt(event.target.parentElement.id);
+                    let listID = localStorage.getItem("listID");
+
+                    let DOMtoRemove = document.getElementById(`${idOfClicked}`);
+                    DOMtoRemove.remove();
+
+                    let options = {
+                        method: "DELETE",
+                        headers: { "Content-Type": "application/json"},
+                        body: JSON.stringify({"id": parseInt(listID), "movieId": idOfClicked, "token": token})
+                    }
+                    let rqst = new Request(`../../api/lists.php`, options);
+    
+                    await fetcher(rqst);                
+                });
             }
         }
 
@@ -166,10 +208,11 @@ async function renderEditList () {
     let POSTbtn = document.getElementById("POSTbtn");
 
     POSTbtn.addEventListener("click", async () => {
-        if (!localStorage.getItem("listID")) {
 
-            let inputNameValue = document.querySelector("#listNameInput").value;
-            let inputDescValue = document.querySelector("#listDescriptionInput").value;
+        let inputNameValue = document.querySelector("#listNameInput").value;
+        let inputDescValue = document.querySelector("#listDescriptionInput").value;
+
+        if (!localStorage.getItem("listID")) {
 
             if (inputNameValue !== "" && inputDescValue !== "") {
 
@@ -185,6 +228,7 @@ async function renderEditList () {
 
                 localStorage.setItem("listID", response.id)
             } else {
+
                 let cont = document.getElementById("inputContainer");
                 let warningText = document.createElement("p");
                 warningText.style.color = "red";
@@ -192,7 +236,39 @@ async function renderEditList () {
                 cont.appendChild(warningText);
             }
         } else {
-            
+            let userList = await fetch(`../../api/lists.php?id=${localStorage.getItem("listID")}&user=${token}`); // fetch the LIST
+            let response = await userList.json();
+
+            if (response.name !== inputNameValue && response.description !== inputDescValue) {
+                let options = {
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json"},
+                    body: JSON.stringify({"id": response.id, "name":inputNameValue, "token": token})
+                }
+
+                let rqst = new Request(`../../api/lists.php`, options);
+                fetcher(rqst);
+
+            } else if (response.name !== inputNameValue) {
+                let options = {
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json"},
+                    body: JSON.stringify({"id": response.id, "name":inputNameValue, "token": token})
+                }
+
+                let rqst = new Request(`../../api/lists.php`, options);
+                fetcher(rqst);
+
+            } else if(response.description !== inputDescValue) {
+                let options = {
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json"},
+                    body: JSON.stringify({"id": response.id, "description":inputDescValue, "token": token})
+                }
+
+                let rqst = new Request(`../../api/lists.php`, options);
+                fetcher(rqst);
+            }
         }
 
         if (localStorage.getItem("listID") && tempMovieArray !== []) {

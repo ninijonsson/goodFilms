@@ -117,6 +117,7 @@ export function renderHeader() {
         // Gå till profilsidan
         const profileButton = document.getElementById("profileButton");
         profileButton.addEventListener("click", (event) => {
+            localStorage.removeItem("userId");
             removeHamburgerContainer(event);
 
             window.location = "../../../app/profile/index.html"; // Hänvisa till rätt sökväg
@@ -143,15 +144,14 @@ export function renderHeader() {
         membersButton.addEventListener("click", (event) => {
             removeHamburgerContainer(event);
 
-            window.location = "members"; // Hänvisa till rätt sökväg
+            window.location = "../../../app/members/index.html"; // Hänvisa till rätt sökväg
         })
 
         //Logga ut
         const logOutBttn = document.getElementById("logOutButton");
         logOutBttn.addEventListener("click", (event) => {
             localStorage.removeItem("token");
-    
-           window.location = "../../start/";
+            window.location = "../../start/";
         });
     });
 }
