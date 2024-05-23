@@ -27,7 +27,7 @@ if ($requestMethod == "GET") {
                 }
             }
         }
-        
+
         foreach ($userDatabase as $user) {
              if ($user["id"] == $userInfo["id"]){
                 send(201, $user);
@@ -63,8 +63,8 @@ else if ($requestMethod == "POST") // Register a new user
         "lists" => [],
         "following" => [],
         "followers" => [],
-        "avatar" => "..\/..\/media\/icons\/profile_picture.png",
-        "header" => "..\/..\/media\/icons\/test_backdrop_profile.jpeg"
+        "avatar" => "../../media/icons/profile_picture.png",
+        "header" => "../../media/icons/test_backdrop_profile.jpeg"
     ];
 
     foreach ($extraValuesForANewUser as $key => $value) {
@@ -113,18 +113,27 @@ else if ($requestMethod == "DELETE") // Delete an account (token required)
         abort(400, "Bad Request (missing token)");
     }
     
-    $user = getUserFromToken($requestData["token"]);
+    $userToDelete = getUserFromToken($requestData["token"]);
+    $userDatabase = getDatabase("users.json");
 
-    if ($user == false) {
+    if ($userToDelete == false) {
         abort(400, "Bad Request (invalid token)");
     }
 
     // Clean up games/characters the user created and/or liked
-    removeUserLists($user["username"]);
+    removeUserLists($userToDelete["username"]);
 
-    $deletedUser = deleteItemByType("users.json", $user);
-    unset($deletedUser["password"]);
-    send(200, $deletedUser);
+    for ($i = 0; $i < count($userDatabase); $i++) {
+        if ($userDatabase[$i]["id"] == $userToDelete["id"]) {
+            array_splice($userDatabase, $i, 1); 
+
+            $json = json_encode($userDatabase, JSON_PRETTY_PRINT);
+            file_put_contents("users.json", $json);
+
+            send(200, $userDatabase);
+            break;
+        }
+    }
 }
 else
 {
