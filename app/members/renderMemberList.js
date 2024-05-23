@@ -1,6 +1,6 @@
-import {fetcher} from '../../global/logic/fetcher.js';
+import { fetcher } from '../../global/logic/fetcher.js';
 
-async function renderMemberList (parentID = "wrapper") {
+async function renderMemberList(parentID = "wrapper") {
     const container = document.getElementById(parentID);
 
     let users = await fetcher("../../api/users.php");
@@ -30,6 +30,20 @@ async function renderMemberList (parentID = "wrapper") {
         usersContainer.appendChild(userContainer);
     }
 
+    const usersFound = document.querySelectorAll("#userContainer div");
+
+    usersFound.forEach(user => {
+        user.addEventListener("click", (event) => {
+            event.preventDefault();
+
+            const userId = user.id.slice(4);
+
+            localStorage.setItem("userId", userId);
+
+            window.location = "../profile/";
+        })
+    });
+
     document.getElementById("results").textContent = `${users.length} results`;
     const input = document.querySelector("input");
 
@@ -40,20 +54,20 @@ async function renderMemberList (parentID = "wrapper") {
             const usersContainer = document.getElementById("userContainer");
             usersContainer.innerHTML = ``;
 
-            for (let user of users){
-                
+            for (let user of users) {
+
                 if (user.displayName.includes(input.value)) {
 
                     let foundUserContainer = document.createElement("div");
                     foundUserContainer.id = `user${user.id}`;
                     resultsCounter++;
-            
+
                     foundUserContainer.innerHTML = `
                                                 <img src="${user.avatar}">
                                                 <p class="displayName">${user.displayName}</p>
                                                 <p class="username">@${user.username}</p>
                     `;
-                    
+
                     usersContainer.append(foundUserContainer);
                 }
 
