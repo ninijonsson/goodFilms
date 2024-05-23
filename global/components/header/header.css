@@ -58,3 +58,7 @@ header img {
 #hamburgerMenuContainer #homeButton {
     margin-bottom: 70px;
 }
+
+#hamburgerMenuContainer #logOutButton {
+    margin-top: 238px;
+}
