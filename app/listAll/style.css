@@ -47,6 +47,7 @@
     justify-content: space-between;
     padding: 0px 17px;
     margin: 20px 0;
+    cursor:pointer;
 
     border: 2px dotted var(--font_color);
 }

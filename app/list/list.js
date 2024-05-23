@@ -1,6 +1,6 @@
 import { PubSub } from "../../global/logic/PubSub.js";
 import { fetcher } from '../../global/logic/fetcher.js';
-
+import { token } from '../../state.js';
 
 
 async function renderList (parentID) {
@@ -27,8 +27,6 @@ async function renderList (parentID) {
     });
 
     const listsContainer = document.getElementById("listsContainer");
-
-    const token = "c62f39ace22172680875af13e02f6a6313ea1125";
 
     let userLists = await fetcher(`../../api/lists.php?user=${token}`);
 

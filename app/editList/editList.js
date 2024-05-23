@@ -1,14 +1,12 @@
 import {fetcher} from '../../global/logic/fetcher.js';
+import {options} from '../../state.js';
+import {token} from '../../state.js';
+import {PubSub} from '../../global/logic/PubSub.js';
 
-const options = {
-    method: "GET",
-    headers: {
-        accept: "application/json",
-        Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1ZjJhYjRlMGQ2MWMxY2MxNDUzOTVmYjhmYWI1ZGZiMSIsInN1YiI6IjY2MThmMDVjMTA5Y2QwMDE2NWEzODEzYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Nj98FemKpT0B2H3wU6gj47MrwtNhMTHRQ4Z3om_-I5E"
-    }
-};
-
-const token = "c62f39ace22172680875af13e02f6a6313ea1125";
+PubSub.subscribe({
+    event: "renderEditList",
+    listener: renderEditList()
+})
 
 async function renderEditList () {
     const container = document.getElementById("wrapper");
@@ -205,6 +203,7 @@ async function renderEditList () {
     let POSTbtn = document.getElementById("POSTbtn");
 
     POSTbtn.addEventListener("click", async () => {
+        
 
         let inputNameValue = document.querySelector("#listNameInput").value;
         let inputDescValue = document.querySelector("#listDescriptionInput").value;
@@ -312,7 +311,10 @@ async function renderEditList () {
                 await fetcher(rqst);
             }
         }
+
+        localStorage.setItem("list", `../../api/lists.php?id=${localStorage.getItem("listID")}&user=${token}`);
+
+        window.location = '../clickedList/index.html';
+
     });
 }
-
-renderEditList();
