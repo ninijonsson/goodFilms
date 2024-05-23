@@ -122,4 +122,14 @@ async function renderFeed(parentID) {
         <p id="listDescription">${allLists[i].description}</p>
     `;
     }
+
+    document.querySelectorAll("#newListPosters img").forEach(list => {
+        list.addEventListener("click", (event) => {
+            event.preventDefault();
+
+            localStorage.setItem("list", `../../api/lists.php?id=${event.target.id}&user=${token}`);
+
+            window.location = "../clickedList/";
+        })
+    });
 }
