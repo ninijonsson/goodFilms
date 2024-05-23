@@ -10,7 +10,7 @@ function renderRegister (parentID) {
     const DOM = document.getElementById(parentID);
     DOM.innerHTML = `
     <div id="top">
-        <a href="../start"><div id="logo">
+        <a href="../start/"><div id="logo">
             <img id="logoImg" src="../../media/icons/logo.svg">
             <h1 id="logoFont">goodFilms</h1>
         </div></a>

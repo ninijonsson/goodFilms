@@ -36,7 +36,7 @@ export async function renderLandingPage(parentID) {
     <hr id="topLine">
     <div id="middle">
         <button id="join">JOIN US NOW!</button>
-        <h2>Already a member? <a id="logInLink" href="start/login">Log in</a></h2>
+        <h2>Already a member? <a id="logInLink" href="./login">Log in</a></h2>
     </div>
     <hr id="middleLine">
     <div id="bottom">
@@ -48,7 +48,7 @@ export async function renderLandingPage(parentID) {
 
     const joinBttn = document.getElementById("join");
     joinBttn.addEventListener("click", () => {
-        window.location = "start/register";
+        window.location = "./register";
     });
 
 
