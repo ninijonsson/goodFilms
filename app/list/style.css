@@ -1,0 +1,75 @@
+body {
+    overflow:scroll;
+    margin: 0;
+}
+
+.imgContainer > img {
+    height: 20vh;
+    width: 100vw;
+}
+
+h1 {
+    margin-bottom: 0;
+}
+
+h2, h3, p {
+    margin: 0; 
+}
+
+h3 {
+    font-size: 1rem;
+}
+
+p {
+    grid-row: 3 / 4;
+}
+
+.edit {
+    position: relative;
+    left: 87vw;
+}
+
+.imgContainer {
+    width: 100%;
+}
+
+.listInfo {
+    display: grid;
+    width: 100%;
+    gap: 1rem;
+}
+
+.singleListContainer {
+    padding-bottom: 1rem;
+    border-bottom: solid 1px var(--line_color);
+}
+
+#addListBtn {
+    position: relative;
+    left: 85vw;
+    bottom: 1rem;
+}
+
+#headerContainer {
+    border-bottom: solid 1px var(--line_color);
+    margin-bottom: 1rem;
+    height: 5rem;
+}
+
+#inputContainer {
+    width: 80%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#listsContainer {
+    display: flex;
+    flex-direction: column;
+
+    gap: 2rem;
+}

@@ -1,3 +1,5 @@
+import {fetcher} from '../../global/logic/fetcher.js';
+
 function renderLogIn (parentID) {
     const DOM = document.getElementById(parentID);
     DOM.innerHTML = `
@@ -13,9 +15,9 @@ function renderLogIn (parentID) {
             <input type="text" name="username" placeholder="username" id="username">
             <input type="password" name="password" placeholder="password" id="password">
         </div>
-        
+
         <button id="logIn">LOG IN</button>
-        <h3>Not a memeber? <a id="registerLink" href="../register">Register</a></h3>
+        <h3>Not a memeber? <a id="registerLink" href="../start/register">Register</a></h3>
         <hr id="bottomLine">
     </div>
     `;
@@ -26,27 +28,65 @@ function renderLogIn (parentID) {
     // })
 
     const logInBttn = document.getElementById("logIn");
-
     logInBttn.addEventListener("click", async () => {
         let username = await document.getElementById("username").value;
         let password = await document.getElementById("password").value;
 
         if (username && password) {
-            console.log("hej");
             let userInfo = {
                 username: username,
                 password: password,
             };
-    
-            let logInRqst = new Request(`api/login.php`, {
+
+            let logInRqst = new Request ("../../api/login.php", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(userInfo)
             });
     
             let logInFetch = await fetcher(logInRqst);
+
+            if (logInFetch === undefined) {
+                window.alert("Ooops... login failed. Please, check that your username and password are correct.");
+            }
+
             let logInToken = await logInFetch.token;
-            
+            localStorage.setItem("token", logInToken);
+
+            //pubSub Logged In Feed elr. window.location = "path/länk";
+        }
+    });
+
+    const passwordInput = document.getElementById("password");
+    passwordInput.addEventListener("keypress", async (event) => {
+        if (event.key === "Enter") {
+            let username = await document.getElementById("username").value;
+            let password = await document.getElementById("password").value;
+    
+            if (username && password) {
+                let userInfo = {
+                    username: username,
+                    password: password,
+                };
+    
+                let logInRqst = new Request ("../../api/login.php", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify(userInfo)
+                });
+        
+                let logInFetch = await fetcher(logInRqst);
+
+                if (logInFetch === undefined) {
+                    window.alert("Ooops... login failed. Please, check that your username and password are correct.");
+                }
+
+                let logInToken = await logInFetch.token;
+                localStorage.setItem("token", logInToken);
+
+                //pubSub Logged In Feed elr. window.location = "path/länk";
+                
+            }
         }
     });
     

@@ -48,13 +48,13 @@ body {
     align-items: center;
     flex-direction: column;
 
+    margin-top: 50px;
+
 }
 
 #inputFields {
     display: flex;
     flex-direction: column;
-
-    margin-top: 20px;
 }
 
 input {
@@ -81,8 +81,8 @@ input::placeholder {
     font-style: italic;
 }
  
-#username {
-    margin-bottom: 50px;
+#username, #name, #password, #confPassword {
+    margin-bottom: 20px;
 }
 
 #bottomLine {
@@ -93,8 +93,7 @@ input::placeholder {
 }
 
 button {
-    margin-top: 100px;
-    margin-right: 20px;
+ margin: 20px;
 
     font-family: "Alte Haas Grotesk";
     color: var(--font_color);
