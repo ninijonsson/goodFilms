@@ -33,6 +33,9 @@ async function fetchMovies(type) {
 const userRequest = new Request(`../../api/users.php?user=${token}`);
 const user = await STATE.get("user", userRequest);
 
+const friendRequest = new Request(`../../api/users.php?userId=${token}`);
+const friend = await STATE.get("friend", friendRequest);
+
 const listsRequest = new Request(`../../api/lists.php?user=${token}`);
 const lists = await STATE.get("myLists", listsRequest);
 

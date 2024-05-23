@@ -143,7 +143,7 @@ export function renderHeader() {
         membersButton.addEventListener("click", (event) => {
             removeHamburgerContainer(event);
 
-            window.location = "members"; // Hänvisa till rätt sökväg
+            window.location = "../../../app/members/index.html"; // Hänvisa till rätt sökväg
         })
 
         //Logga ut
@@ -151,8 +151,8 @@ export function renderHeader() {
         logOutBttn.addEventListener("click", (event) => {
             localStorage.removeItem("token");
             document.querySelector("#wrapper").innerHTML = null;
-    
-           window.location = "../../start/";
+
+            window.location = "../../start/";
         });
     });
 }
