@@ -16,6 +16,7 @@ $requestData = getRequestData();
 //hämta user lists (token required)
 if ($requestMethod == "GET") {
     $listDatabase = getDatabase("lists.json");
+    $userDatabase = getDatabase("users.json");
 
     if (isset ($_GET["user"])) {
 
@@ -32,7 +33,6 @@ if ($requestMethod == "GET") {
         }
     
 
-        $userDatabase = getDatabase("users.json");
         foreach($userDatabase as $user) {
             if ($user["id"] == $userInfo["id"]) {
                 $listIds = $user["lists"];
@@ -43,13 +43,32 @@ if ($requestMethod == "GET") {
         foreach($listIds as $listId) {
             foreach($listDatabase as $list){
                 if ($list["id"] == $listId) {
-                    $lists[] = $list; 
+                    $lists[] = $list;
                 }
             }
         }
 
         send(200, $lists);
 
+    }
+
+    if (isset($_GET["profile"])) {
+        foreach($userDatabase as $user) {
+            if ($user["id"] == $_GET["profile"]) {
+                $listIds = $user["lists"];
+            }
+        }
+
+        $lists = [];
+        foreach($listIds as $listId) {
+            foreach($listDatabase as $list){
+                if ($list["id"] == $listId) {
+                    $lists[] = $list;
+                }
+            }
+        }
+
+        send(200, $lists);
     }
 
     send(201, $listDatabase);
