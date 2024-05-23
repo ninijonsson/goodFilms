@@ -108,4 +108,13 @@ async function renderListAll(parentID) {
             window.location = "../clickedList/";
         })
     })
+    let createNewListContainer = document.getElementById("createNewListContainer");
+    createNewListContainer.addEventListener("click", () => {
+        
+        if (localStorage.getItem("listID")) {
+            localStorage.removeItem("listID")
+        }
+
+        window.location = '../editList/index.html';
+    })
 }
