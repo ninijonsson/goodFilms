@@ -1,0 +1,64 @@
+#wrapper {
+    margin: 18px;
+}
+
+#welcomeText {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+#activityTitle,
+#newLists {
+    margin-bottom: 8px;
+}
+
+#activityLine {
+    margin-bottom: 20px;
+}
+
+span {
+    font-weight: 900;
+}
+
+.movie {
+    width: 95%;
+    border-radius: var(--border_radius_small);
+}
+
+#movieContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.username {
+    margin: 2px auto;
+}
+
+.statusText {
+    margin: 0 auto;
+    margin-bottom: 20px;
+    /* padding-right: 5px; */
+
+    font-style: italic;
+}
+
+.listPoster {
+    width: 100%;
+}
+
+#listTitle {
+    font-size: 24px;
+    margin: 0;
+    margin-top: 10px;
+}
+
+#listDescription {
+    font-family: "Crimson";
+    color: var(--description_font_color);
+    margin: 10px 0;
+    margin-bottom: 40px;
+}
+
+#shortLine {
+    width: 50%;
+}

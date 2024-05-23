@@ -1,4 +1,5 @@
 import { renderHeader } from "../../global/components/header/header.js"
+import { fetcher } from "../../global/logic/fetcher.js"
 
 // Gör om till global variabel
 const options = {
@@ -14,21 +15,15 @@ renderHeader();
 // Test token
 const token = "c62f39ace22172680875af13e02f6a6313ea1125";
 
-async function getUser() {
-    const response = await fetch(`../../api/users.php?user=${token}`);
-    const user = await response.json();
-
-    return user;
-}
-
 async function fetchMovie(i) {
-    const response = await fetch(`https://api.themoviedb.org/3/movie/${user.watched[i]}?language=en-US`, options);
+    const response = await fetch();
     const movie = await response.json();
 
     return movie;
 }
 
-const user = await getUser();
+const userRequest = new Request(`../../api/users.php?user=${token}`, options)
+const user = await fetcher(userRequest);
 
 const wrapper = document.getElementById("wrapper");
 
@@ -40,16 +35,24 @@ wrapper.innerHTML = `
     <div id="moviesContainer"></div>
 `;
 
-// Kontrollera token
-
 const moviesContainer = document.getElementById("moviesContainer");
 
-for (let i = 0; i < user.watched.length; i++) {
-    // Gör till Promise.all();
-    const movie = await fetchMovie(i);
+let fetchPromises = [];
 
-    // Vissa filmer saknar poster, skippa dem
-    if (movie.poster_path === undefined) {
+for (let i = 0; i < user.watched.length; i++) {
+    const request = new Request(`https://api.themoviedb.org/3/movie/${user.watched[i]}?language=en-US`, options);
+
+    fetchPromises.push(
+        fetcher(request)
+    );
+}
+
+const results = await Promise.all(fetchPromises);
+
+for (let i = 0; i < results.length; i++) {
+    const movie = await results[i];
+
+    if (movie === undefined) {
         continue;
     }
 
