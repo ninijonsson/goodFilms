@@ -51,7 +51,13 @@ async function renderProfile(parentID) {
         info = user;
     }
 
-    console.log(info);
+    const allListsRequest = new Request(`../../api/lists.php`, options);
+    const allLists = await STATE.get("allLists", allListsRequest);
+    const foundLists = allLists.filter(list => {
+        return list.createdBy === info.id;
+    });
+
+    console.log(foundLists);
 
     wrapper.innerHTML = `
         <div id="profileDetailsContainer">
@@ -102,7 +108,7 @@ async function renderProfile(parentID) {
     
         <div id="listsContainer">
             <div id="yourListsContainer">
-                <h4 id="listsTitle">YOUR LISTS</h4>
+                <h4 id="listsTitle">${info.displayName.toUpperCase()}S LISTS</h4>
                 <h6 id="showAllLists">SHOW ALL</h6>
             </div>
     
@@ -273,12 +279,20 @@ async function renderProfile(parentID) {
     // SHOW LISTS
     const listPosters = document.getElementById("listPosters");
 
-    for (let i = 0; i < lists.length; i++) {
+    for (let i = 0; i < foundLists.length; i++) {
         listPosters.innerHTML += `
-            <img class="listPoster" id="${lists[i].id}" src="${lists[i].backdropPath}">
-            <h5 id="listTitle">${lists[i].name}</h5>
-            <p id="listDescription">${lists[i].description}</p>
+            <img class="listPoster" id="${foundLists[i].id}" src="${foundLists[i].backdropPath}">
+            <h5 id="listTitle">${foundLists[i].name}</h5>
+            <p id="listDescription">${foundLists[i].description}</p>
         `;
     }
+
+    document.querySelectorAll("#listPosters img").forEach(list => {
+        list.addEventListener("click", (event) => {
+            event.preventDefault();
+
+            window.location = "../clickedList/";
+        })
+    });
 }
 
