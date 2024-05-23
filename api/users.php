@@ -55,8 +55,8 @@ else if ($requestMethod == "POST") // Register a new user
         "lists" => [],
         "following" => [],
         "followers" => [],
-        "avatar" => "",
-        "header" => ""
+        "avatar" => "..\/..\/media\/icons\/profile_picture.png",
+        "header" => "..\/..\/media\/icons\/test_backdrop_profile.jpeg"
     ];
 
     foreach ($extraValuesForANewUser as $key => $value) {

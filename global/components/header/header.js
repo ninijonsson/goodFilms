@@ -145,6 +145,15 @@ export function renderHeader() {
 
             window.location = "members"; // Hänvisa till rätt sökväg
         })
+
+        //Logga ut
+        const logOutBttn = document.getElementById("logOutButton");
+        logOutBttn.addEventListener("click", (event) => {
+            localStorage.removeItem("token");
+            document.querySelector("#wrapper").innerHTML = null;
+    
+           window.location = "../../start/";
+        });
     });
 }
 
