@@ -1,5 +1,5 @@
-import { PubSub } from "../../logic/PubSub.js"
-import { renderHamburgerMenu } from "../hamburgerMenu/hamburgerMenu.js"
+import { PubSub } from "../../logic/PubSub.js";
+import { renderHamburgerMenu } from "../hamburgerMenu/hamburgerMenu.js";
 
 // // Skapa hamburgarmenyn
 // PubSub.publish({
@@ -19,8 +19,14 @@ export function renderHeader() {
     renderHamburgerMenu();
 
     header.innerHTML += `
-        <img src="../../media/icons/logo.svg">
+        <img id="headerLogo" src="../../media/icons/logo.svg">
     `;
+
+    const headerLogo = document.getElementById("headerLogo");
+
+    headerLogo.addEventListener("click", (event) => {
+        window.location = "../../../app/feed/index.html";
+    });
 
     const hamburgerMenu = document.getElementById("hamburgerContainer");
 

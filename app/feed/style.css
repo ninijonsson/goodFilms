@@ -7,7 +7,8 @@
     margin-bottom: 60px;
 }
 
-#activityTitle {
+#activityTitle,
+#newLists {
     margin-bottom: 8px;
 }
 
@@ -39,4 +40,25 @@ span {
     /* padding-right: 5px; */
 
     font-style: italic;
+}
+
+.listPoster {
+    width: 100%;
+}
+
+#listTitle {
+    font-size: 24px;
+    margin: 0;
+    margin-top: 10px;
+}
+
+#listDescription {
+    font-family: "Crimson";
+    color: var(--description_font_color);
+    margin: 10px 0;
+    margin-bottom: 40px;
+}
+
+#shortLine {
+    width: 50%;
 }

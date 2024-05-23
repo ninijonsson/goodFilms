@@ -1,5 +1,5 @@
-import { renderHeader } from "../../global/components/header/header.js"
-import { fetcher } from "../../global/logic/fetcher.js"
+import { renderHeader } from "../../global/components/header/header.js";
+import { fetcher } from "../../global/logic/fetcher.js";
 import { options } from "../../state.js";
 import { token } from "../../state.js";
 
@@ -17,6 +17,11 @@ async function renderFeed(parentID) {
     const activitesRequest = new Request(`../../api/getActivity.php`, options);
     const activities = await fetcher(activitesRequest);
 
+    const listRequest = new Request(`../../api/lists.php`, options);
+    const allLists = await fetcher(listRequest);
+
+    console.log(allLists);
+
     parent.innerHTML = `
         <h1 id="welcomeText">WELCOME, <span>${user.displayName.toUpperCase()}!</span></h1>
 
@@ -30,15 +35,16 @@ async function renderFeed(parentID) {
             </div>
         </div>
 
-        <div id="newLists">
-            <div class="list">
-                <img id="listPoster_1" src=""></img>
-                <h3 id="listName_1">List name</h3>
-                <p id="listDescription"></p>
-                <img id="profilePicture_1></img>
-                <p id="username_1></p>
-            </div>
-        </div>
+        <div id="whatsNewContainer">
+            <h2 id="newLists">NEW LISTS</h2>
+
+            <hr id="newLine">
+
+            <div id="newListPosters"></div>
+
+    </div>
+
+    <hr id="shortLine">
     `;
 
     const movieContainer = document.getElementById("movieContainer");
@@ -70,6 +76,37 @@ async function renderFeed(parentID) {
                 <p class="statusText">${activities[i].action} <span>${movie.title}</span></p>
             </div>     
         `;
+    }
+
+    // Klicka sig till filmernas movie page
+    movieContainer.addEventListener("click", async (event) => {
+        console.log(event);
+        if (event.target.classList.contains("movie")) {
+            const movieId = event.target.id;
+
+            window.localStorage.setItem("movieInfo", `https://api.themoviedb.org/3/movie/${movieId}?language=en-US`);
+
+            window.location = "../moviePage/index.html";
+        }
+    });
+
+    // Rendera listorna
+    const newListPosters = document.getElementById("newListPosters");
+
+    let maxNew = 0;
+
+    if (allLists.length < 3) {
+        maxNew = allLists.length;
+    } else {
+        maxNew = 3;
+    }
+
+    for (let i = 0; i < maxNew; i++) {
+        newListPosters.innerHTML += `
+        <img class="listPoster" id="${allLists[i].id}" src="${allLists[i].backdropPath}">
+        <h5 id="listTitle">${allLists[i].name}</h5>
+        <p id="listDescription">${allLists[i].description}</p>
+    `;
     }
 }
 
