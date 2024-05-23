@@ -64,3 +64,13 @@ span {
 #shortLine {
     width: 50%;
 }
+
+#loner {
+    align-self: start;
+    grid-column: 2;
+    font-style: italic;
+}
+
+span {
+    font-weight: bolder;
+}

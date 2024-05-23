@@ -18,7 +18,7 @@ async function renderFeed(parentID) {
     const allUsersRequest = new Request(`../../api/users.php`);
     const allUsers = await STATE.get("allUsers", allUsersRequest);
 
-    const activitesRequest = new Request(`../../api/getActivity.php`);
+    const activitesRequest = new Request(`../../api/getActivity.php?user=${token}`);
     const activities = await STATE.get("allActivity", activitesRequest);
 
     console.log(activities);
@@ -53,32 +53,35 @@ async function renderFeed(parentID) {
 
     const movieContainer = document.getElementById("movieContainer");
 
-    let fetchPromises = [];
-    activities.reverse();
-
-    let maxNum = 0;
-    if (activities.length < 6) {
-        maxNum = activities.length;
+    if (!activities) {
+        movieContainer.innerHTML = "<p id='loner'>No friends! :(</p>"
     } else {
-        maxNum = 6;
-    }
+        let fetchPromises = [];
+        activities.reverse();
 
-    for (let i = 0; i < maxNum; i++) {
-        const request = new Request(`https://api.themoviedb.org/3/movie/${activities[i].movieId}?language=en-US`, options);
+        let maxNum = 0;
+        if (activities.length < 6) {
+            maxNum = activities.length;
+        } else {
+            maxNum = 6;
+        }
 
-        fetchPromises.push(
-            fetcher(request)
-        )
-    }
+        for (let i = 0; i < maxNum; i++) {
+            const request = new Request(`https://api.themoviedb.org/3/movie/${activities[i].movieId}?language=en-US`, options);
 
-    const results = await Promise.all(fetchPromises);
+            fetchPromises.push(
+                fetcher(request)
+            )
+        }
 
-    for (let i = 0; i < results.length; i++) {
-        const movie = await results[i];
+        const results = await Promise.all(fetchPromises);
 
-        const friend = allUsers.find((friend) => friend.id === activities[i].userId);
+        for (let i = 0; i < results.length; i++) {
+            const movie = await results[i];
 
-        movieContainer.innerHTML += `
+            const friend = allUsers.find((friend) => friend.id === activities[i].userId);
+
+            movieContainer.innerHTML += `
             <div class="activityInfo">
                 <img class="movie" id="${movie.id}" src="https://image.tmdb.org/t/p/original/${movie.poster_path}"></img>
                 <img class="profilePicture" src=""></img>
@@ -86,6 +89,7 @@ async function renderFeed(parentID) {
                 <p class="statusText">${activities[i].action} <span>${movie.title}</span></p>
             </div>     
         `;
+        }
     }
 
     // Klicka sig till filmernas movie page

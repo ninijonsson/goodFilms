@@ -8,7 +8,7 @@ export const options = {
     }
 };
 
-export const token = "c62f39ace22172680875af13e02f6a6313ea1125";
+export const token = localStorage.getItem("token");
 
 let _state = {};
 
