@@ -17,7 +17,7 @@ if ($requestMethod == "GET") {
 
     if (isset($_GET["user"])) {
     
-        $userInfo = getUserFromToken($requestData["token"]);
+        $userInfo = getUserFromToken($_GET["user"]);
         $following = $userInfo["following"];
 
         $relevantActivity = [];
