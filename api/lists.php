@@ -122,7 +122,7 @@ else if ($requestMethod == "POST") {
     ];
 
     foreach ($extraValuesForNewList as $key => $value) {
-        $listKeys[] = $key;
+        $newListKeys[] = $key;
         $requestData[$key] = $value;
     }
 
