@@ -26,12 +26,18 @@ body {
     align-items: center;
 }
 
+#logo {
+    cursor: pointer;
+}
+
 #logoFont {
     font-family: "Normande";
     font-size: 50px;
 
     position: absolute;
     top: 42px;
+
+    color: var(--font_color);
 }
 
 #topLine {
@@ -93,7 +99,7 @@ input::placeholder {
 }
 
 button {
- margin: 20px;
+    margin: 20px;
 
     font-family: "Alte Haas Grotesk";
     color: var(--font_color);
@@ -107,7 +113,7 @@ button {
     cursor: pointer;
 }
 
-a {
+#logInLink {
     font-style: italic;
     color: var(--font_color);
 }

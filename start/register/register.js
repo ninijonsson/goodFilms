@@ -1,13 +1,19 @@
 import {fetcher} from '../../global/logic/fetcher.js';
+import {PubSub} from "../../global/logic/PubSub.js";
+
+PubSub.subscribe({
+    event: "renderRegister",
+    listener: detail => renderRegister(detail)
+});
 
 function renderRegister (parentID) {
     const DOM = document.getElementById(parentID);
     DOM.innerHTML = `
     <div id="top">
-        <div id="logo">
+        <a href="../start"><div id="logo">
             <img id="logoImg" src="../../media/icons/logo.svg">
             <h1 id="logoFont">goodFilms</h1>
-        </div>
+        </div></a>
     </div>
     <hr id="topLine">
     <div id="bottom">
@@ -89,5 +95,3 @@ function renderRegister (parentID) {
         }
     });
 }
-
-renderRegister("wrapper");

@@ -12,6 +12,17 @@
     <div id="wrapper"></div>
 
     <!-- <script src="../../index.js" type="module"></script> -->
-    <script type="module" src="register/register.js"></script>
+    <!-- <script type="module" src="register/register.js"></script> -->
+
+    <script type="module">
+        import "./register/register.js";
+        import {PubSub} from "../global/logic/PubSub.js";
+
+        PubSub.publish({
+            event: "renderRegister",
+            detail: "wrapper"
+        });
+
+    </script>
 </body>
 </html>
