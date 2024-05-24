@@ -1,6 +1,6 @@
 import { PubSub } from "../global/logic/PubSub.js"
-import {fetcher} from '../../global/logic/fetcher.js';
-import {options} from '../state.js';
+import { fetcher } from '../../global/logic/fetcher.js';
+import { options } from '../state.js';
 
 PubSub.subscribe({
     event: "renderStart",
@@ -23,7 +23,7 @@ export async function renderLandingPage(parentID) {
             <h1 id="logoFont">goodFilms</h1>
         </div>
         <p id="descriptionTxt">
-            DESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTION
+            FIND THE NEXT&nbsp;<span id="goodest">GOODEST</span>&nbsp;&nbsp;FILM
         </p>
     </div>
     <hr id="topLine">

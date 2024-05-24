@@ -54,6 +54,8 @@ body {
     align-items: center;
     flex-direction: column;
 
+    margin-top: 65px;
+
 }
 
 #inputFields {
@@ -70,13 +72,13 @@ input {
 
     width: 331px;
     height: 53px;
-    flex-shrink: 0; 
+    flex-shrink: 0;
 
     border: 0;
 
     font-family: "Alte Haas Grotesk";
     font-size: 20px;
-    font-weight: 100; 
+    font-weight: 100;
     line-height: normal;
     color: rgba(237, 237, 237, 0.70);
 
@@ -86,7 +88,7 @@ input {
 input::placeholder {
     font-style: italic;
 }
- 
+
 #username {
     margin-bottom: 50px;
 }
