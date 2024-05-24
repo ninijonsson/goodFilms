@@ -19,7 +19,7 @@
 
     $path_parts = pathinfo($_FILES["image_upload"]["name"]);
     $ext = $path_parts["extension"];
-    if (!in_array($ext, ["jpg", "png", "jpeg", 'webp']))
+    if (!in_array($ext, ["jpg", "png", "jpeg", 'webp', 'JPG']))
     { 
         send(400, "File type not allowed"); 
     }
