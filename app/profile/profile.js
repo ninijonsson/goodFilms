@@ -63,7 +63,9 @@ async function renderProfile(parentID) {
         return list.createdBy === info.id;
     });
 
-    console.log(foundLists);
+    // console.log(info.avatar)
+    // ../../api/media
+    // console.log(foundLists);
 
     // få ut lista -> profile=friend.id
     // ../../api/lists.php?profile=${info.id}
@@ -129,6 +131,15 @@ async function renderProfile(parentID) {
             </div>
         </div>
     `;
+    let avatarImg = document.getElementById("profilePicture");
+    if (localStorage.getItem("profilePath")) {
+        avatarImg.src = `../../api/${localStorage.getItem("profilePath")}`;
+    }
+
+    let headerImg = document.getElementById("backdropPoster");
+    if (localStorage.getItem("headerPath")) {
+        headerImg.src = `../../api/${localStorage.getItem("headerPath")}`;
+    }
 
     // EDIT PROFILE
     const editButton = document.getElementById("editButton");
@@ -159,12 +170,20 @@ async function renderProfile(parentID) {
         const displayName = document.getElementById("displayName");
 
         if (editButton.textContent === "SAVE") {
-            profilePicture.src = `${mediaPrefix}profile_picture.png`;
-            backdropPoster.src = `${mediaPrefix}test_backdrop_profile.jpeg`;
 
-            const input = document.querySelector("input");
+            document.getElementById("deleteBttn").remove();
 
-            const inputValue = input.value;
+            const inputDisplayName = document.getElementById("inputDisplayName");
+            const inputValue = inputDisplayName.value;
+            document.querySelector("#userInfo > input").remove();
+            
+            const profilePath = `../../api/${localStorage.getItem("profilePath")}`;
+            const backdropPath = `../../api/${localStorage.getItem("headerPath")}`;
+
+            profilePicture.src = `${profilePath}`;
+            backdropPoster.src = `${backdropPath}`;
+
+            console.log(inputDisplayName);
 
             if (inputValue !== "") {
                 const request = new Request("../../api/users.php", {
@@ -179,10 +198,15 @@ async function renderProfile(parentID) {
                 const response = await fetch(request);
                 const resource = await response.json();
 
+                console.log(displayName);
+
                 displayName.textContent = resource.displayName;
+
+                const listName = document.getElementById("listsTitle");
+                listName.textContent = `${resource.displayName.toUpperCase()}'S LISTS`;
             }
 
-            input.remove();
+            inputDisplayName.remove();
 
             displayName.style.display = "block";
 
@@ -194,6 +218,7 @@ async function renderProfile(parentID) {
             displayName.style.display = "none";
 
             const inputDisplayName = document.createElement("input");
+            inputDisplayName.id = "inputDisplayName";
             document.getElementById("userInfo").prepend(inputDisplayName);
 
             profilePicture.src = `${mediaPrefix}add_profile_picture.png`;
@@ -220,6 +245,85 @@ async function renderProfile(parentID) {
                 localStorage.removeItem("token");
                 window.location = "../../start/";
 
+            });
+
+
+            //Upload Profile Picture
+            document.getElementById('profilePicture').remove();
+
+            const profileInputForm = document.createElement("form");
+            profileInputForm.method = "POST";
+            profileInputForm.action = "../../api/upload.php";
+            profileInputForm.innerHTML = `
+            <label for="profileInput">
+                <img id="profilePicture" src="../../media/icons/add_profile_picture.png">
+            </label>
+            <input type="file" id="profileInput" style="display: none;">
+            `;
+            document.getElementById("profileAndEditContainer").prepend(profileInputForm);
+
+            document.getElementById("profileInput").addEventListener("change", async (event) => {
+                const file = event.target.files[0];
+
+                if (file) {
+                    const formData = new FormData();
+                    formData.append("artwork_id", 1);
+                    formData.append("type", "avatar");
+                    formData.append("token", token);
+                    formData.append("image_upload", file);
+                    console.log(formData);
+
+                    const optionsPFP = {
+                        method: "POST",
+                        body: formData
+                    }
+
+                    const uploadFetch = await fetch("../../api/upload.php", optionsPFP);
+                    const profilePath = await uploadFetch.json();
+                    localStorage.setItem("profilePath", profilePath);
+
+                    console.log(path);
+                }
+            });
+
+
+            //Upload Header
+            document.getElementById('backdropPoster').remove();
+            document.getElementById('shadowOverlay').remove();
+            
+            const headerInputForm = document.createElement("form");
+            headerInputForm.innerHTML = `
+            <label for="headerInput">
+                <img id="backdropPoster" src="../../media/icons/add_backdrop_profile.png">
+                <div id="shadowOverlay"></div>
+            </label>
+            <input type="file" id="headerInput" style="display: none;">
+            `;
+            document.getElementById("profileDetailsContainer").prepend(headerInputForm);
+
+            document.getElementById("headerInput").addEventListener("change", async (event) => {
+                const file = event.target.files[0];
+
+                if (file) {
+                    const formData = new FormData();
+                    formData.append("artwork_id", 1);
+                    formData.append("type", "header");
+                    formData.append("token", token);
+                    formData.append("image_upload", file);
+                    console.log(formData);
+
+                    const optionsPFP = {
+                        method: "POST",
+                        body: formData
+                    }
+
+                    const uploadFetch = await fetch("../../api/upload.php", optionsPFP);
+
+                    const headerPath = await uploadFetch.json();
+                    localStorage.setItem("headerPath", headerPath);
+
+                    console.log(uploadFetch);
+                }
             });
 
         } else if (editButton.textContent === "FOLLOW") {
