@@ -2,7 +2,7 @@ import { PubSub } from "../../global/logic/PubSub.js";
 import { STATE } from "../../state.js";
 import { options } from "../../state.js";
 import { token } from "../../state.js";
-import {fetcher} from '../../global/logic/fetcher.js';
+import { fetcher } from '../../global/logic/fetcher.js';
 
 PubSub.subscribe({
     event: "renderProfile",
@@ -42,6 +42,11 @@ let info = [];
 const listsRequest = new Request(`../../api/lists.php?user=${token}`);
 const lists = await STATE.get("myLists", listsRequest);
 
+const rqst = new Request(`../../api/lists.php?user=${token}&id=226`);
+const r = await fetcher(rqst);
+
+console.log(r);
+
 async function renderProfile(parentID) {
     const wrapper = document.getElementById(parentID);
 
@@ -52,6 +57,7 @@ async function renderProfile(parentID) {
 
     }
 
+    // Få ut en lista &id=id?user=token
     const allListsRequest = new Request(`../../api/lists.php`, options);
     const allLists = await STATE.get("allLists", allListsRequest);
     const foundLists = allLists.filter(list => {
@@ -62,15 +68,18 @@ async function renderProfile(parentID) {
     // ../../api/media
     // console.log(foundLists);
 
-    console.log(info.displayName);
+    // få ut lista -> profile=friend.id
+    // ../../api/lists.php?profile=${info.id}
 
     wrapper.innerHTML = `
         <div id="profileDetailsContainer">
             <img id="backdropPoster" src="../../api/${info.header}">
             <div id="shadowOverlay"></div>
             <div id="profileAndEditContainer">
-                <img id="profilePicture" src="../../api/${info.avatar}">
-    
+                <div id="profilePictureContainer">
+                    <img id="profilePicture" src="../../api/${info.avatar}">
+                </div>
+
                 <div id="buttonContainer">
                     <button id="editButton"></button>
                 </div>
@@ -250,10 +259,10 @@ async function renderProfile(parentID) {
             deleteBttn.addEventListener("click", async () => {
                 window.alert("Are you sure you want to proceed? A kitten dies every time a user is deleted... :(");
 
-                let deleteRqst = new Request ("../../api/users.php", {
+                let deleteRqst = new Request("../../api/users.php", {
                     method: "DELETE",
-                    headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify({"token": token})
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ "token": token })
                 });
 
                 let deleteFetch = await fetcher(deleteRqst);
@@ -397,8 +406,6 @@ async function renderProfile(parentID) {
 
     const likedMovies = await fetchMovies("liked");
 
-    console.log(likedMovies);
-
     for (let i = 0; i < likedMovies.length; i++) {
         if (likedMovies[i].poster_path === undefined) {
             continue;
@@ -415,6 +422,8 @@ async function renderProfile(parentID) {
     showAllWatched.addEventListener("click", (event) => {
         event.preventDefault();
 
+        localStorage.setItem("usersId", info.id);
+
         window.location = "../watchedList/index.html";
     });
 
@@ -423,6 +432,8 @@ async function renderProfile(parentID) {
 
     showAllLiked.addEventListener("click", (event) => {
         event.preventDefault();
+
+        localStorage.setItem("usersId", info.id);
 
         window.location = "../likedList/index.html";
     });
@@ -441,6 +452,8 @@ async function renderProfile(parentID) {
     document.querySelectorAll("#listPosters img").forEach(list => {
         list.addEventListener("click", (event) => {
             event.preventDefault();
+
+            localStorage.setItem("list", `../../api/lists.php?id=${event.target.id}&user=${token}`);
 
             window.location = "../clickedList/";
         })

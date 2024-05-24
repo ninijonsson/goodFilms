@@ -1,18 +1,11 @@
-import { PubSub } from "../global/logic/PubSub.js"
-import {fetcher} from '../../global/logic/fetcher.js';
+import { PubSub } from "./../global/logic/PubSub.js"
+import { fetcher } from '../global/logic/fetcher.js';
+import { options } from '../state.js';
 
 PubSub.subscribe({
     event: "renderStart",
     listener: detail => renderLandingPage(detail)
 });
-
-const options = {
-    method: "GET",
-    headers: {
-        accept: "application/json",
-        Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1ZjJhYjRlMGQ2MWMxY2MxNDUzOTVmYjhmYWI1ZGZiMSIsInN1YiI6IjY2MThmMDVjMTA5Y2QwMDE2NWEzODEzYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Nj98FemKpT0B2H3wU6gj47MrwtNhMTHRQ4Z3om_-I5E"
-    }
-};
 
 async function getPopularMovies() {
     const rqst = new Request("https://api.themoviedb.org/3/movie/popular", options);
@@ -26,17 +19,17 @@ export async function renderLandingPage(parentID) {
     DOM.innerHTML = `
     <div id="top">
         <div id="logo">
-            <img id="logoImg" src="../../media/icons/logo.svg">
+            <img id="logoImg" src="../media/icons/logo.svg">
             <h1 id="logoFont">goodFilms</h1>
         </div>
         <p id="descriptionTxt">
-            DESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTION
+            FIND THE NEXT&nbsp;<span id="goodest">GOODEST</span>&nbsp;&nbsp;FILM
         </p>
     </div>
     <hr id="topLine">
     <div id="middle">
         <button id="join">JOIN US NOW!</button>
-        <h2>Already a member? <a id="logInLink" href="./login">Log in</a></h2>
+        <h2>Already a member? <a id="logInLink" href="./logIn/">Log in</a></h2>
     </div>
     <hr id="middleLine">
     <div id="bottom">

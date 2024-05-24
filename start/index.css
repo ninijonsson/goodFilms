@@ -1,5 +1,4 @@
 body {
-    height: 100vh;
     margin: 20px;
 
     display: flex;
@@ -10,7 +9,6 @@ body {
 
 #wrapper {
     height: 100%;
-    width: 101%;
 
     display: grid;
     grid-template-rows: 0.5fr 1px 0.20fr 1px 0.5fr;
@@ -29,13 +27,15 @@ body {
     grid-row: 1;
 
     margin: auto;
-
-    display: grid;
-    grid-template-columns: 50% 50%;
 }
 
 #descriptionTxt {
-    grid-row: 2;
+    display: flex;
+    justify-content: center;
+}
+
+#goodest {
+    font-style: italic;
 }
 
 #logoFont {
@@ -43,7 +43,7 @@ body {
     font-size: 50px;
 
     position: absolute;
-    top: 42px;
+    top: 43px;
 }
 
 #topLine {
@@ -115,5 +115,5 @@ a {
 }
 
 h5:nth-of-type(2) {
-    margin-left: 145px;
+    text-align: right;
 }

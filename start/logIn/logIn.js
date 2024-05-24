@@ -1,16 +1,16 @@
-import {fetcher} from '../../global/logic/fetcher.js';
-import {PubSub} from "../../global/logic/PubSub.js";
+import { fetcher } from '../../global/logic/fetcher.js';
+import { PubSub } from "../../global/logic/PubSub.js";
 
 PubSub.subscribe({
     event: "renderLogIn",
     listener: detail => renderLogIn(detail)
 });
 
-function renderLogIn (parentID) {
+function renderLogIn(parentID) {
     const DOM = document.getElementById(parentID);
     DOM.innerHTML = `
     <div id="top">
-        <a href="../start/"><div id="logo">
+        <a href="../"><div id="logo">
             <img id="logoImg" src="../../media/icons/logo.svg">
             <h1 id="logoFont">goodFilms</h1>
         </div></a>
@@ -23,7 +23,7 @@ function renderLogIn (parentID) {
         </div>
 
         <button id="logIn">LOG IN</button>
-        <h3>Not a memeber? <a id="registerLink" href="../start/register">Register</a></h3>
+        <h3>Not a memeber? <a id="registerLink" href="../register/">Register</a></h3>
         <hr id="bottomLine">
     </div>
     `;
@@ -39,12 +39,12 @@ function renderLogIn (parentID) {
                 password: password,
             };
 
-            let logInRqst = new Request ("../../api/login.php", {
+            let logInRqst = new Request("../../api/login.php", {
                 method: "POST",
-                headers: {"Content-Type": "application/json"},
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(userInfo)
             });
-    
+
             let logInFetch = await fetcher(logInRqst);
 
             if (logInFetch === undefined) {
@@ -64,19 +64,19 @@ function renderLogIn (parentID) {
         if (event.key === "Enter") {
             let username = await document.getElementById("username").value;
             let password = await document.getElementById("password").value;
-    
+
             if (username && password) {
                 let userInfo = {
                     username: username,
                     password: password,
                 };
-    
-                let logInRqst = new Request ("../../api/login.php", {
+
+                let logInRqst = new Request("../../api/login.php", {
                     method: "POST",
-                    headers: {"Content-Type": "application/json"},
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(userInfo)
                 });
-        
+
                 let logInFetch = await fetcher(logInRqst);
 
                 if (logInFetch === undefined) {
@@ -91,6 +91,6 @@ function renderLogIn (parentID) {
             }
         }
     });
-    
+
 }
 

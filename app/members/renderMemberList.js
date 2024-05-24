@@ -1,13 +1,22 @@
 import { fetcher } from '../../global/logic/fetcher.js';
+import { PubSub } from "../../global/logic/PubSub.js";
+import { STATE } from "../../state.js";
+import { options } from "../../state.js";
+import { token } from "../../state.js";
+
+PubSub.subscribe({
+    event: "renderMemberList",
+    listener: (detail) => renderMemberList(detail)
+})
 
 async function renderMemberList(parentID = "wrapper") {
     const container = document.getElementById(parentID);
 
-    let users = await fetcher("../../api/users.php");
+    let users = await STATE.get("allUsers", "../../api/users.php");
     console.log(users);
     container.innerHTML = `
                             <div id="topContainer">
-                                <input placeholder="Search for members"></input>
+                                <input id="searchMember" placeholder="Search for members"></input>
                                 <h1>SHOWING RESULTS FOR:</h1>
                                 <h2></h2>
                                 <p id="results">X results</p>
@@ -22,7 +31,7 @@ async function renderMemberList(parentID = "wrapper") {
         userContainer.id = `user${user.id}`;
 
         userContainer.innerHTML = `
-                                    <img src="${user.avatar}">
+                                    <img class="profilePicture" src="${user.avatar}">
                                     <p class="displayName">${user.displayName}</p>
                                     <p class="username">@${user.username}</p>
         `;
@@ -81,5 +90,3 @@ async function renderMemberList(parentID = "wrapper") {
         }
     });
 }
-
-renderMemberList();

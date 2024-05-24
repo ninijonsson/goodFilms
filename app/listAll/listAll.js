@@ -26,10 +26,7 @@ async function renderListAll(parentID) {
     const wrapper = document.getElementById(parentID);
 
     wrapper.innerHTML = `
-    <div id="upperContainer">
-        <input id="searchList" placeholder="SEARCH FOR LISTS">
-        <hr>
-        
+    <div id="upperContainer">      
         <div id="createNewListContainer">
             <h2 id="createNewList">CREATE NEW LIST</h2>
             <p id="addNewList">+</p>
@@ -41,7 +38,6 @@ async function renderListAll(parentID) {
     <div id="whatsNewContainer">
         <div id="newTextContainer">
             <h3 id="whatsNew">WHAT'S NEW?</h3>
-            <h4 id="showAllNewLists">SHOW ALL</h4>
         </div>
 
         <hr id="newLine">
@@ -102,4 +98,40 @@ async function renderListAll(parentID) {
         <p id="listDescription">${myLists[i].description}</p>
     `;
     }
+
+    const listPosters = document.querySelectorAll(".listPoster");
+
+    listPosters.forEach(list => {
+        list.addEventListener("click", (event) => {
+            event.preventDefault();
+
+            window.location = "../clickedList/";
+        })
+    })
+    let createNewListContainer = document.getElementById("createNewListContainer");
+    createNewListContainer.addEventListener("click", () => {
+        
+        if (localStorage.getItem("listID")) {
+            localStorage.removeItem("listID")
+        }
+
+        window.location = '../editList/index.html';
+    })
+
+    let showAllMy = document.getElementById("showAllMy");
+
+    showAllMy.addEventListener("click", (event) => {
+        event.preventDefault();
+        let userId;
+
+        if (myLists.length > 0) {
+            userId = myLists[0].createdBy;
+        } else {
+            return;
+        }
+
+        localStorage.setItem("infoId", userId);
+        
+        window.location = "../list/";
+    });
 }

@@ -10,8 +10,9 @@ PubSub.subscribe({
 });
 
 async function renderLikedList(parentID) {
-    const userRequest = new Request(`../../api/users.php?user=${token}`, options);
-    const user = await STATE.get("user", userRequest);
+    const id = Number(localStorage.getItem("usersId"));
+    const userRequest = new Request(`../../api/users.php?user=${token}&profile=${id}`, options);
+    const user = await fetcher(userRequest);
 
     const wrapper = document.getElementById(parentID);
 

@@ -1,6 +1,11 @@
 import { PubSub } from "../../global/logic/PubSub.js";
 import { fetcher } from '../../global/logic/fetcher.js';
+import { token } from '../../state.js';
 
+PubSub.subscribe({
+    event: "renderList",
+    listener: detail => renderList(detail)
+})
 
 
 async function renderList (parentID) {
@@ -15,15 +20,24 @@ async function renderList (parentID) {
                             </div>
     `;
 
+    const createListRedirect = document.querySelector("#addListBtn");
+
+    createListRedirect.addEventListener("click", () => {
+        
+        if (localStorage.getItem("listID")) {
+            localStorage.removeItem("listID");
+        }
+
+        window.location = '../editList/index.html';
+    });
+
     const listsContainer = document.getElementById("listsContainer");
 
-    const token = "c62f39ace22172680875af13e02f6a6313ea1125";
+    let userLists = await fetcher(`../../api/lists.php?profile=${localStorage.getItem("infoId")}`);
 
-    let userLists = await fetcher(`../../api/lists.php?user=${token}`);
+    console.log(localStorage.getItem("infoId"));
 
-    console.log(userLists);
-
-    if (userLists === [] || !userLists) {
+    if (userLists.length === 0 || !userLists) {
         listsContainer.innerHTML = `<p>You have not created any lists yet. Get started now!</p>`;
         return;
     }
@@ -31,11 +45,18 @@ async function renderList (parentID) {
     for (let list of userLists) {
         let singleList = await fetcher(`../../api/lists.php?user=${token}&id=${list.id}`);
         console.log(singleList);
+        let path;
+        console.log(singleList.backdropPath);
+        if (singleList.backdropPath === "../../media/icons/hello_kitty.png") {
+            path = "../../media/icons/hello_kitty.png";
+        } else {
+            path = `https://image.tmdb.org/t/p/original${singleList.backdropPath}`;
+        }
 
         listsContainer.innerHTML += `
             <div id="${singleList.id}" class="singleListContainer">
                 <div class="imgContainer">
-                    <img src="https://image.tmdb.org/t/p/original${singleList.posterPath}">
+                    <img src=${path}>
                     <button class="edit">EDIT</button>
                 </div>
                 <div class="listInfo">
@@ -46,11 +67,11 @@ async function renderList (parentID) {
                 
             </div>
         `;
-
-        const popupBtn = document.querySelector("#addListBtn");
-
-        popupBtn.addEventListener("click", addListPopup);
+        let editBtn = document.querySelector(".edit");
+        editBtn.addEventListener("click", (event) => {
+            let listId = event.target.parentElement.parentElement.id;
+            localStorage.setItem("listID", listId);
+            window.location = '../editList/index.html';
+        });
     }
 }
-
-renderList("wrapper");
