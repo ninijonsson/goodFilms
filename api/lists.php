@@ -24,13 +24,25 @@ if ($requestMethod == "GET") {
         $userInfo = getUserFromToken($token);
 
         if (isset($_GET["id"])) {
-           foreach ($listDatabase as $list) {
+            foreach ($listDatabase as $list) {
                 if ($list["id"] == $_GET["id"]){
-                    $list["createdBy"] = $userInfo["username"];
-                    send(201, $list);
+                    
+                    if($userInfo["id"] == $list["createdBy"]) {
+                        $list["createdBy"] = $userInfo["username"];
+                        send(201, $list);
+                        break;
+                    }
+
+                    foreach ($userDatabase as $user) {
+                        if ($list["createdBy"] == $user["id"]) {
+                            $list["createdBy"] = $user["username"];
+                            send(201, $list);
+                        }
+                    }
                 }
-            }    
+            }
         }
+
     
 
         foreach($userDatabase as $user) {
