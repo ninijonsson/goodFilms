@@ -48,7 +48,7 @@ export function renderHeader() {
     renderHamburgerMenu();
 
     header.innerHTML += `
-        <img id="headerLogo" src="../../media/icons/logo.svg">
+        <img id="headerLogo" src="../../media/icons/logo_menu.svg">
     `;
 
     const headerLogo = document.getElementById("headerLogo");
