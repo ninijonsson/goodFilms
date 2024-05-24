@@ -176,7 +176,7 @@ async function renderProfile(parentID) {
             const inputDisplayName = document.getElementById("inputDisplayName");
             const inputValue = inputDisplayName.value;
             document.querySelector("#userInfo > input").remove();
-            
+
             const profilePath = `../../api/${localStorage.getItem("profilePath")}`;
             const backdropPath = `../../api/${localStorage.getItem("headerPath")}`;
 
@@ -281,8 +281,6 @@ async function renderProfile(parentID) {
                     const uploadFetch = await fetch("../../api/upload.php", optionsPFP);
                     const profilePath = await uploadFetch.json();
                     localStorage.setItem("profilePath", profilePath);
-
-                    console.log(path);
                 }
             });
 
@@ -290,7 +288,7 @@ async function renderProfile(parentID) {
             //Upload Header
             document.getElementById('backdropPoster').remove();
             document.getElementById('shadowOverlay').remove();
-            
+
             const headerInputForm = document.createElement("form");
             headerInputForm.innerHTML = `
             <label for="headerInput">
@@ -418,11 +416,19 @@ async function renderProfile(parentID) {
     const listPosters = document.getElementById("listPosters");
 
     for (let i = 0; i < foundLists.length; i++) {
+        let path = "";
+
+        if (foundLists[i].backdropPath === "../../media/icons/hello_kitty.png") {
+            path = "../../media/icons/hello_kitty.png";
+        } else {
+            path = `https://image.tmdb.org/t/p/original${foundLists[i].backdropPath}`
+        };
+
         listPosters.innerHTML += `
-            <img class="listPoster" id="${foundLists[i].id}" src="${foundLists[i].backdropPath}">
-            <h5 id="listTitle">${foundLists[i].name}</h5>
-            <p id="listDescription">${foundLists[i].description}</p>
-        `;
+        <img class="listPoster" id="${foundLists[i].id}" src="${path}">
+        <h5 id="listTitle">${foundLists[i].name}</h5>
+        <p id="listDescription">${foundLists[i].description}</p>
+    `;
     }
 
     document.querySelectorAll("#listPosters img").forEach(list => {
