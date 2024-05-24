@@ -1,5 +1,5 @@
-import { PubSub } from "../global/logic/PubSub.js"
-import { fetcher } from '../../global/logic/fetcher.js';
+import { PubSub } from "./../global/logic/PubSub.js"
+import { fetcher } from '../global/logic/fetcher.js';
 import { options } from '../state.js';
 
 PubSub.subscribe({
@@ -19,7 +19,7 @@ export async function renderLandingPage(parentID) {
     DOM.innerHTML = `
     <div id="top">
         <div id="logo">
-            <img id="logoImg" src="../../media/icons/logo.svg">
+            <img id="logoImg" src="../media/icons/logo.svg">
             <h1 id="logoFont">goodFilms</h1>
         </div>
         <p id="descriptionTxt">
@@ -29,7 +29,7 @@ export async function renderLandingPage(parentID) {
     <hr id="topLine">
     <div id="middle">
         <button id="join">JOIN US NOW!</button>
-        <h2>Already a member? <a id="logInLink" href="./login">Log in</a></h2>
+        <h2>Already a member? <a id="logInLink" href="./logIn/">Log in</a></h2>
     </div>
     <hr id="middleLine">
     <div id="bottom">

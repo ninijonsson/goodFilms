@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - goodFilms</title>
     <link rel="stylesheet" href="../../style.css">
-    <link rel="stylesheet" href="register/index.css">
+    <link rel="stylesheet" href="./index.css">
     <link rel="icon" href="../../media/icons/favicon.svg">
 </head>
 
@@ -18,8 +18,8 @@
     <!-- <script type="module" src="register/register.js"></script> -->
 
     <script type="module">
-        import "./register/register.js";
-        import { PubSub } from "../global/logic/PubSub.js";
+        import "./register.js";
+        import { PubSub } from "../../global/logic/PubSub.js";
 
         PubSub.publish({
             event: "renderRegister",

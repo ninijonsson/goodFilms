@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Log In - goodFilms</title>
     <link rel="stylesheet" href="../../style.css">
-    <link rel="stylesheet" href="./logIn/index.css">
+    <link rel="stylesheet" href="./index.css">
     <link rel="icon" href="../../media/icons/favicon.svg">
 </head>
 
@@ -17,8 +17,8 @@
     <!-- <script src="../../index.js" type="module"></script> -->
     <!-- <script type="module" src="logIn/logIn.js"></script> -->
     <script type="module">
-        import "./logIn/logIn.js";
-        import { PubSub } from "../global/logic/PubSub.js";
+        import "./logIn.js";
+        import { PubSub } from "../../global/logic/PubSub.js";
 
         PubSub.publish({
             event: "renderLogIn",
