@@ -164,13 +164,7 @@ else if ($requestMethod == "POST") {
         }
     }
 
-    $activity = [
-        "listId" => $newList["id"],
-        "userId" => $userInfo["id"],
-        "action" => "has created"
-    ];
-
-    logActivity($activity);
+ 
 
     $json = json_encode($userDatabase, JSON_PRETTY_PRINT);
     file_put_contents("users.json", $json);
