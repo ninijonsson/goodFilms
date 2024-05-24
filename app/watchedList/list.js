@@ -10,8 +10,9 @@ PubSub.subscribe({
 })
 
 async function renderWatchedList(parentID) {
-    const userRequest = new Request(`../../api/users.php?user=${token}`);
-    const user = await STATE.get("user", userRequest);
+    const id = Number(localStorage.getItem("usersId"));
+    const userRequest = new Request(`../../api/users.php?profile=${id}&user=${token}`);
+    const user = await fetcher(userRequest);
 
     const wrapper = document.getElementById(parentID);
 

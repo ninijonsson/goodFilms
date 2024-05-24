@@ -63,7 +63,10 @@ async function renderProfile(parentID) {
         return list.createdBy === info.id;
     });
 
+    console.log(foundLists);
+
     // få ut lista -> profile=friend.id
+    // ../../api/lists.php?profile=${info.id}
 
     wrapper.innerHTML = `
         <div id="profileDetailsContainer">
@@ -283,11 +286,14 @@ async function renderProfile(parentID) {
         `;
     }
 
+    console.log(info.id);
     // SHOW ALL WATCHED
     const showAllWatched = document.getElementById("showAllWatched");
 
     showAllWatched.addEventListener("click", (event) => {
         event.preventDefault();
+
+        localStorage.setItem("usersId", info.id);
 
         window.location = "../watchedList/index.html";
     });
@@ -297,6 +303,8 @@ async function renderProfile(parentID) {
 
     showAllLiked.addEventListener("click", (event) => {
         event.preventDefault();
+
+        localStorage.setItem("usersId", info.id);
 
         window.location = "../likedList/index.html";
     });
