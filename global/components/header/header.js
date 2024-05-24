@@ -51,6 +51,16 @@ PubSub.subscribe({
     listener: () => renderHeader()
 });
 
+PubSub.subscribe({
+    event: "renderEditList",
+    listener: () => renderHeader()
+});
+
+PubSub.subscribe({
+    event: "renderList",
+    listener: () => renderHeader()
+});
+
 export function renderHeader() {
     const header = document.querySelector("header");
 

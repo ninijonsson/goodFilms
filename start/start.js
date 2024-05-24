@@ -1,18 +1,11 @@
 import { PubSub } from "../global/logic/PubSub.js"
 import {fetcher} from '../../global/logic/fetcher.js';
+import {options} from '../state.js';
 
 PubSub.subscribe({
     event: "renderStart",
     listener: detail => renderLandingPage(detail)
 });
-
-const options = {
-    method: "GET",
-    headers: {
-        accept: "application/json",
-        Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1ZjJhYjRlMGQ2MWMxY2MxNDUzOTVmYjhmYWI1ZGZiMSIsInN1YiI6IjY2MThmMDVjMTA5Y2QwMDE2NWEzODEzYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Nj98FemKpT0B2H3wU6gj47MrwtNhMTHRQ4Z3om_-I5E"
-    }
-};
 
 async function getPopularMovies() {
     const rqst = new Request("https://api.themoviedb.org/3/movie/popular", options);

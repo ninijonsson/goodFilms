@@ -1,6 +1,11 @@
 import { PubSub } from "../../global/logic/PubSub.js";
 import { fetcher } from '../../global/logic/fetcher.js';
+import { token } from '../../state.js';
 
+PubSub.subscribe({
+    event: "renderList",
+    listener: detail => renderList(detail)
+})
 
 
 async function renderList (parentID) {
@@ -28,11 +33,9 @@ async function renderList (parentID) {
 
     const listsContainer = document.getElementById("listsContainer");
 
-    const token = "c62f39ace22172680875af13e02f6a6313ea1125";
+    let userLists = await fetcher(`../../api/lists.php?profile=${localStorage.getItem("infoId")}`);
 
-    let userLists = await fetcher(`../../api/lists.php?user=${token}`);
-
-    console.log(userLists);
+    console.log(localStorage.getItem("infoId"));
 
     if (userLists.length === 0 || !userLists) {
         listsContainer.innerHTML = `<p>You have not created any lists yet. Get started now!</p>`;
@@ -64,7 +67,11 @@ async function renderList (parentID) {
                 
             </div>
         `;
+        let editBtn = document.querySelector(".edit");
+        editBtn.addEventListener("click", (event) => {
+            let listId = event.target.parentElement.parentElement.id;
+            localStorage.setItem("listID", listId);
+            window.location = '../editList/index.html';
+        });
     }
 }
-
-renderList("wrapper");
