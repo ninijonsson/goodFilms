@@ -29,10 +29,16 @@
     box-shadow: var(--backdrop_poster_shadow);
 }
 
-#profilePicture {
-    margin-left: 20px;
-    width: 130px;
+#profilePictureContainer {
     height: 130px;
+    width: 130px;
+    border: 2px solid black;
+    border-radius: 50%;
+    margin-left: 20px;
+}
+
+#profilePicture {
+    width: 100%;
 }
 
 #displayName {

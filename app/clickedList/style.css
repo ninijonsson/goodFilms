@@ -1,0 +1,32 @@
+#wrapper {
+    margin: 18px;
+}
+
+#listName {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+#listDescription {
+    font-family: "Crimson";
+    color: var(--description_font_color);
+    font-size: 16px;
+}
+
+#createdBy {
+    display: flex;
+    justify-content: end;
+
+    margin-bottom: 5px;
+    font-size: 12px;
+}
+
+.movie {
+    width: 32%;
+    border-radius: var(--border_radius_small);
+}
+
+span {
+    border-bottom: 1px solid var(--font_color);
+    margin-left: 4px;
+}

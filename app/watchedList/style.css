@@ -11,7 +11,7 @@ hr {
 }
 
 .movie {
-    width: 120px;
+    width: 31%;
     border-radius: var(--border_radius_small);
 
     cursor: pointer;

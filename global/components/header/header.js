@@ -41,6 +41,25 @@ PubSub.subscribe({
     listener: () => renderHeader()
 });
 
+PubSub.subscribe({
+    event: "renderClickedList",
+    listener: () => renderHeader()
+});
+
+PubSub.subscribe({
+    event: "renderMemberList",
+    listener: () => renderHeader()
+});
+
+PubSub.subscribe({
+    event: "renderEditList",
+    listener: () => renderHeader()
+});
+
+PubSub.subscribe({
+    event: "renderList",
+    listener: () => renderHeader()
+});
 
 export function renderHeader() {
     const header = document.querySelector("header");
@@ -54,7 +73,7 @@ export function renderHeader() {
     const headerLogo = document.getElementById("headerLogo");
 
     headerLogo.addEventListener("click", (event) => {
-        window.location = "../../../app/feed/index.html";
+        window.location = "../../app/feed/index.html";
     });
 
     const hamburgerMenu = document.getElementById("hamburgerContainer");
@@ -73,27 +92,27 @@ export function renderHeader() {
             <div id="hamburgerMenuContainer">
                 <div id="closeButton">X</div>
                 <div id="homeButton">
-                    <img src="../../../media/icons/home_icon.svg" alt="Home icon">
+                    <img src="../../media/icons/home_icon.svg" alt="Home icon">
                     HOME
                 </div>
                 <div id="profileButton">
-                    <img src="../../../media/icons/profile_icon.svg" alt="Profile icon">
+                    <img src="../../media/icons/profile_icon.svg" alt="Profile icon">
                     PROFILE
                 </div>
                 <div id="searchMoviesButton">
-                    <img src="../../../media/icons/search_icon.svg" alt="Search icon">
+                    <img src="../../media/icons/search_icon.svg" alt="Search icon">
                     SEARCH MOVIES
                 </div>
                 <div id="listsButton">
-                    <img src="../../../media/icons/lists_icon.svg" alt="Lists icon">
+                    <img src="../../media/icons/lists_icon.svg" alt="Lists icon">
                     LISTS
                 </div>
                 <div id="membersButton">
-                    <img src="../../../media/icons/members_icon.svg" alt="Members icon">
+                    <img src="../../media/icons/members_icon.svg" alt="Members icon">
                     MEMBERS
                 </div>
                 <div id="logOutButton">
-                    <img src="../../../media/icons/logout.png">
+                    <img src="../../media/icons/logout.png">
                     LOG OUT
             </div>
         `;
@@ -111,7 +130,7 @@ export function renderHeader() {
         homeButton.addEventListener("click", (event) => {
             removeHamburgerContainer(event);
 
-            window.location = "../../../app/feed/index.html"; // Hänvisa till rätt sökväg
+            window.location = "../../app/feed/index.html"; // Hänvisa till rätt sökväg
         })
 
         // Gå till profilsidan
@@ -120,7 +139,7 @@ export function renderHeader() {
             localStorage.removeItem("userId");
             removeHamburgerContainer(event);
 
-            window.location = "../../../app/profile/index.html"; // Hänvisa till rätt sökväg
+            window.location = "../../app/profile/index.html"; // Hänvisa till rätt sökväg
         })
 
         // Gå till "Search Movies"
@@ -128,7 +147,7 @@ export function renderHeader() {
         searchMoviesButton.addEventListener("click", (event) => {
             removeHamburgerContainer(event);
 
-            window.location = "../../../app/searchMovies/index.html"; // Hänvisa till rätt sökväg
+            window.location = "../../app/searchMovies/index.html"; // Hänvisa till rätt sökväg
         })
 
         // Gå till listorna
@@ -136,7 +155,7 @@ export function renderHeader() {
         listsButton.addEventListener("click", (event) => {
             removeHamburgerContainer(event);
 
-            window.location = "../../../app/listAll/index.html"; // Hänvisa till rätt sökväg
+            window.location = "../../app/listAll/index.html"; // Hänvisa till rätt sökväg
         })
 
         // Gå till medlemmarna
@@ -144,7 +163,7 @@ export function renderHeader() {
         membersButton.addEventListener("click", (event) => {
             removeHamburgerContainer(event);
 
-            window.location = "../../../app/members/index.html"; // Hänvisa till rätt sökväg
+            window.location = "../../app/members/index.html"; // Hänvisa till rätt sökväg
         })
 
         //Logga ut

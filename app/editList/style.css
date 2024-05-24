@@ -122,8 +122,10 @@ header {
 }
 
 #POSTbtn {
-    height: 50%;
+    height: 2rem;
+    width: 4rem;
     margin-top: 1rem;
+    font-size: 1.5rem;
 
     background-color: var(--button_background);
     color: var(--font_color);
