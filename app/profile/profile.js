@@ -49,6 +49,7 @@ async function renderProfile(parentID) {
         info = friend;
     } else {
         info = user;
+
     }
 
     const allListsRequest = new Request(`../../api/lists.php`, options);
@@ -61,12 +62,14 @@ async function renderProfile(parentID) {
     // ../../api/media
     // console.log(foundLists);
 
+    console.log(info.displayName);
+
     wrapper.innerHTML = `
         <div id="profileDetailsContainer">
-            <img id="backdropPoster" src="${info.header}">
+            <img id="backdropPoster" src="../../api/${info.header}">
             <div id="shadowOverlay"></div>
             <div id="profileAndEditContainer">
-                <img id="profilePicture" src="${info.avatar}">
+                <img id="profilePicture" src="../../api/${info.avatar}">
     
                 <div id="buttonContainer">
                     <button id="editButton"></button>
@@ -120,15 +123,6 @@ async function renderProfile(parentID) {
             </div>
         </div>
     `;
-    let avatarImg = document.getElementById("profilePicture");
-    if (localStorage.getItem("profilePath")) {
-        avatarImg.src = `../../api/${localStorage.getItem("profilePath")}`;
-    }
-
-    let headerImg = document.getElementById("backdropPoster");
-    if (localStorage.getItem("headerPath")) {
-        headerImg.src = `../../api/${localStorage.getItem("headerPath")}`;
-    }
 
     // EDIT PROFILE
     const editButton = document.getElementById("editButton");
@@ -165,12 +159,46 @@ async function renderProfile(parentID) {
             const inputDisplayName = document.getElementById("inputDisplayName");
             const inputValue = inputDisplayName.value;
             document.querySelector("#userInfo > input").remove();
-            
-            const profilePath = `../../api/${localStorage.getItem("profilePath")}`;
-            const backdropPath = `../../api/${localStorage.getItem("headerPath")}`;
+  
+            if (localStorage.getItem("profilePath") != null) {
+                const profilePath = `../../api/${localStorage.getItem("profilePath")}`;
 
-            profilePicture.src = `${profilePath}`;
-            backdropPoster.src = `${backdropPath}`;
+                profilePicture.src = `${profilePath}`;
+            } else {
+                const request = new Request("../../api/users.php", {
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        displayName: inputValue,
+                        token: token // Fixa token
+                    })
+                });
+
+                const response = await fetch(request);
+                const resource = await response.json();
+
+                profilePicture.src = `../../api/${resource.avatar}`;
+            }
+
+            if (localStorage.getItem("headerPaht") !== null) {
+                const backdropPath = `../../api/${localStorage.getItem("headerPath")}`;
+
+                backdropPoster.src = `${backdropPath}`;
+            }  else {
+                const request = new Request("../../api/users.php", {
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        displayName: inputValue,
+                        token: token // Fixa token
+                    })
+                });
+
+                const response = await fetch(request);
+                const resource = await response.json();
+
+                backdropPoster.src = `../../api/${resource.header}`;
+            }
 
             console.log(inputDisplayName);
 
@@ -186,8 +214,6 @@ async function renderProfile(parentID) {
 
                 const response = await fetch(request);
                 const resource = await response.json();
-
-                console.log(displayName);
 
                 displayName.textContent = resource.displayName;
 
