@@ -73,7 +73,9 @@ async function renderProfile(parentID) {
             <img id="backdropPoster" src="${info.header}">
             <div id="shadowOverlay"></div>
             <div id="profileAndEditContainer">
-                <img id="profilePicture" src="${info.avatar}">
+                <div id="profilePictureContainer">
+                    <img id="profilePicture" src="${info.avatar}">
+                </div>
     
                 <div id="buttonContainer">
                     <button id="editButton"></button>
@@ -286,7 +288,6 @@ async function renderProfile(parentID) {
         `;
     }
 
-    console.log(info.id);
     // SHOW ALL WATCHED
     const showAllWatched = document.getElementById("showAllWatched");
 
@@ -329,15 +330,5 @@ async function renderProfile(parentID) {
             window.location = "../clickedList/";
         })
     });
-    let showAllUser = document.querySelector("#showAllLists");
-
-    showAllUser.addEventListener("click", (event) => {
-        event.preventDefault();
-
-        localStorage.setItem("infoId", info.id);
-
-        window.location = "../list/";
-    });
-    //info.id <- user ID
 }
 

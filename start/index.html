@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Welcome to goodFilms!</title>
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="./index.css">
 </head>
+
 <body>
     <!-- <header></header> -->
     <div id="wrapper"></div>
@@ -16,7 +18,7 @@
 
     <script type="module">
         import "./start.js";
-        import {PubSub} from "../global/logic/PubSub.js";
+        import { PubSub } from "../global/logic/PubSub.js";
 
         PubSub.publish({
             event: "renderStart",
@@ -24,4 +26,5 @@
         });
     </script>
 </body>
+
 </html>
